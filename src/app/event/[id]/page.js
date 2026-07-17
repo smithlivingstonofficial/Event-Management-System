@@ -64,21 +64,26 @@ export default function PresenterScreen() {
   const [showRoundOverlay, setShowRoundOverlay] = useState(false);
   const [roundOverlayText, setRoundOverlayText] = useState('');
   const [scoreFlashes, setScoreFlashes] = useState({});
+  const [audioState, setAudioState] = useState('suspended');
   const localTimer = useRef(null);
   const prevTimerVal = useRef(null);
   const prevRound = useRef(null);
   const prevScores = useRef({});
   const sound = useSoundEngine();
 
-  // Fetch current event state from local API
-  const fetchState = async (isFirst = false) => {
-    try {
-      const res = await fetch(`/api/event/${eventId}`);
-      if (res.ok) {
-        const json = await res.json();
+  // Connect to SSE stream for zero-latency updates
+  useEffect(() => {
+    let eventSource = null;
+    
+    const connectSSE = () => {
+      eventSource = new EventSource(`/api/event/${eventId}/stream`);
+      
+      eventSource.addEventListener('state', (e) => {
+        const json = JSON.parse(e.data);
         setData(json);
-
-        // Update local countdown values
+        setLoading(false);
+        
+        // Sync local countdown clock
         const state = json.event.state;
         if (state.timerRunning && state.timerStartedAt) {
           const elapsed = Math.floor((Date.now() - new Date(state.timerStartedAt).getTime()) / 1000);
@@ -87,20 +92,26 @@ export default function PresenterScreen() {
         } else {
           setTimerVal(state.timerRemaining);
         }
-      }
-    } catch (e) {
-      console.error('Error fetching event state:', e);
-    } finally {
-      if (isFirst) setLoading(false);
-    }
-  };
+      });
 
-  // Poll state every 1 second
-  useEffect(() => {
-    fetchState(true);
-    const interval = setInterval(() => fetchState(), 1000);
-    return () => clearInterval(interval);
+      eventSource.onerror = (err) => {
+        console.error('SSE Connection collapsed. Retrying in 3 seconds...', err);
+        eventSource.close();
+        setTimeout(connectSSE, 3000);
+      };
+    };
+
+    connectSSE();
+
+    return () => {
+      if (eventSource) eventSource.close();
+    };
   }, [eventId]);
+
+  const handleUnlockAudio = () => {
+    const state = sound.unlockAudio();
+    setAudioState(state);
+  };
 
   // Handle local countdown updates smoothly (run clock internally every 200ms)
   useEffect(() => {
@@ -287,6 +298,9 @@ export default function PresenterScreen() {
 
   const { event, activeQuestion, totalQuestions, categories, questions } = data;
   const isQuestionActive = activeQuestion !== null;
+  const activeQuestionCategory = isQuestionActive ? categories.find(c => c.id === activeQuestion.categoryId) : null;
+  const activeQuestionIcon = activeQuestionCategory?.icon || activeQuestion?.categoryId;
+  const activeQuestionColor = activeQuestionCategory?.color || 'var(--primary)';
   const status = event.status;
   const completedQIds = event.state.completedQuestionIds || [];
   const currentRound = event.state.currentRound || 1;
@@ -307,6 +321,51 @@ export default function PresenterScreen() {
 
   return (
     <main className={styles.fullScreen}>
+
+      {/* Floating Audio Unlock Controls */}
+      {audioState === 'suspended' ? (
+        <button
+          onClick={handleUnlockAudio}
+          style={{
+            position: 'fixed',
+            top: '20px',
+            left: '20px',
+            zIndex: 1000,
+            background: '#ef4444',
+            color: 'white',
+            border: 'none',
+            borderRadius: '20px',
+            padding: '8px 16px',
+            fontSize: '0.8rem',
+            fontWeight: '800',
+            boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.35rem'
+          }}
+        >
+          🔇 Sound Blocked (Click to Enable)
+        </button>
+      ) : (
+        <div
+          style={{
+            position: 'fixed',
+            top: '20px',
+            left: '20px',
+            zIndex: 1000,
+            background: 'rgba(16, 185, 129, 0.1)',
+            color: '#10b981',
+            borderRadius: '20px',
+            padding: '6px 12px',
+            fontSize: '0.75rem',
+            fontWeight: 'bold',
+            border: '1px solid rgba(16, 185, 129, 0.2)'
+          }}
+        >
+          🔊 Audio Active
+        </div>
+      )}
 
       {/* === ROUND ANNOUNCEMENT OVERLAY === */}
       {showRoundOverlay && (
@@ -382,9 +441,9 @@ export default function PresenterScreen() {
               {/* Question Header */}
               <header className={styles.quizHeader}>
                 <div className={styles.qMeta}>
-                  <span className={styles.categoryTagLarge}>
-                    <span className={styles.catHeaderIcon}>
-                      {getCategoryIcon(activeQuestion.categoryId)}
+                  <span className={styles.categoryTagLarge} style={{ color: activeQuestionColor, border: `1.5px solid ${activeQuestionColor}`, background: `${activeQuestionColor}0a` }}>
+                    <span className={styles.catHeaderIcon} style={{ color: activeQuestionColor }}>
+                      {getCategoryIcon(activeQuestionIcon)}
                     </span>
                     {activeQuestion.categoryName}
                   </span>
@@ -570,9 +629,9 @@ export default function PresenterScreen() {
                       <div className={styles.orbitLine} />
 
                       {/* Central Hub */}
-                      <div className={styles.centralHub}>
-                        <div className={styles.centralPulse} />
-                        <span className={styles.hubRoundLabel}>Round {currentRound}</span>
+                      <div className={styles.centralHub} style={{ border: `3px solid ${cat.color || '#4f46e5'}`, boxShadow: `0 0 25px ${(cat.color || '#4f46e5')}33` }}>
+                        <div className={styles.centralPulse} style={{ background: cat.color || '#4f46e5' }} />
+                        <span className={styles.hubRoundLabel} style={{ color: cat.color || 'var(--primary)' }}>Round {currentRound}</span>
                         <h2 className={styles.hubCategoryName}>{cat.name}</h2>
                         <span className={styles.hubProgress}>
                           {completedQIds.filter(id => catQuestions.some(q => q.id === id)).length} / {catQuestions.length} Resolved
@@ -600,7 +659,9 @@ export default function PresenterScreen() {
                               left: `calc(50% + ${x}px)`,
                               top: `calc(50% + ${y}px)`,
                               transform: 'translate(-50%, -50%)',
-                              animationDelay: `${idx * 0.3}s`
+                              animationDelay: `${idx * 0.3}s`,
+                              borderColor: isCompleted ? 'var(--success)' : (cat.color || '#4f46e5'),
+                              boxShadow: isCompleted ? 'none' : `0 0 15px ${(cat.color || '#4f46e5')}22`
                             }}
                           >
                             {isCompleted ? (
