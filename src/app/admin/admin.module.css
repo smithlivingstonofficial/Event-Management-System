@@ -112,6 +112,10 @@
   gap: 1rem;
 }
 
+.mobileMenuToggle {
+  display: none;
+}
+
 .hostBtn {
   display: inline-flex;
   align-items: center;
@@ -735,33 +739,78 @@
   .appShell {
     grid-template-columns: 1fr !important;
   }
+  
   .sidebar {
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 0.75rem 1rem !important;
-    gap: 1rem !important;
-    border-right: none !important;
-    border-bottom: 1px solid var(--border-color) !important;
-    position: sticky !important;
+    position: fixed !important;
     top: 0 !important;
-    width: 100% !important;
-    overflow-x: auto !important;
+    left: 0 !important;
+    height: 100vh !important;
+    width: 280px !important;
+    z-index: 1000 !important;
+    background: var(--bg-card) !important;
+    border-right: 1px solid var(--border-color) !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    padding: 1.5rem 1.25rem !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 20px 0 30px rgba(0,0,0,0.15) !important;
+    overflow-y: auto !important;
   }
+
+  .sidebarOpen {
+    transform: translateX(0) !important;
+  }
+
+  .sidebarBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    animation: fadeIn 0.2s ease-out;
+  }
+
   .navMenu {
-    flex-direction: row !important;
+    flex-direction: column !important;
     gap: 0.5rem !important;
-    overflow-x: auto !important;
-    white-space: nowrap !important;
-    padding-bottom: 4px !important;
-    width: auto !important;
+    width: 100% !important;
   }
+
+  .mobileMenuToggle {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+    outline: none;
+  }
+
+  .mobileMenuToggle:hover {
+    background-color: var(--bg-secondary);
+  }
+
   .topbar {
-    padding: 0.75rem 1rem !important;
+    padding: 0.75rem 1.25rem !important;
   }
+
   .pagePadding {
-    padding: 1rem !important;
+    padding: 1.25rem 1rem !important;
   }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* Teams Card Layout Styles */
