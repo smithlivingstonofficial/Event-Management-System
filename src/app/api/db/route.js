@@ -32,13 +32,17 @@ export async function POST(request) {
       if (action === 'create') {
         const newCat = {
           id: 'cat_' + Date.now(),
-          name: payload.name
+          name: payload.name,
+          icon: payload.icon || 'circle',
+          color: payload.color || '#3b82f6'
         };
         db.categories.push(newCat);
       } else if (action === 'update') {
         const index = db.categories.findIndex(c => c.id === payload.id);
         if (index !== -1) {
           db.categories[index].name = payload.name;
+          db.categories[index].icon = payload.icon || 'circle';
+          db.categories[index].color = payload.color || '#3b82f6';
         }
       } else if (action === 'delete') {
         db.categories = db.categories.filter(c => c.id !== payload.id);
@@ -97,8 +101,9 @@ export async function POST(request) {
     } 
     
     else if (type === 'team') {
+      let teamObj = null;
       if (action === 'create') {
-        const newTeam = {
+        teamObj = {
           id: 't_' + Date.now(),
           name: payload.name,
           members: Array.isArray(payload.members) 
@@ -106,7 +111,7 @@ export async function POST(request) {
             : (payload.members ? payload.members.split(',').map(m => m.trim()) : []),
           color: payload.color || '#6366f1'
         };
-        db.teams.push(newTeam);
+        db.teams.push(teamObj);
       } else if (action === 'update') {
         const index = db.teams.findIndex(t => t.id === payload.id);
         if (index !== -1) {
@@ -120,30 +125,110 @@ export async function POST(request) {
             members: updatedMembers,
             color: payload.color || '#6366f1'
           };
-          
-          // Cascading update to event team lists
-          db.events = db.events.map(e => {
-            const matchedTeamIdx = e.teams.findIndex(t => t.id === payload.id);
-            if (matchedTeamIdx !== -1) {
-              const updatedTeams = [...e.teams];
-              updatedTeams[matchedTeamIdx] = {
-                ...updatedTeams[matchedTeamIdx],
-                name: payload.name,
-                members: updatedMembers,
-                color: payload.color || '#6366f1'
-              };
-              return { ...e, teams: updatedTeams };
-            }
-            return e;
-          });
+          teamObj = db.teams[index];
         }
       } else if (action === 'delete') {
         db.teams = db.teams.filter(t => t.id !== payload.id);
-        // Cascading delete to event team lists
+        // Cascading delete to all event team lists
         db.events = db.events.map(e => ({
           ...e,
-          teams: e.teams.filter(t => t.id !== payload.id)
+          teams: (e.teams || []).filter(t => t.id !== payload.id),
+          pptTeams: (e.pptTeams || []).filter(t => t.id !== payload.id),
+          posterTeams: (e.posterTeams || []).filter(t => t.id !== payload.id),
+          interviewTeams: (e.interviewTeams || []).filter(t => t.id !== payload.id),
+          debuggingTeams: (e.debuggingTeams || []).filter(t => t.id !== payload.id)
         }));
+      }
+
+      // Sync event and track selections for create/update actions
+      if ((action === 'create' || action === 'update') && teamObj) {
+        const targetEventId = payload.eventId || '';
+        const tracks = payload.participatingTracks || []; // e.g. ['quiz', 'ppt']
+
+        db.events = db.events.map(e => {
+          // If this is the selected event, add/update tracks
+          if (e.id === targetEventId) {
+            const hasQuiz = tracks.includes('quiz');
+            const hasPpt = tracks.includes('ppt');
+            const hasPoster = tracks.includes('poster');
+            const hasInterview = tracks.includes('interview');
+            const hasDebugging = tracks.includes('debugging');
+
+            // 1. Quiz
+            let updatedTeams = [...(e.teams || [])];
+            const qIdx = updatedTeams.findIndex(t => t.id === teamObj.id);
+            if (hasQuiz) {
+              const item = { id: teamObj.id, name: teamObj.name, color: teamObj.color, members: teamObj.members, score: qIdx !== -1 ? updatedTeams[qIdx].score : 0 };
+              if (qIdx !== -1) updatedTeams[qIdx] = item;
+              else updatedTeams.push(item);
+            } else {
+              updatedTeams = updatedTeams.filter(t => t.id !== teamObj.id);
+            }
+
+            // 2. PPT
+            let updatedPptTeams = [...(e.pptTeams || [])];
+            const pptIdx = updatedPptTeams.findIndex(t => t.id === teamObj.id);
+            if (hasPpt) {
+              const item = { id: teamObj.id, name: teamObj.name, color: teamObj.color, members: teamObj.members, score: pptIdx !== -1 ? updatedPptTeams[pptIdx].score : 0, criteria: pptIdx !== -1 ? updatedPptTeams[pptIdx].criteria : { content: 0, delivery: 0, design: 0, qa: 0, time: 0 } };
+              if (pptIdx !== -1) updatedPptTeams[pptIdx] = item;
+              else updatedPptTeams.push(item);
+            } else {
+              updatedPptTeams = updatedPptTeams.filter(t => t.id !== teamObj.id);
+            }
+
+            // 3. Poster
+            let updatedPosterTeams = [...(e.posterTeams || [])];
+            const postIdx = updatedPosterTeams.findIndex(t => t.id === teamObj.id);
+            if (hasPoster) {
+              const item = { id: teamObj.id, name: teamObj.name, color: teamObj.color, members: teamObj.members, score: postIdx !== -1 ? updatedPosterTeams[postIdx].score : 0, criteria: postIdx !== -1 ? updatedPosterTeams[postIdx].criteria : { creativity: 0, relevance: 0, aesthetics: 0, explanation: 0 } };
+              if (postIdx !== -1) updatedPosterTeams[postIdx] = item;
+              else updatedPosterTeams.push(item);
+            } else {
+              updatedPosterTeams = updatedPosterTeams.filter(t => t.id !== teamObj.id);
+            }
+
+            // 4. Interview
+            let updatedInterviewTeams = [...(e.interviewTeams || [])];
+            const intIdx = updatedInterviewTeams.findIndex(t => t.id === teamObj.id);
+            if (hasInterview) {
+              const item = { id: teamObj.id, name: teamObj.name, color: teamObj.color, members: teamObj.members, score: intIdx !== -1 ? updatedInterviewTeams[intIdx].score : 0, criteria: intIdx !== -1 ? updatedInterviewTeams[intIdx].criteria : { calmness: 0, mind: 0, communication: 0, arguments: 0 } };
+              if (intIdx !== -1) updatedInterviewTeams[intIdx] = item;
+              else updatedInterviewTeams.push(item);
+            } else {
+              updatedInterviewTeams = updatedInterviewTeams.filter(t => t.id !== teamObj.id);
+            }
+
+            // 5. Debugging
+            let updatedDebuggingTeams = [...(e.debuggingTeams || [])];
+            const debIdx = updatedDebuggingTeams.findIndex(t => t.id === teamObj.id);
+            if (hasDebugging) {
+              const item = { id: teamObj.id, name: teamObj.name, color: teamObj.color, members: teamObj.members, score: debIdx !== -1 ? updatedDebuggingTeams[debIdx].score : 0, criteria: debIdx !== -1 ? updatedDebuggingTeams[debIdx].criteria : { syntactic: 0, logical: 0, speed: 0, style: 0 } };
+              if (debIdx !== -1) updatedDebuggingTeams[debIdx] = item;
+              else updatedDebuggingTeams.push(item);
+            } else {
+              updatedDebuggingTeams = updatedDebuggingTeams.filter(t => t.id !== teamObj.id);
+            }
+
+            return {
+              ...e,
+              teams: updatedTeams,
+              pptTeams: updatedPptTeams,
+              posterTeams: updatedPosterTeams,
+              interviewTeams: updatedInterviewTeams,
+              debuggingTeams: updatedDebuggingTeams
+            };
+          } else {
+            // Remove team from all track arrays of other events
+            return {
+              ...e,
+              teams: (e.teams || []).filter(t => t.id !== teamObj.id),
+              pptTeams: (e.pptTeams || []).filter(t => t.id !== teamObj.id),
+              posterTeams: (e.posterTeams || []).filter(t => t.id !== teamObj.id),
+              interviewTeams: (e.interviewTeams || []).filter(t => t.id !== teamObj.id),
+              debuggingTeams: (e.debuggingTeams || []).filter(t => t.id !== teamObj.id)
+            };
+          }
+        });
       }
     }
     

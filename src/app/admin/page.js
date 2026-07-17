@@ -67,6 +67,12 @@ export default function AdminDashboard() {
   const [teamName, setTeamName] = useState('');
   const [teamMembers, setTeamMembers] = useState('');
   const [teamColor, setTeamColor] = useState('#6366f1');
+  const [selectedTeamEventId, setSelectedTeamEventId] = useState('');
+  const [teamParticipatesQuiz, setTeamParticipatesQuiz] = useState(false);
+  const [teamParticipatesPpt, setTeamParticipatesPpt] = useState(false);
+  const [teamParticipatesPoster, setTeamParticipatesPoster] = useState(false);
+  const [teamParticipatesInterview, setTeamParticipatesInterview] = useState(false);
+  const [teamParticipatesDebugging, setTeamParticipatesDebugging] = useState(false);
 
   // Fetch db content and backup list
   const fetchData = async () => {
@@ -282,12 +288,21 @@ export default function AdminDashboard() {
     e.preventDefault();
     if (!teamName.trim()) return;
 
+    const participatingTracks = [];
+    if (teamParticipatesQuiz) participatingTracks.push('quiz');
+    if (teamParticipatesPpt) participatingTracks.push('ppt');
+    if (teamParticipatesPoster) participatingTracks.push('poster');
+    if (teamParticipatesInterview) participatingTracks.push('interview');
+    if (teamParticipatesDebugging) participatingTracks.push('debugging');
+
     const action = editTeam ? 'update' : 'create';
     const payload = {
       id: editTeam?.id,
       name: teamName,
       members: teamMembers,
-      color: teamColor
+      color: teamColor,
+      eventId: selectedTeamEventId,
+      participatingTracks
     };
 
     const success = await saveEntity('team', action, payload);
@@ -297,6 +312,12 @@ export default function AdminDashboard() {
       setTeamName('');
       setTeamMembers('');
       setTeamColor('#6366f1');
+      setSelectedTeamEventId('');
+      setTeamParticipatesQuiz(false);
+      setTeamParticipatesPpt(false);
+      setTeamParticipatesPoster(false);
+      setTeamParticipatesInterview(false);
+      setTeamParticipatesDebugging(false);
     }
   };
 
@@ -405,6 +426,32 @@ export default function AdminDashboard() {
     setTeamName(team.name);
     setTeamMembers(team.members ? team.members.join(', ') : '');
     setTeamColor(team.color || '#6366f1');
+
+    // Detect event and tracks this team is currently in
+    const matchedEvent = db.events.find(e => 
+      (e.teams || []).some(t => t.id === team.id) ||
+      (e.pptTeams || []).some(t => t.id === team.id) ||
+      (e.posterTeams || []).some(t => t.id === team.id) ||
+      (e.interviewTeams || []).some(t => t.id === team.id) ||
+      (e.debuggingTeams || []).some(t => t.id === team.id)
+    );
+
+    if (matchedEvent) {
+      setSelectedTeamEventId(matchedEvent.id);
+      setTeamParticipatesQuiz((matchedEvent.teams || []).some(t => t.id === team.id));
+      setTeamParticipatesPpt((matchedEvent.pptTeams || []).some(t => t.id === team.id));
+      setTeamParticipatesPoster((matchedEvent.posterTeams || []).some(t => t.id === team.id));
+      setTeamParticipatesInterview((matchedEvent.interviewTeams || []).some(t => t.id === team.id));
+      setTeamParticipatesDebugging((matchedEvent.debuggingTeams || []).some(t => t.id === team.id));
+    } else {
+      setSelectedTeamEventId('');
+      setTeamParticipatesQuiz(false);
+      setTeamParticipatesPpt(false);
+      setTeamParticipatesPoster(false);
+      setTeamParticipatesInterview(false);
+      setTeamParticipatesDebugging(false);
+    }
+    
     setShowTeamModal(true);
   };
 
@@ -961,6 +1008,12 @@ export default function AdminDashboard() {
                     setTeamName('');
                     setTeamMembers('');
                     setTeamColor('#6366f1');
+                    setSelectedTeamEventId('');
+                    setTeamParticipatesQuiz(false);
+                    setTeamParticipatesPpt(false);
+                    setTeamParticipatesPoster(false);
+                    setTeamParticipatesInterview(false);
+                    setTeamParticipatesDebugging(false);
                     setShowTeamModal(true);
                   }}
                 >
@@ -2475,6 +2528,59 @@ export default function AdminDashboard() {
                   </span>
                 </div>
               </div>
+
+              <div className={styles.formGroup} style={{ marginTop: '0.5rem' }}>
+                <label htmlFor="team-event">Event Participation (Optional)</label>
+                <select
+                  id="team-event"
+                  value={selectedTeamEventId}
+                  onChange={(e) => {
+                    setSelectedTeamEventId(e.target.value);
+                    if (!e.target.value) {
+                      setTeamParticipatesQuiz(false);
+                      setTeamParticipatesPpt(false);
+                      setTeamParticipatesPoster(false);
+                      setTeamParticipatesInterview(false);
+                      setTeamParticipatesDebugging(false);
+                    }
+                  }}
+                  className={styles.select}
+                  style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', background: '#ffffff', border: '1px solid var(--border-color)', color: 'var(--text-main)' }}
+                >
+                  <option value="">-- No Event / Keep in Registry Pool only --</option>
+                  {db.events.map(ev => (
+                    <option key={ev.id} value={ev.id}>{ev.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              {selectedTeamEventId && (
+                <div className={styles.formGroup} style={{ marginTop: '0.5rem' }}>
+                  <label>Select Event Track(s) *</label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.75rem', marginTop: '0.5rem' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', border: '1px solid var(--border-color)', borderRadius: '8px', background: teamParticipatesQuiz ? 'rgba(99,102,241,0.05)' : '#ffffff', cursor: 'pointer', transition: 'all 0.2s', borderColor: teamParticipatesQuiz ? 'var(--primary)' : 'var(--border-color)' }}>
+                      <input type="checkbox" checked={teamParticipatesQuiz} onChange={(e) => setTeamParticipatesQuiz(e.target.checked)} style={{ cursor: 'pointer' }} />
+                      <span style={{ fontWeight: '600', fontSize: '0.85rem', color: 'var(--text-main)' }}>⚡ Live Quiz</span>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', border: '1px solid var(--border-color)', borderRadius: '8px', background: teamParticipatesPpt ? 'rgba(99,102,241,0.05)' : '#ffffff', cursor: 'pointer', transition: 'all 0.2s', borderColor: teamParticipatesPpt ? 'var(--primary)' : 'var(--border-color)' }}>
+                      <input type="checkbox" checked={teamParticipatesPpt} onChange={(e) => setTeamParticipatesPpt(e.target.checked)} style={{ cursor: 'pointer' }} />
+                      <span style={{ fontWeight: '600', fontSize: '0.85rem', color: 'var(--text-main)' }}>📊 PPT</span>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', border: '1px solid var(--border-color)', borderRadius: '8px', background: teamParticipatesPoster ? 'rgba(99,102,241,0.05)' : '#ffffff', cursor: 'pointer', transition: 'all 0.2s', borderColor: teamParticipatesPoster ? 'var(--primary)' : 'var(--border-color)' }}>
+                      <input type="checkbox" checked={teamParticipatesPoster} onChange={(e) => setTeamParticipatesPoster(e.target.checked)} style={{ cursor: 'pointer' }} />
+                      <span style={{ fontWeight: '600', fontSize: '0.85rem', color: 'var(--text-main)' }}>🎨 Poster</span>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', border: '1px solid var(--border-color)', borderRadius: '8px', background: teamParticipatesInterview ? 'rgba(99,102,241,0.05)' : '#ffffff', cursor: 'pointer', transition: 'all 0.2s', borderColor: teamParticipatesInterview ? 'var(--primary)' : 'var(--border-color)' }}>
+                      <input type="checkbox" checked={teamParticipatesInterview} onChange={(e) => setTeamParticipatesInterview(e.target.checked)} style={{ cursor: 'pointer' }} />
+                      <span style={{ fontWeight: '600', fontSize: '0.85rem', color: 'var(--text-main)' }}>🤝 Interview</span>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', border: '1px solid var(--border-color)', borderRadius: '8px', background: teamParticipatesDebugging ? 'rgba(99,102,241,0.05)' : '#ffffff', cursor: 'pointer', transition: 'all 0.2s', borderColor: teamParticipatesDebugging ? 'var(--primary)' : 'var(--border-color)' }}>
+                      <input type="checkbox" checked={teamParticipatesDebugging} onChange={(e) => setTeamParticipatesDebugging(e.target.checked)} style={{ cursor: 'pointer' }} />
+                      <span style={{ fontWeight: '600', fontSize: '0.85rem', color: 'var(--text-main)' }}>💻 Debugging</span>
+                    </label>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className={styles.modalActions}>
