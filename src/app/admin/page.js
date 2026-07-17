@@ -1272,12 +1272,12 @@ export default function AdminDashboard() {
                   {/* Sub-tabs menu */}
                   <div style={{ display: 'flex', gap: '0.35rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.5rem', marginBottom: '1.5rem', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
                     {[
-                      { id: 'overall', name: '🏆 Standings' },
-                      { id: 'quiz', name: '⚡ Live Quiz' },
-                      { id: 'ppt', name: '📊 PPT' },
-                      { id: 'poster', name: '🎨 Poster' },
-                      { id: 'interview', name: '🎤 Interview' },
-                      { id: 'debugging', name: '🐛 Debug' }
+                      { id: 'overall', name: 'Standings' },
+                      { id: 'quiz', name: 'Live Quiz' },
+                      { id: 'ppt', name: 'PPT Presentation' },
+                      { id: 'poster', name: 'Poster Presentation' },
+                      { id: 'interview', name: 'Stress Interview' },
+                      { id: 'debugging', name: 'Debugging' }
                     ].map(sub => (
                       <button
                         key={sub.id}
@@ -1721,8 +1721,8 @@ export default function AdminDashboard() {
                         </p>
 
                         {teamList.length === 0 ? (
-                          <div className={styles.emptyState} style={{ padding: '3rem' }}>
-                            <p>No teams assigned to this competition yet.</p>
+                          <div className={styles.emptyState} style={{ padding: '3.5rem' }}>
+                            <p>No teams assigned to this competition track yet.</p>
                             <button
                               className={styles.btnPrimary}
                               onClick={() => openManageTeamsModal(subEventData.key)}
@@ -1734,9 +1734,9 @@ export default function AdminDashboard() {
                         ) : (
                           <div className={styles.scoreboardSplit}>
                             
-                            {/* LEFT SIDEBAR: List of teams participating */}
-                            <div className="glass" style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', borderRadius: '16px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-color)', height: 'fit-content' }}>
-                              <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.8rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Participating Teams</h4>
+                            {/* LEFT SIDEBAR: List of teams participating (Scroll-Locked, Compact) */}
+                            <div className="glass" style={{ padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', borderRadius: '14px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-color)', maxHeight: '440px', overflowY: 'auto' }}>
+                              <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Participating Teams</h4>
                               {teamList.map(team => {
                                 const isSelected = selectedScoreboardTeamId === team.id;
                                 return (
@@ -1745,29 +1745,29 @@ export default function AdminDashboard() {
                                     onClick={() => setSelectedScoreboardTeamId(team.id)}
                                     style={{
                                       width: '100%',
-                                      padding: '1rem',
-                                      borderRadius: '12px',
+                                      padding: '0.65rem 0.85rem',
+                                      borderRadius: '10px',
                                       border: isSelected 
-                                        ? `2px solid ${team.color || 'var(--primary)'}` 
-                                        : '1.5px solid var(--border-color)',
+                                        ? `1.5px solid ${team.color || 'var(--primary)'}` 
+                                        : '1px solid var(--border-color)',
                                       background: isSelected 
-                                        ? `linear-gradient(to right, ${(team.color || '#6366f1')}11, transparent)` 
+                                        ? `linear-gradient(to right, ${(team.color || '#6366f1')}0f, transparent)` 
                                         : 'rgba(255,255,255,0.01)',
                                       color: 'var(--text-main)',
                                       textAlign: 'left',
                                       cursor: 'pointer',
                                       display: 'flex',
                                       flexDirection: 'column',
-                                      gap: '0.35rem',
+                                      gap: '0.2rem',
                                       boxShadow: isSelected 
-                                        ? `0 6px 16px ${(team.color || '#6366f1')}1a` 
+                                        ? `0 4px 12px ${(team.color || '#6366f1')}14` 
                                         : 'none',
-                                      transition: 'all 0.2s ease-in-out'
+                                      transition: 'all 0.15s ease'
                                     }}
                                   >
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                                      <span style={{ fontWeight: '800', fontSize: '0.95rem' }}>{team.name}</span>
-                                      <span style={{ fontWeight: '900', color: team.color || 'var(--primary)', fontFamily: 'var(--font-mono)', fontSize: '1rem' }}>{team.score || 0} pts</span>
+                                      <span style={{ fontWeight: '750', fontSize: '0.9rem' }}>{team.name}</span>
+                                      <span style={{ fontWeight: '900', color: team.color || 'var(--primary)', fontFamily: 'var(--font-mono)', fontSize: '0.95rem' }}>{team.score || 0} pts</span>
                                     </div>
                                     <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                                       {team.members ? team.members.join(', ') : 'No members'}
@@ -1786,109 +1786,125 @@ export default function AdminDashboard() {
                                 <div
                                   className="glass"
                                   style={{
-                                    padding: '2rem',
-                                    borderRadius: '16px',
+                                    padding: '1.25rem 1.5rem',
+                                    borderRadius: '14px',
                                     border: '1px solid var(--border-color)',
                                     borderLeft: `6px solid ${activeTeam.color || 'var(--primary)'}`,
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    gap: '1.5rem',
-                                    boxShadow: '0 8px 32px rgba(0,0,0,0.03)'
+                                    gap: '1rem',
+                                    boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
+                                    maxHeight: '440px',
+                                    overflowY: 'auto'
                                   }}
                                 >
                                   {/* Team Header Summary */}
-                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
                                     <div>
-                                      <h3 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--text-main)' }}>{activeTeam.name}</h3>
-                                      <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                                      <h3 style={{ margin: 0, fontSize: '1.3rem', color: 'var(--text-main)', fontWeight: '800' }}>{activeTeam.name}</h3>
+                                      <p style={{ margin: '0.15rem 0 0 0', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                                         Members: {activeTeam.members ? activeTeam.members.join(', ') : 'No members listed'}
                                       </p>
                                     </div>
-                                    <div style={{ textAlign: 'right' }}>
-                                      <span style={{ fontSize: '2rem', fontWeight: '950', color: activeTeam.color || 'var(--primary)', fontFamily: 'var(--font-mono)' }}>
+                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.2rem' }}>
+                                      <span style={{ fontSize: '1.75rem', fontWeight: '950', color: activeTeam.color || 'var(--primary)', fontFamily: 'var(--font-mono)' }}>
                                         {activeTeam.score || 0}
                                       </span>
-                                      <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block' }}>Total points</span>
+                                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>pts total</span>
                                     </div>
                                   </div>
 
-                                  {/* Auto-save Status Indicator */}
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', color: '#10b981', background: 'rgba(16, 185, 129, 0.05)', padding: '0.4rem 0.75rem', borderRadius: '20px', width: 'fit-content', fontWeight: '800', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
-                                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }} />
-                                    <span>Real-Time Auto-Save Active</span>
-                                  </div>
-
-                                  {/* Sliders Grid */}
-                                  <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.25rem', marginTop: '0.5rem' }}>
+                                  {/* Sliders Grid (Professional Horizontal Grid rows) */}
+                                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                                     {subEventData.criteria.map(crit => {
                                       const val = activeTeam.criteria?.[crit.id] || 0;
                                       return (
-                                        <div key={crit.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', background: 'rgba(255,255,255,0.01)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.03)' }}>
-                                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', fontWeight: 'bold' }}>
-                                            <span style={{ color: 'var(--text-main)' }}>{crit.name} (Max {crit.max})</span>
-                                            <span style={{ color: activeTeam.color || 'var(--primary)', fontFamily: 'var(--font-mono)' }}>{val} / {crit.max}</span>
+                                        <div 
+                                          key={crit.id} 
+                                          style={{ 
+                                            display: 'grid', 
+                                            gridTemplateColumns: '160px 1fr 100px', 
+                                            alignItems: 'center', 
+                                            gap: '1rem', 
+                                            background: 'rgba(248, 250, 252, 0.4)', 
+                                            padding: '0.5rem 0.85rem', 
+                                            borderRadius: '8px', 
+                                            border: '1px solid var(--border-color)' 
+                                          }}
+                                        >
+                                          {/* Criterion Info */}
+                                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
+                                            <span style={{ fontSize: '0.8rem', fontWeight: '750', color: 'var(--text-main)', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{crit.name}</span>
+                                            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '500' }}>Max {crit.max}</span>
                                           </div>
                                           
-                                          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                            {/* Deduct Button */}
+                                          {/* Steppers + Slider */}
+                                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                                             <button
                                               onClick={() => handleSliderChange(activeTeam.id, subEventData.key, crit.id, Math.max(0, val - 1))}
                                               style={{
-                                                padding: '0.25rem 0.5rem',
-                                                borderRadius: '6px',
+                                                padding: 0,
+                                                borderRadius: '4px',
                                                 border: '1px solid var(--border-color)',
-                                                background: 'var(--bg-secondary)',
+                                                background: '#ffffff',
                                                 color: 'var(--text-main)',
                                                 cursor: 'pointer',
                                                 fontWeight: 'bold',
-                                                width: '28px',
-                                                height: '28px',
+                                                width: '22px',
+                                                height: '22px',
                                                 display: 'flex',
                                                 alignItems: 'center',
-                                                justifyContent: 'center'
+                                                justifyContent: 'center',
+                                                fontSize: '0.85rem'
                                               }}
                                             >
                                               -
                                             </button>
                                             
-                                            {/* Custom styled range slider */}
                                             <input
                                               type="range"
                                               min="0"
                                               max={crit.max}
                                               value={val}
                                               onChange={(e) => handleSliderChange(activeTeam.id, subEventData.key, crit.id, e.target.value)}
+                                              className={styles.compactRange}
                                               style={{
                                                 flex: 1,
-                                                height: '6px',
-                                                borderRadius: '3px',
+                                                height: '4px',
+                                                borderRadius: '2px',
                                                 outline: 'none',
                                                 accentColor: activeTeam.color || 'var(--primary)',
-                                                background: 'var(--bg-secondary)',
+                                                background: '#e2e8f0',
                                                 cursor: 'pointer'
                                               }}
                                             />
                                             
-                                            {/* Add Button */}
                                             <button
                                               onClick={() => handleSliderChange(activeTeam.id, subEventData.key, crit.id, Math.min(crit.max, val + 1))}
                                               style={{
-                                                padding: '0.25rem 0.5rem',
-                                                borderRadius: '6px',
+                                                padding: 0,
+                                                borderRadius: '4px',
                                                 border: '1px solid var(--border-color)',
-                                                background: 'var(--bg-secondary)',
+                                                background: '#ffffff',
                                                 color: 'var(--text-main)',
                                                 cursor: 'pointer',
                                                 fontWeight: 'bold',
-                                                width: '28px',
-                                                height: '28px',
+                                                width: '22px',
+                                                height: '22px',
                                                 display: 'flex',
                                                 alignItems: 'center',
-                                                justifyContent: 'center'
+                                                justifyContent: 'center',
+                                                fontSize: '0.85rem'
                                               }}
                                             >
                                               +
                                             </button>
+                                          </div>
+
+                                          {/* Value display */}
+                                          <div style={{ textAlign: 'right' }}>
+                                            <span style={{ fontSize: '0.95rem', fontWeight: '900', color: activeTeam.color || 'var(--primary)', fontFamily: 'var(--font-mono)' }}>{val}</span>
+                                            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}> / {crit.max}</span>
                                           </div>
                                         </div>
                                       );
