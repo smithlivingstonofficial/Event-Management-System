@@ -1,0 +1,163 @@
+/* Clean resets and baseline rules */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --font-sans: var(--font-plus-jakarta-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  
+  /* Color Palette - Premium Light SaaS Theme */
+  --bg-primary: #f8fafc; /* Crisp Slate Warm White */
+  --bg-secondary: #f1f5f9; /* Warm Slate Gray */
+  --bg-card: rgba(255, 255, 255, 0.75); /* Semi-transparent Glass White */
+  --bg-card-hover: rgba(255, 255, 255, 0.95);
+  --border-color: rgba(99, 102, 241, 0.12); /* Subtle Indigo Border */
+  --border-glow: rgba(99, 102, 241, 0.25);
+  
+  /* Text colors */
+  --text-main: #0f172a; /* Deep Slate Charcoal */
+  --text-muted: #64748b; /* Soft Slate Gray */
+  --text-dark: #0f172a;
+  
+  /* Accent colors */
+  --primary: #4f46e5; /* Royal Indigo Accent */
+  --primary-hover: #6366f1;
+  --primary-glow: rgba(99, 102, 241, 0.18);
+  
+  --success: #10b981; /* Emerald Green */
+  --success-glow: rgba(16, 185, 129, 0.2);
+  --danger: #f43f5e; /* Coral Red */
+  --danger-glow: rgba(244, 63, 94, 0.2);
+  
+  /* Quiz option colors */
+  --opt-a: #ef4444; /* Bright Red */
+  --opt-b: #3b82f6; /* Bright Blue */
+  --opt-c: #f59e0b; /* Bright Amber */
+  --opt-d: #a855f7; /* Bright Purple */
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-primary);
+  background-image: radial-gradient(circle at center, #ffffff 0%, #f1f5f9 100%);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom premium animated scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border: 3px solid var(--bg-primary);
+  border-radius: 9999px;
+  transition: all 0.3s;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Layout Wrappers */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Common Components */
+button {
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+input, select, textarea {
+  font-family: var(--font-sans);
+  outline: none;
+  transition: all 0.25s;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.93);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseBorder {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.05), 0 0 0 1px var(--border-color);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(99, 102, 241, 0.25), 0 0 0 1px var(--primary);
+  }
+}
+
+@keyframes countdownPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.animate-fade {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pop {
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Glassmorphism Classes */
+.glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.04);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.glass:hover {
+  border-color: rgba(99, 102, 241, 0.25);
+  box-shadow: 0 15px 45px rgba(15, 23, 42, 0.08), 0 0 15px rgba(99, 102, 241, 0.1);
+}

@@ -1,0 +1,439 @@
+{
+  "categories": [
+    {
+      "id": "basic-technology-mcqs",
+      "name": "Basic Technology MCQs"
+    },
+    {
+      "id": "identify-the-logo",
+      "name": "Identify the Logo"
+    },
+    {
+      "id": "guess-the-technology",
+      "name": "Guess the Technology"
+    },
+    {
+      "id": "current-technology-and-ai",
+      "name": "Current Technology & AI"
+    }
+  ],
+  "questions": [
+    {
+      "id": "btm_1",
+      "categoryId": "basic-technology-mcqs",
+      "text": "Which of the following fundamental data structures operates on a strict Last-In, First-Out (LIFO) basis?",
+      "options": [
+        "Queue",
+        "Tree",
+        "Stack",
+        "Linked List"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "btm_2",
+      "categoryId": "basic-technology-mcqs",
+      "text": "In relational database design, what is the primary purpose of a Foreign Key?",
+      "options": [
+        "To encrypt confidential columns",
+        "To uniquely identify each row in its own table",
+        "To reference the primary key of another table",
+        "To speed up queries via indexing"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "btm_3",
+      "categoryId": "basic-technology-mcqs",
+      "text": "In network communications, which Transport Layer protocol guarantees reliable delivery of packets and ensures they are received in the correct order?",
+      "options": [
+        "UDP",
+        "TCP",
+        "IP",
+        "DNS"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "btm_4",
+      "categoryId": "basic-technology-mcqs",
+      "text": "In Python, what is the output of the expression [1, 2, 3] * 2?",
+      "options": [
+        "[2, 4, 6]",
+        "[1, 2, 3, 1, 2, 3]",
+        "[[1, 2, 3], [1, 2, 3]]",
+        "It raises a TypeError"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "btm_5",
+      "categoryId": "basic-technology-mcqs",
+      "text": "Which type of computer memory is volatile, meaning it requires constant electrical power to maintain its state and loses its data when turned off?",
+      "options": [
+        "ROM",
+        "SSD",
+        "RAM",
+        "Flash Memory"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "btm_6",
+      "categoryId": "basic-technology-mcqs",
+      "text": "In SQL database queries, which clause is used to filter aggregated group results after a GROUP BY clause has been applied?",
+      "options": [
+        "WHERE",
+        "HAVING",
+        "FILTER",
+        "DISTINCT"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "logo_1",
+      "categoryId": "identify-the-logo",
+      "text": "Identify this logo:",
+      "options": [],
+      "correctAnswer": "Nvidia",
+      "timeLimit": 20,
+      "points": 100,
+      "image": "/images/Nvidia.png"
+    },
+    {
+      "id": "logo_2",
+      "categoryId": "identify-the-logo",
+      "text": "Identify this logo:",
+      "options": [],
+      "correctAnswer": "Firebase",
+      "timeLimit": 20,
+      "points": 100,
+      "image": "/images/Firebase.png"
+    },
+    {
+      "id": "logo_3",
+      "categoryId": "identify-the-logo",
+      "text": "Identify this logo:",
+      "options": [],
+      "correctAnswer": "Docker",
+      "timeLimit": 20,
+      "points": 100,
+      "image": "/images/Docker.png"
+    },
+    {
+      "id": "logo_4",
+      "categoryId": "identify-the-logo",
+      "text": "Identify this logo:",
+      "options": [],
+      "correctAnswer": "Git",
+      "timeLimit": 20,
+      "points": 100,
+      "image": "/images/Git.png"
+    },
+    {
+      "id": "logo_5",
+      "categoryId": "identify-the-logo",
+      "text": "Identify this logo:",
+      "options": [],
+      "correctAnswer": "React JS",
+      "timeLimit": 20,
+      "points": 100,
+      "image": "/images/ReactJs.png"
+    },
+    {
+      "id": "logo_6",
+      "categoryId": "identify-the-logo",
+      "text": "Identify this logo:",
+      "options": [],
+      "correctAnswer": "Node JS",
+      "timeLimit": 20,
+      "points": 100,
+      "image": "/images/NodeJs.png"
+    },
+    {
+      "id": "gtt_1",
+      "categoryId": "guess-the-technology",
+      "text": "Which technology fits these clues?\n- Developed by Google in 2014.\n- Automates container deployment and scaling.\n- Uses concepts like Pods, Nodes, and Services.",
+      "options": [
+        "Docker",
+        "Kubernetes",
+        "Ansible",
+        "OpenStack"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "gtt_2",
+      "categoryId": "guess-the-technology",
+      "text": "Which technology fits these clues?\n- Released in 2009 as a NoSQL database.\n- Stores data in flexible, JSON-like documents (BSON).\n- Avoids schemas and traditional tables.",
+      "options": [
+        "PostgreSQL",
+        "MySQL",
+        "Redis",
+        "MongoDB"
+      ],
+      "correctAnswer": "D",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "gtt_3",
+      "categoryId": "guess-the-technology",
+      "text": "Which technology fits these clues?\n- Created by Guido van Rossum in 1991.\n- Uses clean indentation for code block readability.\n- The dominant language for Machine Learning and AI.",
+      "options": [
+        "Ruby",
+        "Python",
+        "Perl",
+        "PHP"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "gtt_4",
+      "categoryId": "guess-the-technology",
+      "text": "Which technology fits these clues?\n- Developed by Mozilla starting in 2010.\n- Guarantees memory safety without a garbage collector.\n- Uses an \"ownership and borrowing\" model.",
+      "options": [
+        "C++",
+        "Go",
+        "Rust",
+        "Swift"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "gtt_5",
+      "categoryId": "guess-the-technology",
+      "text": "Which technology fits these clues?\n- Launched in 2006 by Amazon.\n- The pioneer and market leader in cloud infrastructure.\n- Features core services like EC2, S3, and RDS.",
+      "options": [
+        "Google Cloud",
+        "Microsoft Azure",
+        "IBM Cloud",
+        "AWS"
+      ],
+      "correctAnswer": "D",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "gtt_6",
+      "categoryId": "guess-the-technology",
+      "text": "Which technology fits these clues?\n- Created by Linus Torvalds in 1991.\n- Open-source operating system kernel.\n- Powers 100% of the world's top 500 supercomputers.",
+      "options": [
+        "Unix",
+        "Linux",
+        "Windows Server",
+        "macOS"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ai_1",
+      "categoryId": "current-technology-and-ai",
+      "text": "Which AI model family, developed by Google, replaced Bard and is known for its native multimodal capabilities and massive context window?",
+      "options": [
+        "Claude",
+        "LLaMA",
+        "Gemini",
+        "GPT-4"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ai_2",
+      "categoryId": "current-technology-and-ai",
+      "text": "In the field of Artificial Intelligence, what does the widely used acronym LLM stand for?",
+      "options": [
+        "Latent Logic Model",
+        "Linear Learning Method",
+        "Large Language Model",
+        "Logical Linked Machine"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ai_3",
+      "categoryId": "current-technology-and-ai",
+      "text": "Which chipmaker is currently the dominant manufacturer of the high-performance H100 and A100 GPUs used to train state-of-the-art AI systems?",
+      "options": [
+        "AMD",
+        "Intel",
+        "Nvidia",
+        "Qualcomm"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ai_4",
+      "categoryId": "current-technology-and-ai",
+      "text": "What is the name of OpenAI's text-to-video generative model, announced in 2024, capable of creating highly detailed, realistic video clips from text prompts?",
+      "options": [
+        "Sora",
+        "Dall-E",
+        "Midjourney",
+        "Runway"
+      ],
+      "correctAnswer": "A",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ai_5",
+      "categoryId": "current-technology-and-ai",
+      "text": "What is the name of the popular AI-powered developer tool launched by GitHub that integrates directly into code editors to suggest code lines and entire functions in real-time?",
+      "options": [
+        "Tabnine",
+        "Whisper",
+        "Copilot",
+        "CodeWhisperer"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ai_6",
+      "categoryId": "current-technology-and-ai",
+      "text": "Which open-source Python library, developed by Meta's AI Research lab, is highly popular for training deep learning neural networks?",
+      "options": [
+        "TensorFlow",
+        "PyTorch",
+        "Keras",
+        "Scikit-Learn"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    }
+  ],
+  "teams": [
+    {
+      "id": "t_1",
+      "name": "Alpha Coders",
+      "members": [
+        "Amit",
+        "Rahul"
+      ],
+      "color": "#fb7185"
+    },
+    {
+      "id": "t_2",
+      "name": "Byte Wizards",
+      "members": [
+        "Sanjay",
+        "Diya"
+      ],
+      "color": "#60a5fa"
+    },
+    {
+      "id": "t_3",
+      "name": "Pixel Pioneers",
+      "members": [
+        "Karan",
+        "Nisha"
+      ],
+      "color": "#fbbf24"
+    }
+  ],
+  "events": [
+    {
+      "id": "demo",
+      "name": "BCA Grand Tech Quiz 2026",
+      "status": "active",
+      "currentQuestionIndex": 13,
+      "questionIds": [
+        "btm_1",
+        "btm_2",
+        "btm_3",
+        "btm_4",
+        "btm_5",
+        "btm_6",
+        "logo_1",
+        "logo_2",
+        "logo_3",
+        "logo_4",
+        "logo_5",
+        "logo_6",
+        "gtt_1",
+        "gtt_2",
+        "gtt_3",
+        "gtt_4",
+        "gtt_5",
+        "gtt_6",
+        "ai_1",
+        "ai_2",
+        "ai_3",
+        "ai_4",
+        "ai_5",
+        "ai_6"
+      ],
+      "state": {
+        "showQuestion": true,
+        "showAnswer": true,
+        "timerStartedAt": null,
+        "timerDuration": 20,
+        "timerRemaining": 20,
+        "timerRunning": false,
+        "completedQuestionIds": [],
+        "currentRound": 3
+      },
+      "teams": [
+        {
+          "id": "t_1",
+          "name": "Alpha Coders",
+          "members": [
+            "Amit",
+            "Rahul"
+          ],
+          "color": "#fb7185",
+          "score": 0
+        },
+        {
+          "id": "t_2",
+          "name": "Byte Wizards",
+          "members": [
+            "Sanjay",
+            "Diya"
+          ],
+          "color": "#60a5fa",
+          "score": 0
+        },
+        {
+          "id": "t_3",
+          "name": "Pixel Pioneers",
+          "members": [
+            "Karan",
+            "Nisha"
+          ],
+          "color": "#fbbf24",
+          "score": 0
+        }
+      ]
+    }
+  ]
+}

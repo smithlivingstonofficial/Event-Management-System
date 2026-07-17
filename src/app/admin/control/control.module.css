@@ -1,0 +1,638 @@
+.wrapper {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.titleArea h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+.eventStatusBadge {
+  margin-top: 0.25rem;
+}
+
+/* Control Layout Grid */
+.layoutGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .layoutGrid {
+    grid-template-columns: 1.85fr 1fr;
+  }
+}
+
+/* Action Toolbar */
+.actionToolbar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* Panel cards */
+.panel {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.015);
+}
+
+.panelTitle {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Category Grid / Jeopardy Board */
+.gridBoard {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.gridCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.gridHeader {
+  padding: 0.6rem;
+  background: rgba(99, 102, 241, 0.04);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 750;
+  font-size: 0.85rem;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gridButton {
+  padding: 0.8rem 1.15rem;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.01);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.gridButton:hover {
+  border-color: var(--primary);
+  background: rgba(99, 102, 241, 0.03);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.1);
+}
+
+.gridButton:hover .gridQBadge {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+.gridButtonCompleted {
+  opacity: 0.25;
+  background: var(--bg-secondary) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-muted) !important;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.gridQBadge {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: var(--primary);
+  transition: all 0.2s;
+}
+
+.gridQPoints {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+/* Question Info Panel */
+.questionBox {
+  padding: 1.25rem;
+  background: var(--bg-primary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.questionMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.qNum {
+  font-weight: 800;
+  color: var(--primary);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.qPoints {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.questionText {
+  font-size: 1.15rem;
+  font-weight: 750;
+  line-height: 1.45;
+  margin-bottom: 1.25rem;
+  color: var(--text-main);
+}
+
+.optionsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .optionsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.optionCard {
+  padding: 0.85rem 1.15rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+  transition: border-color 0.2s;
+}
+
+.optionLetterBadge {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.correctOptionCard {
+  background: rgba(16, 185, 129, 0.05) !important;
+  border: 2px solid var(--success) !important;
+  color: var(--success);
+  font-weight: 700;
+}
+
+.correctOptionCard .optionLetterBadge {
+  background: var(--success);
+  border-color: var(--success);
+  color: #ffffff;
+}
+
+/* Visibility switches */
+.visibilityToolbar {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.controlToggle {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  color: var(--text-muted);
+  font-size: 0.825rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.01);
+}
+
+.controlToggle strong {
+  margin-left: 0.35rem;
+  color: var(--text-main);
+}
+
+.toggleActive {
+  background: rgba(99, 102, 241, 0.05);
+  border-color: rgba(99, 102, 241, 0.25);
+  color: var(--primary);
+}
+
+.toggleActive strong {
+  color: var(--primary);
+}
+
+/* Timer Control Panel (Progress Bar Style) */
+.timerPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1rem 1.25rem;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+}
+
+.timerBarWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.timerBarLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 750;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.timerClockText {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--primary);
+  background: rgba(99, 102, 241, 0.06);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 800;
+}
+
+.timerAlertText {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.timerBarOuter {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.timerBarInner {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 9999px;
+  transition: width 0.2s linear;
+}
+
+.timerBarAlert {
+  background: var(--danger);
+  animation: barPulse 1s infinite;
+}
+
+@keyframes barPulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+.timerActions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.timerActions button {
+  min-width: 80px;
+}
+
+/* Team grading section */
+.teamList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.teamRow {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.015);
+  border-left: 5px solid var(--primary);
+  transition: all 0.2s ease;
+}
+
+.teamRow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(15, 23, 42, 0.035);
+}
+
+.teamRowHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.teamColorDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.teamName {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.scoreStepper {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.15rem;
+}
+
+.stepperBtn {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  background: #ffffff;
+  color: var(--text-main);
+  font-weight: 900;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.stepperBtn:hover {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+.stepperInput {
+  width: 45px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-weight: 850;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+/* Remove stepper arrows */
+.stepperInput::-webkit-outer-spin-button,
+.stepperInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.scoreActions {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pillScoreBtn {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 750;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.01);
+}
+
+.pillScoreBtn:hover {
+  background: var(--bg-secondary);
+  border-color: rgba(99,102,241,0.25);
+}
+
+.scoreAdd {
+  color: var(--success);
+  border-color: rgba(16, 185, 129, 0.2);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.scoreAdd:hover {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.scoreSub {
+  color: var(--danger);
+  border-color: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.scoreSub:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Event Control Toolbar & Accents */
+.controlToolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  padding: 0.5rem 0.75rem;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.01);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.toolbarLeft, .toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toolbarLabel {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 0.25rem;
+}
+
+.toolbarBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+/* Segmented Round Selector */
+.segmentedRounds {
+  display: inline-flex;
+  background: var(--bg-secondary);
+  padding: 0.2rem;
+  border-radius: 10px;
+  gap: 2px;
+  border: 1px solid var(--border-color);
+}
+
+.segmentItem {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 750;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.segmentItem:hover {
+  color: var(--text-main);
+}
+
+.segmentActive {
+  background: #ffffff;
+  color: var(--primary);
+  font-weight: 850;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(99, 102, 241, 0.04);
+}
+
+/* Button style helpers inside control module */
+.btnPrimary {
+  background: var(--primary);
+  color: #ffffff;
+}
+.btnPrimary:hover {
+  background: var(--primary-hover);
+}
+.btnSecondary {
+  background: #ffffff;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+.btnSecondary:hover {
+  background: var(--bg-secondary);
+}
+.btnSuccess {
+  background: var(--success);
+  color: #ffffff;
+}
+.btnSuccess:hover {
+  background: #059669;
+}
+.btnDanger {
+  background: var(--danger);
+  color: #ffffff;
+}
+.btnDanger:hover {
+  background: #e11d48;
+}
+.btnSmall {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.75rem;
+}
