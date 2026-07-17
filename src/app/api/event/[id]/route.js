@@ -74,6 +74,7 @@ export async function PUT(request, { params }) {
         
         event.state.showQuestion = true;
         event.state.showAnswer = false;
+        event.state.showStandings = false;
         event.state.timerDuration = limit;
         event.state.timerRemaining = limit;
         event.state.timerRunning = false;
@@ -89,6 +90,7 @@ export async function PUT(request, { params }) {
       }
       event.state.showQuestion = false;
       event.state.showAnswer = false;
+      event.state.showStandings = false;
       event.state.timerRunning = false;
       event.state.timerStartedAt = null;
       break;
@@ -98,6 +100,7 @@ export async function PUT(request, { params }) {
       event.state.completedQuestionIds = [];
       event.state.showQuestion = false;
       event.state.showAnswer = false;
+      event.state.showStandings = false;
       event.state.timerRunning = false;
       event.state.timerStartedAt = null;
       event.currentQuestionIndex = -1;
@@ -105,14 +108,15 @@ export async function PUT(request, { params }) {
       event.teams = event.teams.map(t => ({ ...t, score: 0 }));
       break;
     }
-
+ 
     case 'change-round': {
       event.state.currentRound = payload;
       event.state.showQuestion = false;
       event.state.showAnswer = false;
+      event.state.showStandings = false;
       break;
     }
-
+ 
     case 'start-timer':
       event.state.timerRunning = true;
       event.state.timerStartedAt = new Date().toISOString();
@@ -150,7 +154,7 @@ export async function PUT(request, { params }) {
         }
       }
       break;
-
+ 
     case 'show-question':
       event.state.showQuestion = payload !== undefined ? payload : true;
       break;
@@ -160,12 +164,17 @@ export async function PUT(request, { params }) {
       event.state.timerRunning = false;
       event.state.timerStartedAt = null;
       break;
+
+    case 'show-standings':
+      event.state.showStandings = payload !== undefined ? payload : true;
+      break;
       
     case 'next-question':
       if (event.currentQuestionIndex < event.questionIds.length - 1) {
         event.currentQuestionIndex += 1;
         event.state.showQuestion = false;
         event.state.showAnswer = false;
+        event.state.showStandings = false;
         
         const nextQId = event.questionIds[event.currentQuestionIndex];
         const nextQ = db.questions.find(q => q.id === nextQId);
@@ -217,6 +226,12 @@ export async function PUT(request, { params }) {
       
     case 'update-teams':
       event.teams = payload;
+      break;
+
+    case 'update-track-scores':
+      if (['pptTeams', 'posterTeams', 'interviewTeams', 'debuggingTeams'].includes(payload.trackKey)) {
+        event[payload.trackKey] = payload.teams;
+      }
       break;
 
     case 'set-active-question-index':

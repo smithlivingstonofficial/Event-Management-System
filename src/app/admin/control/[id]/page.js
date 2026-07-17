@@ -16,6 +16,9 @@ export default function AdminControlPanel() {
   const [dbData, setDbData] = useState({ categories: [], questions: [] });
   const [timerVal, setTimerVal] = useState(20);
   const [scoreEdits, setScoreEdits] = useState({});
+  const [scoringTab, setScoringTab] = useState('quiz'); // 'quiz' | 'tracks' | 'ranks'
+  const [selectedTrack, setSelectedTrack] = useState('pptTeams'); // 'pptTeams' | 'posterTeams' | 'interviewTeams' | 'debuggingTeams'
+  const [audioState, setAudioState] = useState('suspended');
   const timerInterval = useRef(null);
   const sound = useSoundEngine();
   const prevTimerRunning = useRef(false);
@@ -59,16 +62,42 @@ export default function AdminControlPanel() {
     }
   };
 
-  // Sync polling (every 1 second)
+  // Connect to SSE stream for live updates
   useEffect(() => {
     fetchDb();
-    fetchEventState(true);
+    let eventSource = null;
+    
+    const connectSSE = () => {
+      eventSource = new EventSource(`/api/event/${eventId}/stream`);
+      
+      eventSource.addEventListener('state', (e) => {
+        const json = JSON.parse(e.data);
+        setEventData(json);
+        setLoading(false);
+        
+        // Sync local timer values
+        const state = json.event.state;
+        if (state.timerRunning && state.timerStartedAt) {
+          const elapsed = Math.floor((Date.now() - new Date(state.timerStartedAt).getTime()) / 1000);
+          const remaining = Math.max(0, state.timerDuration - elapsed);
+          setTimerVal(remaining);
+        } else {
+          setTimerVal(state.timerRemaining);
+        }
+      });
 
-    const poll = setInterval(() => {
-      fetchEventState();
-    }, 1000);
+      eventSource.onerror = (err) => {
+        console.error('Control panel SSE failed. Reconnecting in 3 seconds...', err);
+        eventSource.close();
+        setTimeout(connectSSE, 3000);
+      };
+    };
 
-    return () => clearInterval(poll);
+    connectSSE();
+
+    return () => {
+      if (eventSource) eventSource.close();
+    };
   }, [eventId]);
 
   // Local clock decrement effect when timer is running
@@ -127,10 +156,38 @@ export default function AdminControlPanel() {
         body: JSON.stringify({ action, payload })
       });
       if (res.ok) {
-        fetchEventState();
+        // SSE handles state update, but fallback to sync is fine
       }
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const handleUnlockAudio = () => {
+    const state = sound.unlockAudio();
+    setAudioState(state);
+  };
+
+  const handleTrackSliderChange = (teamId, criterion, val) => {
+    const trackKey = selectedTrack;
+    const currentTeams = [...(eventData.event[trackKey] || [])];
+    const index = currentTeams.findIndex(t => t.id === teamId);
+    if (index !== -1) {
+      const team = { ...currentTeams[index] };
+      if (!team.criteria) team.criteria = {};
+      team.criteria = { ...team.criteria, [criterion]: Number(val) };
+      
+      let total = 0;
+      Object.keys(team.criteria).forEach(k => {
+        total += team.criteria[k];
+      });
+      team.score = total;
+      currentTeams[index] = team;
+      
+      triggerAction('update-track-scores', {
+        trackKey,
+        teams: currentTeams
+      });
     }
   };
 
@@ -225,7 +282,20 @@ export default function AdminControlPanel() {
               {event.status}
             </span>
           </div>
-          <div className={adminStyles.topbarRight}>
+          <div className={adminStyles.topbarRight} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            {audioState === 'suspended' ? (
+              <button
+                onClick={handleUnlockAudio}
+                className={adminStyles.btnSecondary}
+                style={{ background: '#ef4444', color: 'white', border: 'none', padding: '0.4rem 0.8rem', fontSize: '0.75rem', fontWeight: '800', borderRadius: '6px', cursor: 'pointer' }}
+              >
+                🔇 Unlock Sound
+              </button>
+            ) : (
+              <span style={{ color: '#10b981', fontSize: '0.75rem', fontWeight: 'bold', border: '1px solid rgba(16,185,129,0.3)', padding: '0.4rem 0.8rem', borderRadius: '6px', background: 'rgba(16,185,129,0.05)' }}>
+                🔊 Audio Enabled
+              </span>
+            )}
             <Link href={`/event/${event.id}`} target="_blank" className={adminStyles.hostBtn} id="btn-open-presenter-tab">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
               Presenter Window
@@ -431,6 +501,17 @@ export default function AdminControlPanel() {
                   </svg>
                   Answer Key: <strong>{event.state.showAnswer ? 'REVEALED' : 'HIDDEN'}</strong>
                 </button>
+
+                <button
+                  id="btn-toggle-show-standings"
+                  className={`${styles.controlToggle} ${event.state.showStandings ? styles.toggleActive : ''}`}
+                  onClick={() => triggerAction('show-standings', !event.state.showStandings)}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ marginRight: '0.4rem' }}>
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                  </svg>
+                  Live Standings: <strong>{event.state.showStandings ? 'VISIBLE' : 'HIDDEN'}</strong>
+                </button>
               </div>
 
               {/* Timer Control Section */}
@@ -543,113 +624,336 @@ export default function AdminControlPanel() {
         {/* RIGHT COLUMN: SCORING PANEL */}
         <section style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <article className={`${styles.panel} glass`}>
-            <div className={styles.panelTitle}>
-              <span>Event Scoring Panel</span>
-            </div>
-
-            <div className={styles.teamList}>
-              {event.teams.map((team) => (
-                <div
-                  key={team.id}
-                  className={styles.teamRow}
-                  id={`team-row-${team.id}`}
-                  style={{ borderLeftColor: team.color || 'var(--primary)' }}
+            
+            {/* Scoring Sub-Tabs Selector */}
+            <div style={{ display: 'flex', borderBottom: '1px solid var(--border-color)', marginBottom: '1.25rem' }}>
+              {[
+                { id: 'quiz', name: '⚡ Quiz Scores' },
+                { id: 'tracks', name: '🏆 Other Tracks' },
+                { id: 'ranks', name: '📊 Standings' }
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setScoringTab(tab.id)}
+                  style={{
+                    flex: 1,
+                    padding: '0.75rem 0.25rem',
+                    background: 'transparent',
+                    border: 'none',
+                    color: scoringTab === tab.id ? 'var(--primary)' : 'var(--text-muted)',
+                    fontWeight: '800',
+                    fontSize: '0.8rem',
+                    borderBottom: scoringTab === tab.id ? '3px solid var(--primary)' : 'none',
+                    cursor: 'pointer',
+                    transition: 'color 0.2s',
+                    outline: 'none'
+                  }}
                 >
-                  <div className={styles.teamRowHeader}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <span className={styles.teamColorDot} style={{ backgroundColor: team.color || 'var(--primary)' }} />
-                      <span className={styles.teamName}>{team.name}</span>
-                    </div>
-                    <div className={styles.scoreStepper}>
-                      <button
-                        className={styles.stepperBtn}
-                        onClick={() => triggerAction('update-score', { teamId: team.id, amount: -10 })}
-                        title="Deduct 10 pts"
-                      >
-                        -
-                      </button>
-                      <input
-                        id={`score-input-${team.id}`}
-                        type="number"
-                        defaultValue={team.score || 0}
-                        key={team.score}
-                        className={styles.stepperInput}
-                        style={{ color: team.color || 'var(--primary)' }}
-                        onKeyDown={e => {
-                          if (e.key === 'Enter') {
-                            const val = parseInt(e.target.value, 10);
-                            if (!isNaN(val)) triggerAction('update-score', { teamId: team.id, amount: val - (team.score || 0) });
-                            e.target.blur();
-                          }
-                        }}
-                        onBlur={e => {
-                          const val = parseInt(e.target.value, 10);
-                          if (!isNaN(val) && val !== (team.score || 0)) {
-                            triggerAction('update-score', { teamId: team.id, amount: val - (team.score || 0) });
-                          }
-                        }}
-                      />
-                      <button
-                        className={styles.stepperBtn}
-                        onClick={() => triggerAction('update-score', { teamId: team.id, amount: 10 })}
-                        title="Add 10 pts"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className={styles.scoreActions}>
-                    {event.state.showQuestion && isQuestionActive && (
-                      <>
-                        <button
-                          id={`btn-score-correct-${team.id}`}
-                          className={`${styles.pillScoreBtn} ${styles.scoreAdd}`}
-                          onClick={() => {
-                            sound.playCorrectChime();
-                            triggerAction('update-score', { teamId: team.id, amount: activeQuestion.points });
-                          }}
-                          title={`Award correct answer (+${activeQuestion.points} pts)`}
-                        >
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                          +{activeQuestion.points}
-                        </button>
-                        <button
-                          id={`btn-score-incorrect-${team.id}`}
-                          className={`${styles.pillScoreBtn} ${styles.scoreSub}`}
-                          onClick={() => triggerAction('update-score', { teamId: team.id, amount: -activeQuestion.points })}
-                          title={`Deduct wrong answer (-${activeQuestion.points} pts)`}
-                        >
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                          -{activeQuestion.points}
-                        </button>
-                      </>
-                    )}
-                    <button
-                      id={`btn-score-plus-50-${team.id}`}
-                      className={styles.pillScoreBtn}
-                      onClick={() => triggerAction('update-score', { teamId: team.id, amount: 50 })}
-                    >
-                      +50
-                    </button>
-                    <button
-                      id={`btn-score-plus-10-${team.id}`}
-                      className={styles.pillScoreBtn}
-                      onClick={() => triggerAction('update-score', { teamId: team.id, amount: 10 })}
-                    >
-                      +10
-                    </button>
-                    <button
-                      id={`btn-score-minus-10-${team.id}`}
-                      className={`${styles.pillScoreBtn} ${styles.scoreSub}`}
-                      onClick={() => triggerAction('update-score', { teamId: team.id, amount: -10 })}
-                    >
-                      -10
-                    </button>
-                  </div>
-                </div>
+                  {tab.name}
+                </button>
               ))}
             </div>
+
+            {/* Tab A: Live Quiz Score steppers */}
+            {scoringTab === 'quiz' && (
+              <div className={styles.teamList} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                {event.teams.map((team) => (
+                  <div
+                    key={team.id}
+                    className={styles.teamRow}
+                    id={`team-row-${team.id}`}
+                    style={{ borderLeftColor: team.color || 'var(--primary)' }}
+                  >
+                    <div className={styles.teamRowHeader}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span className={styles.teamColorDot} style={{ backgroundColor: team.color || 'var(--primary)' }} />
+                        <span className={styles.teamName}>{team.name}</span>
+                      </div>
+                      <div className={styles.scoreStepper}>
+                        <button
+                          className={styles.stepperBtn}
+                          onClick={() => triggerAction('update-score', { teamId: team.id, amount: -10 })}
+                          title="Deduct 10 pts"
+                        >
+                          -
+                        </button>
+                        <input
+                          id={`score-input-${team.id}`}
+                          type="number"
+                          defaultValue={team.score || 0}
+                          key={team.score}
+                          className={styles.stepperInput}
+                          style={{ color: team.color || 'var(--primary)' }}
+                          onKeyDown={e => {
+                            if (e.key === 'Enter') {
+                              const val = parseInt(e.target.value, 10);
+                              if (!isNaN(val)) triggerAction('update-score', { teamId: team.id, amount: val - (team.score || 0) });
+                              e.target.blur();
+                            }
+                          }}
+                          onBlur={e => {
+                            const val = parseInt(e.target.value, 10);
+                            if (!isNaN(val) && val !== (team.score || 0)) {
+                              triggerAction('update-score', { teamId: team.id, amount: val - (team.score || 0) });
+                            }
+                          }}
+                        />
+                        <button
+                          className={styles.stepperBtn}
+                          onClick={() => triggerAction('update-score', { teamId: team.id, amount: 10 })}
+                          title="Add 10 pts"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className={styles.scoreActions}>
+                      {event.state.showQuestion && isQuestionActive && (
+                        <>
+                          <button
+                            id={`btn-score-correct-${team.id}`}
+                            className={`${styles.pillScoreBtn} ${styles.scoreAdd}`}
+                            onClick={() => {
+                              sound.playCorrectChime();
+                              triggerAction('update-score', { teamId: team.id, amount: activeQuestion.points });
+                            }}
+                            title={`Award correct answer (+${activeQuestion.points} pts)`}
+                          >
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            +{activeQuestion.points}
+                          </button>
+                          <button
+                            id={`btn-score-incorrect-${team.id}`}
+                            className={`${styles.pillScoreBtn} ${styles.scoreSub}`}
+                            onClick={() => triggerAction('update-score', { teamId: team.id, amount: -activeQuestion.points })}
+                            title={`Deduct wrong answer (-${activeQuestion.points} pts)`}
+                          >
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            -{activeQuestion.points}
+                          </button>
+                        </>
+                      )}
+                      <button
+                        id={`btn-score-plus-50-${team.id}`}
+                        className={styles.pillScoreBtn}
+                        onClick={() => triggerAction('update-score', { teamId: team.id, amount: 50 })}
+                      >
+                        +50
+                      </button>
+                      <button
+                        id={`btn-score-plus-10-${team.id}`}
+                        className={styles.pillScoreBtn}
+                        onClick={() => triggerAction('update-score', { teamId: team.id, amount: 10 })}
+                      >
+                        +10
+                      </button>
+                      <button
+                        id={`btn-score-minus-10-${team.id}`}
+                        className={`${styles.pillScoreBtn} ${styles.scoreSub}`}
+                        onClick={() => triggerAction('update-score', { teamId: team.id, amount: -10 })}
+                      >
+                        -10
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Tab B: Sub-event tracks sliders */}
+            {scoringTab === 'tracks' && (() => {
+              const trackKey = selectedTrack;
+              const trackTeams = event[trackKey] || [];
+              
+              const trackMetadata = {
+                pptTeams: {
+                  title: 'PPT Presentation',
+                  criteria: [
+                    { id: 'content', name: 'Content (20)', max: 20 },
+                    { id: 'delivery', name: 'Voice & Delivery (20)', max: 20 },
+                    { id: 'design', name: 'Visual Design (20)', max: 20 },
+                    { id: 'qa', name: 'Q&A Defense (20)', max: 20 },
+                    { id: 'time', name: 'Time Mgmt (20)', max: 20 }
+                  ]
+                },
+                posterTeams: {
+                  title: 'Poster Presentation',
+                  criteria: [
+                    { id: 'creativity', name: 'Creativity (25)', max: 25 },
+                    { id: 'relevance', name: 'Topic Relevance (25)', max: 25 },
+                    { id: 'aesthetics', name: 'Aesthetics (25)', max: 25 },
+                    { id: 'explanation', name: 'Explanation & Q&A (25)', max: 25 }
+                  ]
+                },
+                interviewTeams: {
+                  title: 'Stress Interview',
+                  criteria: [
+                    { id: 'calmness', name: 'Calmness (30)', max: 30 },
+                    { id: 'mind', name: 'Presence of Mind (30)', max: 30 },
+                    { id: 'communication', name: 'Communication (20)', max: 20 },
+                    { id: 'arguments', name: 'Arguments (20)', max: 20 }
+                  ]
+                },
+                debuggingTeams: {
+                  title: 'Debugging Challenge',
+                  criteria: [
+                    { id: 'syntactic', name: 'Syntactic Fixes (30)', max: 30 },
+                    { id: 'logical', name: 'Logical Debug (40)', max: 40 },
+                    { id: 'speed', name: 'Comp. Speed (20)', max: 20 },
+                    { id: 'style', name: 'Code Quality (10)', max: 10 }
+                  ]
+                }
+              }[trackKey] || { title: 'Unknown Track', criteria: [] };
+
+              return (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <select
+                    value={selectedTrack}
+                    onChange={(e) => setSelectedTrack(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '0.6rem 0.75rem',
+                      borderRadius: '8px',
+                      background: 'var(--bg-secondary)',
+                      border: '1px solid var(--border-color)',
+                      color: 'var(--text-main)',
+                      fontWeight: 'bold',
+                      fontSize: '0.85rem',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <option value="pptTeams">📊 PowerPoint Presentation</option>
+                    <option value="posterTeams">🎨 Poster Presentation</option>
+                    <option value="interviewTeams">🎤 Stress Interview</option>
+                    <option value="debuggingTeams">💻 Debugging Challenge</option>
+                  </select>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '420px', overflowY: 'auto', paddingRight: '0.25rem' }}>
+                    {trackTeams.map(team => (
+                      <div
+                        key={team.id}
+                        style={{
+                          padding: '1rem',
+                          borderRadius: '8px',
+                          border: '1px solid var(--border-color)',
+                          background: 'rgba(255,255,255,0.01)',
+                          borderLeft: `4px solid ${team.color || 'var(--primary)'}`
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                          <span style={{ fontWeight: '800', fontSize: '0.85rem', color: 'var(--text-main)' }}>{team.name}</span>
+                          <span style={{ fontWeight: '900', color: 'var(--primary)', fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>{team.score || 0} pts</span>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                          {trackMetadata.criteria.map(crit => {
+                            const val = team.criteria?.[crit.id] || 0;
+                            return (
+                              <div key={crit.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
+                                  <span style={{ color: 'var(--text-muted)' }}>{crit.name}</span>
+                                  <span style={{ fontWeight: 'bold', color: 'var(--primary)', fontFamily: 'var(--font-mono)' }}>{val}</span>
+                                </div>
+                                <input
+                                  type="range"
+                                  min="0"
+                                  max={crit.max}
+                                  value={val}
+                                  onChange={(e) => handleTrackSliderChange(team.id, crit.id, e.target.value)}
+                                  style={{
+                                    width: '100%',
+                                    height: '5px',
+                                    accentColor: team.color || 'var(--primary)',
+                                    cursor: 'pointer'
+                                  }}
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                    {trackTeams.length === 0 && (
+                      <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontStyle: 'italic' }}>
+                        No teams assigned to this competition track yet. Add teams under scoreboard in the admin tab.
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Tab C: Live rankings standings */}
+            {scoringTab === 'ranks' && (() => {
+              const quizTeams = event.teams || [];
+              const pptTeams = event.pptTeams || [];
+              const posterTeams = event.posterTeams || [];
+              const interviewTeams = event.interviewTeams || [];
+              const debuggingTeams = event.debuggingTeams || [];
+
+              const allUniqueIds = Array.from(new Set([
+                ...quizTeams.map(t => t.id),
+                ...pptTeams.map(t => t.id),
+                ...posterTeams.map(t => t.id),
+                ...interviewTeams.map(t => t.id),
+                ...debuggingTeams.map(t => t.id)
+              ]));
+
+              const standings = allUniqueIds.map(id => {
+                const baseTeam = dbData.teams?.find(t => t.id === id) || { name: 'Unknown Team', color: '#cbd5e1' };
+                const qScore = quizTeams.find(t => t.id === id)?.score || 0;
+                const pScore = pptTeams.find(t => t.id === id)?.score || 0;
+                const postScore = posterTeams.find(t => t.id === id)?.score || 0;
+                const iScore = interviewTeams.find(t => t.id === id)?.score || 0;
+                const dScore = debuggingTeams.find(t => t.id === id)?.score || 0;
+                const grandTotal = qScore + pScore + postScore + iScore + dScore;
+
+                const name = quizTeams.find(t => t.id === id)?.name || 
+                             pptTeams.find(t => t.id === id)?.name ||
+                             baseTeam.name;
+
+                return {
+                  id,
+                  name,
+                  color: quizTeams.find(t => t.id === id)?.color || baseTeam.color,
+                  grandTotal
+                };
+              }).sort((a, b) => b.grandTotal - a.grandTotal);
+
+              return (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '450px', overflowY: 'auto' }}>
+                  {standings.map((t, idx) => (
+                    <div
+                      key={t.id}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '0.65rem 0.85rem',
+                        borderRadius: '8px',
+                        border: '1px solid var(--border-color)',
+                        background: 'rgba(255,255,255,0.01)',
+                        borderLeft: `4px solid ${t.color || 'var(--primary)'}`
+                      }}
+                    >
+                      <span style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--text-main)' }}>
+                        #{idx + 1} {t.name}
+                      </span>
+                      <span style={{ fontWeight: '900', fontSize: '0.85rem', color: 'var(--primary)', fontFamily: 'var(--font-mono)' }}>
+                        {t.grandTotal} pts
+                      </span>
+                    </div>
+                  ))}
+                  {standings.length === 0 && (
+                    <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontStyle: 'italic' }}>
+                      No active standings calculated.
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
           </article>
         </section>
 

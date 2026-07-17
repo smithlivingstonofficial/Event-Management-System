@@ -434,8 +434,121 @@ export default function PresenterScreen() {
       {/* 2. ACTIVE VIEW */}
       {status === 'active' && (
         <>
-          {/* A. If showing question */}
-          {event.state.showQuestion && isQuestionActive ? (
+          {/* Live Standings Presentation Screen */}
+          {event.state.showStandings ? (
+            <section className={`${styles.lobbyContainer} animate-fade`} aria-labelledby="live-standings-title" style={{ maxWidth: '900px', width: '100%', margin: '0 auto', zIndex: 10 }}>
+              <span className={styles.lobbySubtitle}>Current Standings</span>
+              <h1 className={styles.lobbyTitle} id="live-standings-title" style={{ fontSize: '3.5rem' }}>Live Leaderboard</h1>
+              
+              {/* 3D height-scaled team podium for the top 3 teams */}
+              {sortedTeams.length >= 2 && (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: '2rem', margin: '3rem auto 1rem auto', height: '320px', width: '100%' }}>
+                  
+                  {/* 2nd Place Column */}
+                  {sortedTeams[1] && (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '160px', animation: 'slideUp 0.6s ease-out forwards' }}>
+                      <div style={{ fontWeight: '800', color: 'var(--text-muted)', fontSize: '1.25rem', marginBottom: '0.5rem' }}>2nd Place</div>
+                      <div style={{
+                        width: '100%',
+                        height: '160px',
+                        background: 'linear-gradient(to top, rgba(148, 163, 184, 0.15) 0%, rgba(203, 213, 225, 0.05) 100%)',
+                        border: `2px solid ${sortedTeams[1].color || '#cbd5e1'}`,
+                        borderRadius: '16px 16px 0 0',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '1rem',
+                        textAlign: 'center',
+                        boxShadow: `0 8px 32px rgba(0, 0, 0, 0.03), 0 0 20px ${(sortedTeams[1].color || '#cbd5e1')}10`
+                      }}>
+                        <span style={{ fontWeight: '800', fontSize: '1.2rem', color: 'var(--text-main)' }}>{sortedTeams[1].name}</span>
+                        <span style={{ fontSize: '1.5rem', fontWeight: '950', color: 'var(--primary)', fontFamily: 'var(--font-mono)', marginTop: '0.5rem' }}>{sortedTeams[1].score || 0} pts</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 1st Place Column (Center) */}
+                  {sortedTeams[0] && (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '185px', animation: 'slideUp 0.8s ease-out forwards' }}>
+                      <div style={{ fontSize: '2.5rem', marginBottom: '0.25rem', animation: 'bounce 2s infinite' }}>👑</div>
+                      <div style={{ fontWeight: '900', color: '#d97706', fontSize: '1.5rem', marginBottom: '0.5rem' }}>Winner</div>
+                      <div style={{
+                        width: '100%',
+                        height: '210px',
+                        background: 'linear-gradient(to top, rgba(234, 179, 8, 0.18) 0%, rgba(253, 224, 71, 0.08) 100%)',
+                        border: `3px solid ${sortedTeams[0].color || '#fbbf24'}`,
+                        borderRadius: '20px 20px 0 0',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '1rem',
+                        textAlign: 'center',
+                        boxShadow: `0 12px 40px rgba(0, 0, 0, 0.05), 0 0 35px ${(sortedTeams[0].color || '#fbbf24')}20`
+                      }}>
+                        <span style={{ fontWeight: '900', fontSize: '1.45rem', color: 'var(--text-main)' }}>{sortedTeams[0].name}</span>
+                        <span style={{ fontSize: '1.8rem', fontWeight: '950', color: 'var(--primary)', fontFamily: 'var(--font-mono)', marginTop: '0.5rem' }}>{sortedTeams[0].score || 0} pts</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 3rd Place Column */}
+                  {sortedTeams[2] && (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '140px', animation: 'slideUp 1s ease-out forwards' }}>
+                      <div style={{ fontWeight: '800', color: '#b45309', fontSize: '1.15rem', marginBottom: '0.5rem' }}>3rd Place</div>
+                      <div style={{
+                        width: '100%',
+                        height: '110px',
+                        background: 'linear-gradient(to top, rgba(180, 83, 9, 0.12) 0%, rgba(217, 119, 6, 0.04) 100%)',
+                        border: `2px solid ${sortedTeams[2].color || '#d97706'}`,
+                        borderRadius: '12px 12px 0 0',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '1rem',
+                        textAlign: 'center',
+                        boxShadow: `0 8px 24px rgba(0, 0, 0, 0.03), 0 0 15px ${(sortedTeams[2].color || '#d97706')}08`
+                      }}>
+                        <span style={{ fontWeight: '800', fontSize: '1.1rem', color: 'var(--text-main)' }}>{sortedTeams[2].name}</span>
+                        <span style={{ fontSize: '1.3rem', fontWeight: '950', color: 'var(--primary)', fontFamily: 'var(--font-mono)', marginTop: '0.5rem' }}>{sortedTeams[2].score || 0} pts</span>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              )}
+
+              {/* Table list of other teams ranked 4th place onwards */}
+              {sortedTeams.length > 3 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%', margin: '2rem auto' }}>
+                  {sortedTeams.slice(3).map((team, idx) => (
+                    <div
+                      key={team.id}
+                      className="glass animate-fade"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '1rem 2.5rem',
+                        borderLeft: `6px solid ${team.color || 'var(--border-color)'}`,
+                        borderRadius: '12px',
+                        boxShadow: '0 4px 15px rgba(0,0,0,0.02)'
+                      }}
+                    >
+                      <span style={{ fontWeight: '700', fontSize: '1.15rem', color: 'var(--text-main)' }}>
+                        #{idx + 4} {team.name}
+                      </span>
+                      <span style={{ fontWeight: '900', fontSize: '1.25rem', color: 'var(--primary)', fontFamily: 'var(--font-mono)' }}>
+                        {team.score || 0} pts
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          ) : event.state.showQuestion && isQuestionActive ? (
             <section className={`${styles.questionMain} ${styles.animateSlideEntry}`} aria-labelledby="question-text">
               
               {/* Question Header */}
