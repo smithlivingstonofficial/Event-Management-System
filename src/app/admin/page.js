@@ -19,6 +19,8 @@ export default function AdminDashboard() {
   // Score Board states
   const [selectedScoreboardEvent, setSelectedScoreboardEvent] = useState(null);
   const [scoreboardSubTab, setScoreboardSubTab] = useState('overall'); // 'overall' | 'quiz' | 'ppt' | 'poster' | 'interview' | 'debugging'
+  const [scoreboardSearch, setScoreboardSearch] = useState('');
+  const [selectedScoreboardTeamId, setSelectedScoreboardTeamId] = useState('');
   const [showManageTeamsModal, setShowManageTeamsModal] = useState(false);
   const [manageTeamsList, setManageTeamsList] = useState([]); // List of team IDs
   const [manageTeamsEventKey, setManageTeamsEventKey] = useState(''); // 'pptTeams' | 'posterTeams' | ...
@@ -58,6 +60,8 @@ export default function AdminDashboard() {
 
   // Category Form fields
   const [catName, setCatName] = useState('');
+  const [catIcon, setCatIcon] = useState('circle');
+  const [catColor, setCatColor] = useState('#3b82f6');
 
   // Team Form fields
   const [teamName, setTeamName] = useState('');
@@ -104,6 +108,29 @@ export default function AdminDashboard() {
       }
     }
   }, []);
+
+  // Sync selected team selection automatically on sub-tab switch
+  useEffect(() => {
+    if (selectedScoreboardEvent && ['ppt', 'poster', 'interview', 'debugging'].includes(scoreboardSubTab)) {
+      const eventKey = {
+        ppt: 'pptTeams',
+        poster: 'posterTeams',
+        interview: 'interviewTeams',
+        debugging: 'debuggingTeams'
+      }[scoreboardSubTab];
+      
+      const teamList = selectedScoreboardEvent[eventKey] || [];
+      if (teamList.length > 0) {
+        if (!selectedScoreboardTeamId || !teamList.some(t => t.id === selectedScoreboardTeamId)) {
+          setSelectedScoreboardTeamId(teamList[0].id);
+        }
+      } else {
+        setSelectedScoreboardTeamId('');
+      }
+    } else {
+      setSelectedScoreboardTeamId('');
+    }
+  }, [scoreboardSubTab, selectedScoreboardEvent?.id]);
 
   // Handler for database exports
   const exportDatabase = () => {
@@ -202,13 +229,15 @@ export default function AdminDashboard() {
     e.preventDefault();
     const action = editCat ? 'update' : 'create';
     const payload = editCat 
-      ? { id: editCat.id, name: catName } 
-      : { name: catName };
+      ? { id: editCat.id, name: catName, icon: catIcon, color: catColor } 
+      : { name: catName, icon: catIcon, color: catColor };
 
     const success = await saveEntity('category', action, payload);
     if (success) {
       setShowCatModal(false);
       setCatName('');
+      setCatIcon('circle');
+      setCatColor('#3b82f6');
       setEditCat(null);
     }
   };
@@ -366,6 +395,8 @@ export default function AdminDashboard() {
   const openEditCat = (cat) => {
     setEditCat(cat);
     setCatName(cat.name);
+    setCatIcon(cat.icon || 'circle');
+    setCatColor(cat.color || '#3b82f6');
     setShowCatModal(true);
   };
 
@@ -382,6 +413,23 @@ export default function AdminDashboard() {
     const updated = [...qOptions];
     updated[index] = value;
     setQOptions(updated);
+  };
+
+  // Helper to auto-save scoreboard states directly into the database on update
+  const autoSaveEvent = async (updatedEvent) => {
+    try {
+      await fetch('/api/db', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'event',
+          action: 'update',
+          payload: updatedEvent
+        })
+      });
+    } catch (e) {
+      console.error('Error auto-saving event data:', e);
+    }
   };
 
   // Score Board Handlers
@@ -405,6 +453,7 @@ export default function AdminDashboard() {
       
       updatedEvent[eventKey][teamIndex] = team;
       setSelectedScoreboardEvent(updatedEvent);
+      autoSaveEvent(updatedEvent);
     }
   };
 
@@ -417,6 +466,7 @@ export default function AdminDashboard() {
     if (teamIndex !== -1) {
       updatedEvent.teams[teamIndex].score = Number(val) || 0;
       setSelectedScoreboardEvent(updatedEvent);
+      autoSaveEvent(updatedEvent);
     }
   };
 
@@ -465,6 +515,7 @@ export default function AdminDashboard() {
     updatedEvent[eventKey] = newTeamsList;
     setSelectedScoreboardEvent(updatedEvent);
     setShowManageTeamsModal(false);
+    autoSaveEvent(updatedEvent);
   };
 
   return (
@@ -922,58 +973,79 @@ export default function AdminDashboard() {
                   <p>No teams registered yet. Add teams to the global registry pool first.</p>
                 </div>
               ) : (
-                <div className={`${styles.tableContainer} glass`}>
-                  <table className={styles.table}>
-                    <thead>
-                      <tr>
-                        <th>Color</th>
-                        <th>Team Name</th>
-                        <th>Members</th>
-                        <th style={{ textAlign: 'right' }}>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {db.teams.map(team => (
-                        <tr key={team.id} className={styles.tableRow}>
-                          <td style={{ width: '60px' }}>
-                            <div 
-                              style={{ 
-                                width: '24px', 
-                                height: '24px', 
-                                borderRadius: '6px', 
-                                backgroundColor: team.color || '#6366f1',
-                                border: '1px solid rgba(255,255,255,0.1)'
-                              }} 
-                            />
-                          </td>
-                          <td style={{ fontWeight: '700', color: '#ffffff' }}>{team.name}</td>
-                          <td style={{ color: 'var(--text-muted)' }}>
-                            {team.members && team.members.length > 0 ? team.members.join(', ') : 'No members registered'}
-                          </td>
-                          <td className={styles.actionCell}>
-                            <button
-                              id={`btn-edit-team-${team.id}`}
-                              className={`${styles.btnSecondary} ${styles.btnSmall}`}
-                              onClick={() => openEditTeam(team)}
-                            >
-                              Edit
-                            </button>
-                            <button
-                              id={`btn-delete-team-${team.id}`}
-                              className={`${styles.btnDanger} ${styles.btnSmall}`}
-                              onClick={() => {
-                                if (confirm(`Delete team "${team.name}"? It will also be removed from any active events.`)) {
-                                  saveEntity('team', 'delete', { id: team.id });
-                                }
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className={styles.teamsGrid}>
+                  {db.teams.map(team => (
+                    <div key={team.id} className={styles.teamCard}>
+                      {/* Top colored accent line */}
+                      <div 
+                        className={styles.teamCardHeader} 
+                        style={{ backgroundColor: team.color || '#6366f1' }}
+                      />
+                      
+                      <div className={styles.teamCardBody}>
+                        {/* Title and Color Circle */}
+                        <div className={styles.teamCardTitle}>
+                          <div 
+                            className={styles.teamColorIndicator} 
+                            style={{ backgroundColor: team.color || '#6366f1' }}
+                          />
+                          <h3 className={styles.teamNameText}>{team.name}</h3>
+                        </div>
+
+                        {/* Members Pool */}
+                        <div className={styles.teamMembersList}>
+                          <span className={styles.memberLabel}>Members</span>
+                          {team.members && team.members.length > 0 ? (
+                            team.members.map((member, idx) => (
+                              <div key={idx} className={styles.memberBadge}>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                  <circle cx="12" cy="7" r="4" />
+                                </svg>
+                                <span>{member}</span>
+                              </div>
+                            ))
+                          ) : (
+                            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                              No members registered
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Footer Actions */}
+                      <div className={styles.teamCardFooter}>
+                        <button
+                          id={`btn-edit-team-${team.id}`}
+                          className={`${styles.btnSecondary} ${styles.btnSmall}`}
+                          onClick={() => openEditTeam(team)}
+                          style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+                        >
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                          </svg>
+                          Edit
+                        </button>
+                        <button
+                          id={`btn-delete-team-${team.id}`}
+                          className={`${styles.btnDanger} ${styles.btnSmall}`}
+                          onClick={() => {
+                            if (confirm(`Delete team "${team.name}"? It will also be removed from any active events.`)) {
+                              saveEntity('team', 'delete', { id: team.id });
+                            }
+                          }}
+                          style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+                        >
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                          </svg>
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -1220,36 +1292,199 @@ export default function AdminDashboard() {
                       };
                     }).sort((a, b) => b.grandTotal - a.grandTotal);
 
-                    const maxTotal = standings.length > 0 ? Math.max(...standings.map(s => s.grandTotal), 10) : 100;
+                    // Calculations for Summary Cards
+                    const totalTeams = standings.length;
+                    const leaderTeamName = standings[0] ? standings[0].name : 'None';
+                    const leaderTeamColor = standings[0] ? standings[0].color : 'var(--primary)';
+                    const leaderScore = standings[0] ? standings[0].grandTotal : 0;
+                    
+                    const avgScore = totalTeams > 0 
+                      ? (standings.reduce((sum, t) => sum + t.grandTotal, 0) / totalTeams).toFixed(1) 
+                      : 0;
+
+                    const avgQuiz = totalTeams > 0 ? standings.reduce((sum, t) => sum + t.quiz, 0) / totalTeams : 0;
+                    const avgPpt = totalTeams > 0 ? standings.reduce((sum, t) => sum + t.ppt, 0) / totalTeams : 0;
+                    const avgPoster = totalTeams > 0 ? standings.reduce((sum, t) => sum + t.poster, 0) / totalTeams : 0;
+                    const avgInterview = totalTeams > 0 ? standings.reduce((sum, t) => sum + t.interview, 0) / totalTeams : 0;
+                    const avgDebug = totalTeams > 0 ? standings.reduce((sum, t) => sum + t.debugging, 0) / totalTeams : 0;
+                    
+                    const trackAverages = [
+                      { name: 'Live Quiz', score: avgQuiz },
+                      { name: 'PPT', score: avgPpt },
+                      { name: 'Poster', score: avgPoster },
+                      { name: 'Interview', score: avgInterview },
+                      { name: 'Debugging', score: avgDebug }
+                    ].sort((a, b) => b.score - a.score);
+
+                    const topTrackStr = trackAverages[0]?.score > 0 
+                      ? `${trackAverages[0].name} (${trackAverages[0].score.toFixed(1)} avg)` 
+                      : 'None';
+
+                    // Filtered Standings
+                    const filteredStandings = standings.filter(t => 
+                      t.name.toLowerCase().includes(scoreboardSearch.toLowerCase()) ||
+                      t.members.some(m => m.toLowerCase().includes(scoreboardSearch.toLowerCase()))
+                    );
+
+                    // Export Standings CSV helper
+                    const exportCSV = () => {
+                      let csv = "Rank,Team Name,Members,Quiz Score,PPT Score,Poster Score,Interview Score,Debugging Score,Grand Total\n";
+                      standings.forEach((t, i) => {
+                        csv += `${i + 1},"${t.name.replace(/"/g, '""')}",` +
+                               `"${t.members.join(', ').replace(/"/g, '""')}",` +
+                               `${t.quiz},${t.ppt},${t.poster},${t.interview},${t.debugging},${t.grandTotal}\n`;
+                      });
+                      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                      const link = document.createElement("a");
+                      link.href = URL.createObjectURL(blob);
+                      link.setAttribute("download", `${selectedScoreboardEvent.name.replace(/\s+/g, '_')}_standings.csv`);
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    };
 
                     return (
                       <div className="animate-fade" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                        {/* Graphical representation */}
-                        {standings.length > 0 && (
-                          <div className={`${styles.tableContainer} glass`} style={{ padding: '1.5rem' }}>
-                            <h4 style={{ marginBottom: '1rem', color: 'var(--text-main)' }}>Standings Chart</h4>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                              {standings.slice(0, 5).map((t, idx) => (
-                                <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                  <span style={{ width: '24px', fontWeight: '800', color: idx === 0 ? '#fbbf24' : idx === 1 ? '#cbd5e1' : idx === 2 ? '#b45309' : 'var(--text-muted)', fontSize: '1rem' }}>
-                                    #{idx + 1}
-                                  </span>
-                                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', fontWeight: 'bold' }}>
-                                      <span>{t.name}</span>
-                                      <span style={{ fontFamily: 'var(--font-mono)' }}>{t.grandTotal} pts</span>
-                                    </div>
-                                    <div style={{ width: '100%', height: '12px', background: 'var(--bg-secondary)', borderRadius: '6px', overflow: 'hidden' }}>
-                                      <div style={{ width: `${(t.grandTotal / maxTotal) * 100}%`, height: '100%', background: t.color || 'var(--primary)', borderRadius: '6px', transition: 'width 0.5s' }} />
-                                    </div>
+                        
+                        {/* 🥇 SUMMARY METRICS CARDS */}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+                          <div className="glass" style={{ padding: '1rem 1.25rem', borderLeft: `4px solid ${leaderTeamColor}`, display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                            <span style={{ fontSize: '0.7rem', fontWeight: '800', textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.05em' }}>Current Leader</span>
+                            <span style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--text-main)', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{leaderTeamName}</span>
+                            <span style={{ fontSize: '1.1rem', fontWeight: '900', color: leaderTeamColor, fontFamily: 'var(--font-mono)' }}>{leaderScore} <span style={{ fontSize: '0.75rem', fontWeight: 'normal', color: 'var(--text-muted)' }}>pts</span></span>
+                          </div>
+
+                          <div className="glass" style={{ padding: '1rem 1.25rem', borderLeft: '4px solid #3b82f6', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                            <span style={{ fontSize: '0.7rem', fontWeight: '800', textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.05em' }}>Teams Competing</span>
+                            <span style={{ fontSize: '1.25rem', fontWeight: '900', color: 'var(--text-main)', marginTop: 'auto' }}>{totalTeams} Teams</span>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Registered in global registry</span>
+                          </div>
+
+                          <div className="glass" style={{ padding: '1rem 1.25rem', borderLeft: '4px solid #10b981', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                            <span style={{ fontSize: '0.7rem', fontWeight: '800', textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.05em' }}>Average Score</span>
+                            <span style={{ fontSize: '1.25rem', fontWeight: '900', color: 'var(--text-main)', marginTop: 'auto', fontFamily: 'var(--font-mono)' }}>{avgScore} pts</span>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Sum of all score sheets</span>
+                          </div>
+
+                          <div className="glass" style={{ padding: '1rem 1.25rem', borderLeft: '4px solid #a855f7', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                            <span style={{ fontSize: '0.7rem', fontWeight: '800', textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.05em' }}>Top Performing Track</span>
+                            <span style={{ fontSize: '1.05rem', fontWeight: '800', color: 'var(--text-main)', marginTop: 'auto' }}>{topTrackStr}</span>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Highest average score</span>
+                          </div>
+                        </div>
+
+                        {/* 🏆 WINNER'S PODIUM STAGE */}
+                        {standings.length >= 2 && (
+                          <div className="glass" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                            <h4 style={{ margin: 0, width: '100%', fontSize: '0.95rem', color: 'var(--text-main)', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                              <span>🥇 Winner's Podium Stage</span>
+                            </h4>
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: '1.5rem', height: '200px', width: '100%', maxWidth: '500px', margin: '0.5rem 0' }}>
+                              {/* 2nd Place Column */}
+                              {standings[1] && (
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '120px' }}>
+                                  <span style={{ fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)' }}>2nd Place</span>
+                                  <div style={{
+                                    width: '100%',
+                                    height: '90px',
+                                    background: 'linear-gradient(to top, rgba(148, 163, 184, 0.1) 0%, rgba(148, 163, 184, 0.02) 100%)',
+                                    border: `2px solid ${standings[1].color || '#94a3b8'}`,
+                                    borderRadius: '12px 12px 0 0',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    padding: '0.5rem',
+                                    textAlign: 'center',
+                                    boxShadow: `0 4px 15px ${(standings[1].color || '#94a3b8')}11`
+                                  }}>
+                                    <span style={{ fontWeight: '800', fontSize: '0.85rem', color: 'var(--text-main)', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%' }}>{standings[1].name}</span>
+                                    <span style={{ fontSize: '1.1rem', fontWeight: '900', color: 'var(--primary)', fontFamily: 'var(--font-mono)', marginTop: '0.25rem' }}>{standings[1].grandTotal}</span>
                                   </div>
                                 </div>
-                              ))}
+                              )}
+
+                              {/* 1st Place Column */}
+                              {standings[0] && (
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '140px' }}>
+                                  <span style={{ fontSize: '1.5rem', marginBottom: '-0.2rem' }}>👑</span>
+                                  <span style={{ fontSize: '0.8rem', fontWeight: '900', color: '#fbbf24' }}>Winner</span>
+                                  <div style={{
+                                    width: '100%',
+                                    height: '120px',
+                                    background: 'linear-gradient(to top, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.03) 100%)',
+                                    border: `2.5px solid ${standings[0].color || '#fbbf24'}`,
+                                    borderRadius: '16px 16px 0 0',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    padding: '0.5rem',
+                                    textAlign: 'center',
+                                    boxShadow: `0 6px 20px ${(standings[0].color || '#fbbf24')}22`
+                                  }}>
+                                    <span style={{ fontWeight: '900', fontSize: '0.95rem', color: 'var(--text-main)', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%' }}>{standings[0].name}</span>
+                                    <span style={{ fontSize: '1.3rem', fontWeight: '950', color: 'var(--primary)', fontFamily: 'var(--font-mono)', marginTop: '0.25rem' }}>{standings[0].grandTotal}</span>
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* 3rd Place Column */}
+                              {standings[2] && (
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '110px' }}>
+                                  <span style={{ fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)' }}>3rd Place</span>
+                                  <div style={{
+                                    width: '100%',
+                                    height: '70px',
+                                    background: 'linear-gradient(to top, rgba(180, 83, 9, 0.08) 0%, rgba(180, 83, 9, 0.01) 100%)',
+                                    border: `2px solid ${standings[2].color || '#b45309'}`,
+                                    borderRadius: '10px 10px 0 0',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    padding: '0.5rem',
+                                    textAlign: 'center',
+                                    boxShadow: `0 4px 15px ${(standings[2].color || '#b45309')}08`
+                                  }}>
+                                    <span style={{ fontWeight: '800', fontSize: '0.8rem', color: 'var(--text-main)', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%' }}>{standings[2].name}</span>
+                                    <span style={{ fontSize: '1rem', fontWeight: '900', color: 'var(--primary)', fontFamily: 'var(--font-mono)', marginTop: '0.25rem' }}>{standings[2].grandTotal}</span>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           </div>
                         )}
 
-                        {/* Leaderboard Grid table */}
+                        {/* SEARCH & EXPORT ACTION ROW */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                          <input
+                            type="text"
+                            placeholder="🔍 Search team name or members..."
+                            value={scoreboardSearch}
+                            onChange={(e) => setScoreboardSearch(e.target.value)}
+                            style={{
+                              padding: '0.6rem 1rem',
+                              borderRadius: '8px',
+                              border: '1px solid var(--border-color)',
+                              background: 'var(--bg-card)',
+                              color: 'var(--text-main)',
+                              width: '100%',
+                              maxWidth: '300px',
+                              fontSize: '0.85rem'
+                            }}
+                          />
+                          <button
+                            onClick={exportCSV}
+                            className={styles.btnSecondary}
+                            style={{ width: 'auto', padding: '0.6rem 1.25rem', fontSize: '0.85rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.35rem' }}
+                          >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Export Standings (.csv)
+                          </button>
+                        </div>
+
+                        {/* LEADERBOARD TABLE */}
                         <div className={`${styles.tableContainer} glass`}>
                           <table className={styles.table}>
                             <thead>
@@ -1265,32 +1500,35 @@ export default function AdminDashboard() {
                               </tr>
                             </thead>
                             <tbody>
-                              {standings.map((t, idx) => (
-                                <tr key={t.id} className={styles.tableRow}>
-                                  <td style={{ fontWeight: '800', width: '60px' }}>
-                                    {idx === 0 ? '🏆 1st' : idx === 1 ? '🥈 2nd' : idx === 2 ? '🥉 3rd' : `${idx + 1}th`}
-                                  </td>
-                                  <td>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                      <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: t.color || 'var(--primary)' }} />
-                                      <div>
-                                        <div style={{ fontWeight: 'bold', color: 'var(--text-main)' }}>{t.name}</div>
-                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{t.members.join(', ')}</div>
+                              {filteredStandings.map((t, idx) => {
+                                const originalRank = standings.findIndex(item => item.id === t.id) + 1;
+                                return (
+                                  <tr key={t.id} className={styles.tableRow}>
+                                    <td style={{ fontWeight: '800', width: '70px' }}>
+                                      {originalRank === 1 ? '🥇 1st' : originalRank === 2 ? '🥈 2nd' : originalRank === 3 ? '🥉 3rd' : `${originalRank}th`}
+                                    </td>
+                                    <td>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                        <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: t.color || 'var(--primary)', flexShrink: 0 }} />
+                                        <div>
+                                          <div style={{ fontWeight: 'bold', color: 'var(--text-main)' }}>{t.name}</div>
+                                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{t.members.join(', ')}</div>
+                                        </div>
                                       </div>
-                                    </div>
-                                  </td>
-                                  <td>{t.quiz} pts</td>
-                                  <td>{t.ppt} pts</td>
-                                  <td>{t.poster} pts</td>
-                                  <td>{t.interview} pts</td>
-                                  <td>{t.debugging} pts</td>
-                                  <td style={{ fontWeight: '900', color: 'var(--primary)', fontSize: '1.05rem', fontFamily: 'var(--font-mono)' }}>{t.grandTotal} pts</td>
-                                </tr>
-                              ))}
-                              {standings.length === 0 && (
+                                    </td>
+                                    <td>{t.quiz} pts</td>
+                                    <td>{t.ppt} pts</td>
+                                    <td>{t.poster} pts</td>
+                                    <td>{t.interview} pts</td>
+                                    <td>{t.debugging} pts</td>
+                                    <td style={{ fontWeight: '900', color: 'var(--primary)', fontSize: '1.05rem', fontFamily: 'var(--font-mono)' }}>{t.grandTotal} pts</td>
+                                  </tr>
+                                );
+                              })}
+                              {filteredStandings.length === 0 && (
                                 <tr>
                                   <td colSpan="8" style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
-                                    No teams registered for any events yet. Check the competition tabs to add teams.
+                                    {scoreboardSearch ? 'No matching teams found.' : 'No teams registered yet.'}
                                   </td>
                                 </tr>
                               )}
@@ -1450,63 +1688,172 @@ export default function AdminDashboard() {
                             </button>
                           </div>
                         ) : (
-                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
-                            {teamList.map(team => (
-                              <div
-                                key={team.id}
-                                className="glass"
-                                style={{
-                                  padding: '1.5rem',
-                                  borderLeft: `6px solid ${team.color || 'var(--primary)'}`,
-                                  display: 'flex',
-                                  flexDirection: 'column',
-                                  gap: '1.25rem',
-                                  boxShadow: '0 4px 15px rgba(0,0,0,0.02)'
-                                }}
-                              >
-                                <div>
-                                  <h4 style={{ margin: 0, fontSize: '1.15rem', color: 'var(--text-main)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <span>{team.name}</span>
-                                    <span style={{ fontSize: '1.3rem', fontWeight: '900', color: 'var(--primary)', fontFamily: 'var(--font-mono)' }}>
-                                      {team.score || 0} <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 'normal' }}>pts</span>
+                          <div className={styles.scoreboardSplit}>
+                            
+                            {/* LEFT SIDEBAR: List of teams participating */}
+                            <div className="glass" style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', borderRadius: '16px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-color)', height: 'fit-content' }}>
+                              <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.8rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Participating Teams</h4>
+                              {teamList.map(team => {
+                                const isSelected = selectedScoreboardTeamId === team.id;
+                                return (
+                                  <button
+                                    key={team.id}
+                                    onClick={() => setSelectedScoreboardTeamId(team.id)}
+                                    style={{
+                                      width: '100%',
+                                      padding: '1rem',
+                                      borderRadius: '12px',
+                                      border: isSelected 
+                                        ? `2px solid ${team.color || 'var(--primary)'}` 
+                                        : '1.5px solid var(--border-color)',
+                                      background: isSelected 
+                                        ? `linear-gradient(to right, ${(team.color || '#6366f1')}11, transparent)` 
+                                        : 'rgba(255,255,255,0.01)',
+                                      color: 'var(--text-main)',
+                                      textAlign: 'left',
+                                      cursor: 'pointer',
+                                      display: 'flex',
+                                      flexDirection: 'column',
+                                      gap: '0.35rem',
+                                      boxShadow: isSelected 
+                                        ? `0 6px 16px ${(team.color || '#6366f1')}1a` 
+                                        : 'none',
+                                      transition: 'all 0.2s ease-in-out'
+                                    }}
+                                  >
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                                      <span style={{ fontWeight: '800', fontSize: '0.95rem' }}>{team.name}</span>
+                                      <span style={{ fontWeight: '900', color: team.color || 'var(--primary)', fontFamily: 'var(--font-mono)', fontSize: '1rem' }}>{team.score || 0} pts</span>
+                                    </div>
+                                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                                      {team.members ? team.members.join(', ') : 'No members'}
                                     </span>
-                                  </h4>
-                                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-                                    Members: {team.members ? team.members.join(', ') : 'No members listed'}
+                                  </button>
+                                );
+                              })}
+                            </div>
+
+                            {/* RIGHT CONTENT: Detailed control panel for the selected team */}
+                            {(() => {
+                              const activeTeam = teamList.find(t => t.id === selectedScoreboardTeamId) || teamList[0];
+                              if (!activeTeam) return null;
+                              
+                              return (
+                                <div
+                                  className="glass"
+                                  style={{
+                                    padding: '2rem',
+                                    borderRadius: '16px',
+                                    border: '1px solid var(--border-color)',
+                                    borderLeft: `6px solid ${activeTeam.color || 'var(--primary)'}`,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: '1.5rem',
+                                    boxShadow: '0 8px 32px rgba(0,0,0,0.03)'
+                                  }}
+                                >
+                                  {/* Team Header Summary */}
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
+                                    <div>
+                                      <h3 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--text-main)' }}>{activeTeam.name}</h3>
+                                      <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                                        Members: {activeTeam.members ? activeTeam.members.join(', ') : 'No members listed'}
+                                      </p>
+                                    </div>
+                                    <div style={{ textAlign: 'right' }}>
+                                      <span style={{ fontSize: '2rem', fontWeight: '950', color: activeTeam.color || 'var(--primary)', fontFamily: 'var(--font-mono)' }}>
+                                        {activeTeam.score || 0}
+                                      </span>
+                                      <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block' }}>Total points</span>
+                                    </div>
+                                  </div>
+
+                                  {/* Auto-save Status Indicator */}
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', color: '#10b981', background: 'rgba(16, 185, 129, 0.05)', padding: '0.4rem 0.75rem', borderRadius: '20px', width: 'fit-content', fontWeight: '800', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+                                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }} />
+                                    <span>Real-Time Auto-Save Active</span>
+                                  </div>
+
+                                  {/* Sliders Grid */}
+                                  <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.25rem', marginTop: '0.5rem' }}>
+                                    {subEventData.criteria.map(crit => {
+                                      const val = activeTeam.criteria?.[crit.id] || 0;
+                                      return (
+                                        <div key={crit.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', background: 'rgba(255,255,255,0.01)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.03)' }}>
+                                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', fontWeight: 'bold' }}>
+                                            <span style={{ color: 'var(--text-main)' }}>{crit.name} (Max {crit.max})</span>
+                                            <span style={{ color: activeTeam.color || 'var(--primary)', fontFamily: 'var(--font-mono)' }}>{val} / {crit.max}</span>
+                                          </div>
+                                          
+                                          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                            {/* Deduct Button */}
+                                            <button
+                                              onClick={() => handleSliderChange(activeTeam.id, subEventData.key, crit.id, Math.max(0, val - 1))}
+                                              style={{
+                                                padding: '0.25rem 0.5rem',
+                                                borderRadius: '6px',
+                                                border: '1px solid var(--border-color)',
+                                                background: 'var(--bg-secondary)',
+                                                color: 'var(--text-main)',
+                                                cursor: 'pointer',
+                                                fontWeight: 'bold',
+                                                width: '28px',
+                                                height: '28px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                              }}
+                                            >
+                                              -
+                                            </button>
+                                            
+                                            {/* Custom styled range slider */}
+                                            <input
+                                              type="range"
+                                              min="0"
+                                              max={crit.max}
+                                              value={val}
+                                              onChange={(e) => handleSliderChange(activeTeam.id, subEventData.key, crit.id, e.target.value)}
+                                              style={{
+                                                flex: 1,
+                                                height: '6px',
+                                                borderRadius: '3px',
+                                                outline: 'none',
+                                                accentColor: activeTeam.color || 'var(--primary)',
+                                                background: 'var(--bg-secondary)',
+                                                cursor: 'pointer'
+                                              }}
+                                            />
+                                            
+                                            {/* Add Button */}
+                                            <button
+                                              onClick={() => handleSliderChange(activeTeam.id, subEventData.key, crit.id, Math.min(crit.max, val + 1))}
+                                              style={{
+                                                padding: '0.25rem 0.5rem',
+                                                borderRadius: '6px',
+                                                border: '1px solid var(--border-color)',
+                                                background: 'var(--bg-secondary)',
+                                                color: 'var(--text-main)',
+                                                cursor: 'pointer',
+                                                fontWeight: 'bold',
+                                                width: '28px',
+                                                height: '28px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                              }}
+                                            >
+                                              +
+                                            </button>
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
                                   </div>
                                 </div>
+                              );
+                            })()}
 
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                                  {subEventData.criteria.map(crit => {
-                                    const val = team.criteria?.[crit.id] || 0;
-                                    return (
-                                      <div key={crit.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: 'bold' }}>
-                                          <span style={{ color: 'var(--text-muted)' }}>{crit.name} (Max {crit.max})</span>
-                                          <span style={{ color: 'var(--primary)', fontFamily: 'var(--font-mono)' }}>{val} / {crit.max}</span>
-                                        </div>
-                                        <input
-                                          type="range"
-                                          min="0"
-                                          max={crit.max}
-                                          value={val}
-                                          onChange={(e) => handleSliderChange(team.id, subEventData.key, crit.id, e.target.value)}
-                                          style={{
-                                            width: '100%',
-                                            height: '6px',
-                                            borderRadius: '3px',
-                                            outline: 'none',
-                                            accentColor: team.color || 'var(--primary)',
-                                            background: 'var(--bg-secondary)',
-                                            cursor: 'pointer'
-                                          }}
-                                        />
-                                      </div>
-                                    );
-                                  })}
-                                </div>
-                              </div>
-                            ))}
                           </div>
                         )}
                       </div>
@@ -1989,6 +2336,7 @@ export default function AdminDashboard() {
         <div className={styles.modalOverlay} role="dialog" aria-modal="true" aria-labelledby="cat-modal-title">
           <form onSubmit={handleCatSubmit} className={`${styles.modalContent} glass`}>
             <h2 id="cat-modal-title" style={{ marginBottom: '1.5rem' }}>{editCat ? 'Edit Category' : 'Add Category'}</h2>
+            
             <div className={styles.formGroup}>
               <label htmlFor="cat-name">Category Name *</label>
               <input
@@ -2001,11 +2349,62 @@ export default function AdminDashboard() {
                 className={styles.input}
               />
             </div>
-            <div className={styles.modalActions}>
+
+            <div className={styles.formGrid} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1rem' }}>
+              <div className={styles.formGroup}>
+                <label htmlFor="cat-icon">Category Icon Style</label>
+                <select
+                  id="cat-icon"
+                  value={catIcon}
+                  onChange={(e) => setCatIcon(e.target.value)}
+                  className={styles.select}
+                  style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'var(--text-main)' }}
+                >
+                  <option value="circle">Generic Circle</option>
+                  <option value="riddles">Puzzle / Riddles</option>
+                  <option value="connections">Network Connections</option>
+                  <option value="emojis">Faces / Emojis</option>
+                  <option value="analogies">Split Arrows / Analogies</option>
+                  <option value="code">Brackets / Coding</option>
+                  <option value="presentation">Presentation / PPT</option>
+                </select>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="cat-color">Category Brand Color</label>
+                <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                  <input
+                    id="cat-color"
+                    type="color"
+                    value={catColor}
+                    onChange={(e) => setCatColor(e.target.value)}
+                    style={{ 
+                      width: '50px', 
+                      height: '38px', 
+                      border: '1px solid var(--border-color)', 
+                      borderRadius: '8px', 
+                      background: 'transparent',
+                      cursor: 'pointer'
+                    }}
+                  />
+                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                    Preview: <strong style={{ color: catColor }}>{catColor.toUpperCase()}</strong>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.modalActions} style={{ marginTop: '1.5rem' }}>
               <button
                 type="button"
                 className={styles.btnSecondary}
-                onClick={() => setShowCatModal(false)}
+                onClick={() => {
+                  setShowCatModal(false);
+                  setCatName('');
+                  setCatIcon('circle');
+                  setCatColor('#3b82f6');
+                  setEditCat(null);
+                }}
                 id="btn-cancel-cat-modal"
               >
                 Cancel

@@ -715,3 +715,158 @@
 .checkItem input {
   cursor: pointer;
 }
+
+.scoreboardSplit {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: stretch;
+  min-height: 450px;
+}
+
+@media (min-width: 768px) {
+  .scoreboardSplit {
+    grid-template-columns: 280px 1fr;
+  }
+}
+
+/* Mobile & Tablet Responsiveness Overrides */
+@media (max-width: 991px) {
+  .appShell {
+    grid-template-columns: 1fr !important;
+  }
+  .sidebar {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0.75rem 1rem !important;
+    gap: 1rem !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    position: sticky !important;
+    top: 0 !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+  .navMenu {
+    flex-direction: row !important;
+    gap: 0.5rem !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding-bottom: 4px !important;
+    width: auto !important;
+  }
+  .topbar {
+    padding: 0.75rem 1rem !important;
+  }
+  .pagePadding {
+    padding: 1rem !important;
+  }
+}
+
+/* Teams Card Layout Styles */
+.teamsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 576px) {
+  .teamsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+.teamCard {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.teamCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+}
+
+.teamCardHeader {
+  height: 6px;
+  width: 100%;
+}
+
+.teamCardBody {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+.teamCardTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.teamColorIndicator {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.teamNameText {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.teamMembersList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--bg-secondary);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  flex: 1;
+  border: 1px solid var(--border-color);
+}
+
+.memberLabel {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 0.15rem;
+}
+
+.memberBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.memberBadge svg {
+  color: var(--primary);
+  opacity: 0.8;
+}
+
+.teamCardFooter {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  background: rgba(250, 250, 250, 0.6);
+}
