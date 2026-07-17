@@ -465,6 +465,12 @@ export default function AdminDashboard() {
   // Helper to auto-save scoreboard states directly into the database on update
   const autoSaveEvent = async (updatedEvent) => {
     try {
+      // Synchronously update local React database state to prevent stale data race conditions
+      setDb(prev => {
+        const newEvents = prev.events.map(e => e.id === updatedEvent.id ? updatedEvent : e);
+        return { ...prev, events: newEvents };
+      });
+
       await fetch('/api/db', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1257,24 +1263,9 @@ export default function AdminDashboard() {
                       </button>
                       <h2 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--text-main)' }}>{selectedScoreboardEvent.name}</h2>
                     </div>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                      <button
-                        className={styles.btnPrimary}
-                        onClick={async () => {
-                          const index = db.events.findIndex(e => e.id === selectedScoreboardEvent.id);
-                          if (index !== -1) {
-                            const success = await saveEntity('event', 'update', selectedScoreboardEvent);
-                            if (success) {
-                              alert('Scoreboard saved successfully!');
-                              fetchData();
-                            } else {
-                              alert('Failed to save scoreboard data.');
-                            }
-                          }
-                        }}
-                      >
-                        Save All Changes
-                      </button>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', color: '#10b981', background: 'rgba(16, 185, 129, 0.05)', padding: '0.45rem 0.9rem', borderRadius: '20px', fontWeight: '800', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block', boxShadow: '0 0 6px #10b981' }} />
+                      <span>Saved to DB in Real-Time</span>
                     </div>
                   </div>
 
