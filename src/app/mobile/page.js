@@ -280,12 +280,15 @@ export default function MobileController() {
           return { ...prev, events: nextEvents };
         });
         triggerToast('Score saved');
+        return true;
       } else {
         triggerToast('Failed to save score');
+        return false;
       }
     } catch (err) {
       console.error('Score submit error:', err);
       triggerToast('Network error');
+      return false;
     }
   };
 
@@ -326,7 +329,10 @@ export default function MobileController() {
     }
 
     setIsSubmitting(true);
-    await submitJudgeScore(currentTeam.id, finalScore, finalCriteria);
+    const success = await submitJudgeScore(currentTeam.id, finalScore, finalCriteria);
+    if (success) {
+      setIsUnlockedOverride(false); // Reset unlock override so it locks instantly!
+    }
     setIsSubmitting(false);
   };
 
