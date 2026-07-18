@@ -26,7 +26,7 @@
     },
     {
       "id": "fun-tech-trivia",
-      "name": "Fun Tech Trivia"
+      "name": "Jumbled Tech Words"
     },
     {
       "id": "connect-the-clues",
@@ -487,85 +487,55 @@
     {
       "id": "ftt_1",
       "categoryId": "fun-tech-trivia",
-      "text": "When a Windows computer suffers a critical system crash, it displays a full-screen error message. What is this screen famously called?",
-      "options": [
-        "Red Alert Screen",
-        "Blue Screen of Death (BSOD)",
-        "Black Box Failure",
-        "Error Page of Doom"
-      ],
-      "correctAnswer": "B",
-      "timeLimit": 20,
+      "text": "Unscramble this tech word: **A T A D E S A B**",
+      "options": [],
+      "correctAnswer": "DATABASE",
+      "timeLimit": 30,
       "points": 100
     },
     {
       "id": "ftt_2",
       "categoryId": "fun-tech-trivia",
-      "text": "In software and games, what is the term for a hidden feature, message, or joke left by developers for players to find?",
-      "options": [
-        "Trojan Horse",
-        "Gold Mine",
-        "Easter Egg",
-        "Phantom Code"
-      ],
-      "correctAnswer": "C",
-      "timeLimit": 20,
+      "text": "Unscramble this tech word: **L E R I P M O C**",
+      "options": [],
+      "correctAnswer": "COMPILER",
+      "timeLimit": 30,
       "points": 100
     },
     {
       "id": "ftt_3",
       "categoryId": "fun-tech-trivia",
-      "text": "What is the name of the classic, pixelated offline game that automatically appears in Google Chrome when your internet connection is lost?",
-      "options": [
-        "Snake",
-        "Pac-Man",
-        "T-Rex Dinosaur Runner",
-        "Space Invaders"
-      ],
-      "correctAnswer": "C",
-      "timeLimit": 20,
+      "text": "Unscramble this tech word: **F L E W I L A R**",
+      "options": [],
+      "correctAnswer": "FIREWALL",
+      "timeLimit": 30,
       "points": 100
     },
     {
       "id": "ftt_4",
       "categoryId": "fun-tech-trivia",
-      "text": "We connect to Wi-Fi daily. What does the acronym \"Wi-Fi\" officially stand for in technical terms?",
-      "options": [
-        "Wireless Fidelity",
-        "Wide-range Frequency",
-        "Wired Fiber",
-        "Nothing (it is just a catchy brand name with no technical meaning)"
-      ],
-      "correctAnswer": "D",
-      "timeLimit": 20,
+      "text": "Unscramble this tech word: **A H O L M I R T G**",
+      "options": [],
+      "correctAnswer": "ALGORITHM",
+      "timeLimit": 30,
       "points": 100
     },
     {
       "id": "ftt_5",
       "categoryId": "fun-tech-trivia",
-      "text": "On Windows, what is the legendary three-key shortcut used to quickly open the Task Manager or unlock the computer?",
-      "options": [
-        "Ctrl + Shift + Esc",
-        "Ctrl + Alt + Delete",
-        "Alt + F4",
-        "Windows + D"
-      ],
-      "correctAnswer": "B",
-      "timeLimit": 20,
+      "text": "Unscramble this tech word: **T H I D W B A N**",
+      "options": [],
+      "correctAnswer": "BANDWIDTH",
+      "timeLimit": 30,
       "points": 100
     },
     {
       "id": "ftt_6",
       "categoryId": "fun-tech-trivia",
-      "text": "What is the name of the small files stored by web browsers to remember your login sessions and cart items?",
-      "options": [
-        "Wafers",
-        "Crackers",
-        "Cookies",
-        "Breadcrumbs"
-      ],
-      "correctAnswer": "C",
-      "timeLimit": 20,
+      "text": "Unscramble this tech word: **T I O N C Y P R E N**",
+      "options": [],
+      "correctAnswer": "ENCRYPTION",
+      "timeLimit": 30,
       "points": 100
     },
     {
@@ -635,7 +605,7 @@
       "id": "event_1784341369125",
       "name": "Quiz",
       "status": "idle",
-      "currentQuestionIndex": 0,
+      "currentQuestionIndex": 36,
       "questionIds": [
         "btm_1",
         "btm_2",
@@ -694,9 +664,53 @@
         "timerRemaining": 20,
         "timerRunning": false,
         "completedQuestionIds": [],
-        "currentRound": 1
+        "currentRound": 8,
+        "showStandings": false
       },
-      "teams": [],
+      "teams": [
+        {
+          "id": "quiz_team_1",
+          "name": "Lakshmidevi",
+          "members": [],
+          "score": 0,
+          "color": "hsl(0, 80%, 60%)"
+        },
+        {
+          "id": "quiz_team_2",
+          "name": "Janarthanan",
+          "members": [],
+          "score": 0,
+          "color": "hsl(60, 80%, 55%)"
+        },
+        {
+          "id": "quiz_team_3",
+          "name": "Mahalakshmi",
+          "members": [],
+          "score": 0,
+          "color": "hsl(120, 80%, 50%)"
+        },
+        {
+          "id": "quiz_team_4",
+          "name": "Sundar",
+          "members": [],
+          "score": 0,
+          "color": "hsl(180, 80%, 50%)"
+        },
+        {
+          "id": "quiz_team_5",
+          "name": "Pavithra",
+          "members": [],
+          "score": 0,
+          "color": "hsl(240, 80%, 60%)"
+        },
+        {
+          "id": "quiz_team_6",
+          "name": "Kesav Karthic",
+          "members": [],
+          "score": 0,
+          "color": "hsl(300, 80%, 55%)"
+        }
+      ],
       "pptTeams": [],
       "posterTeams": [],
       "interviewTeams": [],
@@ -747,225 +761,448 @@
         {
           "id": "ppt_team_1",
           "name": "S. Janalakshmi",
-          "members": ["A16UCA011"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A16UCA011"
+          ],
+          "score": 74,
+          "criteria": {
+            "content": 18,
+            "delivery": 17,
+            "design": 17,
+            "qa": 11,
+            "time": 11
+          },
           "judgeScores": {},
           "color": "hsl(0, 75%, 60%)"
         },
         {
           "id": "ppt_team_2",
           "name": "J. Bhuvaneswari & A. Akshaya",
-          "members": ["A16UCA007", "A16UCA002"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A16UCA007",
+            "A16UCA002"
+          ],
+          "score": 56,
+          "criteria": {
+            "content": 14,
+            "delivery": 11,
+            "design": 11,
+            "qa": 9,
+            "time": 11
+          },
           "judgeScores": {},
           "color": "hsl(15, 75%, 60%)"
         },
         {
           "id": "ppt_team_3",
           "name": "M. Bhuvaneswaran & K. Ganesan",
-          "members": ["A16UCA034", "A16UCA038"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A16UCA034",
+            "A16UCA038"
+          ],
+          "score": 72,
+          "criteria": {
+            "content": 19,
+            "delivery": 18,
+            "design": 14,
+            "qa": 10,
+            "time": 11
+          },
           "judgeScores": {},
           "color": "hsl(30, 75%, 60%)"
         },
         {
           "id": "ppt_team_4",
           "name": "A. Rishandhprasanna & G. Sravana Kumar",
-          "members": ["A16UCA059", "A16UCA061"],
+          "members": [
+            "A16UCA059",
+            "A16UCA061"
+          ],
           "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "criteria": {
+            "content": 0,
+            "delivery": 0,
+            "design": 0,
+            "qa": 0,
+            "time": 0
+          },
           "judgeScores": {},
           "color": "hsl(45, 75%, 60%)"
         },
         {
           "id": "ppt_team_5",
           "name": "I. Tharun Kumar & T. Santhosh",
-          "members": ["A16UCA066", "A16UCA060"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A16UCA066",
+            "A16UCA060"
+          ],
+          "score": 62,
+          "criteria": {
+            "content": 14,
+            "delivery": 8,
+            "design": 16,
+            "qa": 8,
+            "time": 16
+          },
           "judgeScores": {},
           "color": "hsl(60, 75%, 60%)"
         },
         {
           "id": "ppt_team_6",
           "name": "P. Sri Abirami & S. Ranjani",
-          "members": ["A16UCA027", "A16UCA021"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A16UCA027",
+            "A16UCA021"
+          ],
+          "score": 58,
+          "criteria": {
+            "content": 16,
+            "delivery": 12,
+            "design": 10,
+            "qa": 15,
+            "time": 5
+          },
           "judgeScores": {},
           "color": "hsl(75, 75%, 60%)"
         },
         {
           "id": "ppt_team_7",
           "name": "R. Harina & M. Gurulakshmi",
-          "members": ["A15UCA009", "A15UCA008"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A15UCA009",
+            "A15UCA008"
+          ],
+          "score": 76,
+          "criteria": {
+            "content": 17,
+            "delivery": 16,
+            "design": 16,
+            "qa": 15,
+            "time": 12
+          },
           "judgeScores": {},
           "color": "hsl(90, 75%, 60%)"
         },
         {
           "id": "ppt_team_8",
           "name": "B. Madhubala & C. Bhavana",
-          "members": ["A15UCA016", "A15UCA004"],
+          "members": [
+            "A15UCA016",
+            "A15UCA004"
+          ],
           "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "criteria": {
+            "content": 0,
+            "delivery": 0,
+            "design": 0,
+            "qa": 0,
+            "time": 0
+          },
           "judgeScores": {},
           "color": "hsl(105, 75%, 60%)"
         },
         {
           "id": "ppt_team_9",
           "name": "M. Birundha Devi & K. Akalya",
-          "members": ["A15UCA005", "A15UCA001"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A15UCA005",
+            "A15UCA001"
+          ],
+          "score": 65,
+          "criteria": {
+            "content": 15,
+            "delivery": 14,
+            "design": 14,
+            "qa": 10,
+            "time": 12
+          },
           "judgeScores": {},
           "color": "hsl(120, 75%, 60%)"
         },
         {
           "id": "ppt_team_10",
           "name": "A. Dharshini & S. Gowsalya",
-          "members": ["A15UCA006", "A15UCA007"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A15UCA006",
+            "A15UCA007"
+          ],
+          "score": 55,
+          "criteria": {
+            "content": 12,
+            "delivery": 9,
+            "design": 11,
+            "qa": 10,
+            "time": 13
+          },
           "judgeScores": {},
           "color": "hsl(135, 75%, 60%)"
         },
         {
           "id": "ppt_team_11",
           "name": "P. Aruna Devi & V. Kalai Selvi",
-          "members": ["A15UCA002", "A15UCA013"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A15UCA002",
+            "A15UCA013"
+          ],
+          "score": 56,
+          "criteria": {
+            "content": 13,
+            "delivery": 11,
+            "design": 10,
+            "qa": 12,
+            "time": 10
+          },
           "judgeScores": {},
           "color": "hsl(150, 75%, 60%)"
         },
         {
           "id": "ppt_team_12",
           "name": "M. Bharani Rajesh",
-          "members": ["A15UCA045"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A15UCA045"
+          ],
+          "score": 64,
+          "criteria": {
+            "content": 13,
+            "delivery": 16,
+            "design": 15,
+            "qa": 8,
+            "time": 12
+          },
           "judgeScores": {},
           "color": "hsl(165, 75%, 60%)"
         },
         {
           "id": "ppt_team_13",
           "name": "S. Abdul Rahik & K. Balaji",
-          "members": ["A15UCA040", "A15UCA044"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A15UCA040",
+            "A15UCA044"
+          ],
+          "score": 70,
+          "criteria": {
+            "content": 17,
+            "delivery": 12,
+            "design": 16,
+            "qa": 8,
+            "time": 17
+          },
           "judgeScores": {},
           "color": "hsl(180, 75%, 60%)"
         },
         {
           "id": "ppt_team_14",
           "name": "A. Dharshan & S. Kevin",
-          "members": ["A15UCA046", "A15UCA066"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A15UCA046",
+            "A15UCA066"
+          ],
+          "score": 65,
+          "criteria": {
+            "content": 15,
+            "delivery": 18,
+            "design": 8,
+            "qa": 11,
+            "time": 13
+          },
           "judgeScores": {},
           "color": "hsl(195, 75%, 60%)"
         },
         {
           "id": "ppt_team_15",
           "name": "P. Jeya Shree & J. Harisha",
-          "members": ["A15UCA011", "A15UCA010"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A15UCA011",
+            "A15UCA010"
+          ],
+          "score": 72,
+          "criteria": {
+            "content": 17,
+            "delivery": 18,
+            "design": 18,
+            "qa": 5,
+            "time": 14
+          },
           "judgeScores": {},
           "color": "hsl(210, 75%, 60%)"
         },
         {
           "id": "ppt_team_16",
           "name": "K. Kalaiyarasan & P. Kamesh",
-          "members": ["A15UCA058", "A15UCA029"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A15UCA058",
+            "A15UCA029"
+          ],
+          "score": 72,
+          "criteria": {
+            "content": 15,
+            "delivery": 17,
+            "design": 14,
+            "qa": 8,
+            "time": 18
+          },
           "judgeScores": {},
           "color": "hsl(225, 75%, 60%)"
         },
         {
           "id": "ppt_team_17",
           "name": "S. Hemalatha & K. Harini",
-          "members": ["A14UCA012", "A14UCA011"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A14UCA012",
+            "A14UCA011"
+          ],
+          "score": 73,
+          "criteria": {
+            "content": 16,
+            "delivery": 17,
+            "design": 11,
+            "qa": 13,
+            "time": 16
+          },
           "judgeScores": {},
           "color": "hsl(240, 75%, 60%)"
         },
         {
           "id": "ppt_team_18",
           "name": "A. Akshaya Durga & M. Dhivya Bharathi",
-          "members": ["A14UCA001", "A14UCA009"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A14UCA001",
+            "A14UCA009"
+          ],
+          "score": 61,
+          "criteria": {
+            "content": 14,
+            "delivery": 12,
+            "design": 10,
+            "qa": 9,
+            "time": 16
+          },
           "judgeScores": {},
           "color": "hsl(255, 75%, 60%)"
         },
         {
           "id": "ppt_team_19",
           "name": "M. Maha Lakshmi & N. Vijayalakshmi",
-          "members": ["A14UCA018", "A14UCA087"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A14UCA018",
+            "A14UCA087"
+          ],
+          "score": 62,
+          "criteria": {
+            "content": 14,
+            "delivery": 13,
+            "design": 10,
+            "qa": 13,
+            "time": 12
+          },
           "judgeScores": {},
           "color": "hsl(270, 75%, 60%)"
         },
         {
           "id": "ppt_team_20",
           "name": "R. Gowtham & S. Manikandaprabhu",
-          "members": ["A14UCA050", "A14UCA064"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A14UCA050",
+            "A14UCA064"
+          ],
+          "score": 55,
+          "criteria": {
+            "content": 12,
+            "delivery": 13,
+            "design": 10,
+            "qa": 8,
+            "time": 12
+          },
           "judgeScores": {},
           "color": "hsl(285, 75%, 60%)"
         },
         {
           "id": "ppt_team_21",
           "name": "S. Pavithra & A. Rashmiya Parveen",
-          "members": ["A14UCA028", "A14UCA031"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A14UCA028",
+            "A14UCA031"
+          ],
+          "score": 81,
+          "criteria": {
+            "content": 16,
+            "delivery": 17,
+            "design": 15,
+            "qa": 17,
+            "time": 16
+          },
           "judgeScores": {},
           "color": "hsl(300, 75%, 60%)"
         },
         {
           "id": "ppt_team_22",
           "name": "S. Mahalakshmi & V. Mahalakshmi",
-          "members": ["A14UCA019", "A14UCA020"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A14UCA019",
+            "A14UCA020"
+          ],
+          "score": 75,
+          "criteria": {
+            "content": 15,
+            "delivery": 16,
+            "design": 11,
+            "qa": 16,
+            "time": 17
+          },
           "judgeScores": {},
           "color": "hsl(315, 75%, 60%)"
         },
         {
           "id": "ppt_team_23",
           "name": "M. Parkavi & S. Yogeshwari",
-          "members": ["A14UCA027", "A14UCA038"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A14UCA027",
+            "A14UCA038"
+          ],
+          "score": 59,
+          "criteria": {
+            "content": 16,
+            "delivery": 10,
+            "design": 12,
+            "qa": 10,
+            "time": 11
+          },
           "judgeScores": {},
           "color": "hsl(330, 75%, 60%)"
         },
         {
           "id": "ppt_team_24",
           "name": "T. Vinnarasi & S. Veylu Vanthal",
-          "members": ["A14UCA037", "A14UCA036"],
+          "members": [
+            "A14UCA037",
+            "A14UCA036"
+          ],
           "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "criteria": {
+            "content": 0,
+            "delivery": 0,
+            "design": 0,
+            "qa": 0,
+            "time": 0
+          },
           "judgeScores": {},
           "color": "hsl(345, 75%, 60%)"
         },
         {
           "id": "ppt_team_25",
           "name": "F. Mercy Mary & S. Saranya",
-          "members": ["A14UCA021", "A14UCA033"],
-          "score": 0,
-          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "members": [
+            "A14UCA021",
+            "A14UCA033"
+          ],
+          "score": 65,
+          "criteria": {
+            "content": 18,
+            "delivery": 15,
+            "design": 8,
+            "qa": 12,
+            "time": 12
+          },
           "judgeScores": {},
           "color": "hsl(355, 75%, 60%)"
         }
