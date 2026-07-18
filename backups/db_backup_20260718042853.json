@@ -814,20 +814,6 @@
             "design": 0,
             "qa": 0,
             "time": 0
-          },
-          "judgeScores": {
-            "dev_3af07wk02": {
-              "judgeName": "Smith",
-              "score": 0,
-              "criteria": {
-                "content": 0,
-                "delivery": 0,
-                "design": 0,
-                "qa": 0,
-                "time": 0
-              },
-              "updatedAt": "2026-07-18T04:28:55.891Z"
-            }
           }
         }
       ],
@@ -845,105 +831,6 @@
         }
       ],
       "auditLogs": [
-        {
-          "id": "log_1784348935891",
-          "timestamp": "2026-07-18T04:28:55.891Z",
-          "judgeName": "Smith",
-          "teamName": "Byte Wizards",
-          "track": "PPT Presentation",
-          "action": "Updated Grade",
-          "details": "Scores: content=0, delivery=0, design=0, qa=0, time=0 (Total: 0)"
-        },
-        {
-          "id": "log_1784348935852",
-          "timestamp": "2026-07-18T04:28:55.852Z",
-          "judgeName": "Smith",
-          "teamName": "Byte Wizards",
-          "track": "PPT Presentation",
-          "action": "Updated Grade",
-          "details": "Scores: content=0, delivery=0, design=0, qa=0, time=0 (Total: 0)"
-        },
-        {
-          "id": "log_1784348935803",
-          "timestamp": "2026-07-18T04:28:55.803Z",
-          "judgeName": "Smith",
-          "teamName": "Byte Wizards",
-          "track": "PPT Presentation",
-          "action": "Updated Grade",
-          "details": "Scores: content=0, delivery=0, design=0, qa=0, time=0 (Total: 0)"
-        },
-        {
-          "id": "log_1784348935769",
-          "timestamp": "2026-07-18T04:28:55.769Z",
-          "judgeName": "Smith",
-          "teamName": "Byte Wizards",
-          "track": "PPT Presentation",
-          "action": "Updated Grade",
-          "details": "Scores: content=1, delivery=0, design=0, qa=0, time=0 (Total: 1)"
-        },
-        {
-          "id": "log_1784348935748",
-          "timestamp": "2026-07-18T04:28:55.748Z",
-          "judgeName": "Smith",
-          "teamName": "Byte Wizards",
-          "track": "PPT Presentation",
-          "action": "Updated Grade",
-          "details": "Scores: content=3, delivery=0, design=0, qa=0, time=0 (Total: 3)"
-        },
-        {
-          "id": "log_1784348935725",
-          "timestamp": "2026-07-18T04:28:55.725Z",
-          "judgeName": "Smith",
-          "teamName": "Byte Wizards",
-          "track": "PPT Presentation",
-          "action": "Updated Grade",
-          "details": "Scores: content=4, delivery=0, design=0, qa=0, time=0 (Total: 4)"
-        },
-        {
-          "id": "log_1784348935690",
-          "timestamp": "2026-07-18T04:28:55.690Z",
-          "judgeName": "Smith",
-          "teamName": "Byte Wizards",
-          "track": "PPT Presentation",
-          "action": "Updated Grade",
-          "details": "Scores: content=5, delivery=0, design=0, qa=0, time=0 (Total: 5)"
-        },
-        {
-          "id": "log_1784348935659",
-          "timestamp": "2026-07-18T04:28:55.659Z",
-          "judgeName": "Smith",
-          "teamName": "Byte Wizards",
-          "track": "PPT Presentation",
-          "action": "Updated Grade",
-          "details": "Scores: content=7, delivery=0, design=0, qa=0, time=0 (Total: 7)"
-        },
-        {
-          "id": "log_1784348935630",
-          "timestamp": "2026-07-18T04:28:55.630Z",
-          "judgeName": "Smith",
-          "teamName": "Byte Wizards",
-          "track": "PPT Presentation",
-          "action": "Updated Grade",
-          "details": "Scores: content=8, delivery=0, design=0, qa=0, time=0 (Total: 8)"
-        },
-        {
-          "id": "log_1784348935568",
-          "timestamp": "2026-07-18T04:28:55.568Z",
-          "judgeName": "Smith",
-          "teamName": "Byte Wizards",
-          "track": "PPT Presentation",
-          "action": "Updated Grade",
-          "details": "Scores: content=9, delivery=0, design=0, qa=0, time=0 (Total: 9)"
-        },
-        {
-          "id": "log_1784348934258",
-          "timestamp": "2026-07-18T04:28:54.258Z",
-          "judgeName": "Smith",
-          "teamName": "Byte Wizards",
-          "track": "PPT Presentation",
-          "action": "Updated Grade",
-          "details": "Scores: content=20, delivery=0, design=0, qa=0, time=0 (Total: 20)"
-        },
         {
           "id": "log_1784348933378",
           "timestamp": "2026-07-18T04:28:53.378Z",

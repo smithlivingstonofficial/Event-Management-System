@@ -7,6 +7,14 @@ function getLocalNetworkIPs() {
     for (const iface of interfaces[name]) {
       if (iface.family === 'IPv4') {
         ips.push(iface.address);
+        // Also whitelist the entire subnet range of this IP to handle local DHCP changes dynamically
+        const parts = iface.address.split('.');
+        if (parts.length === 4) {
+          const base = `${parts[0]}.${parts[1]}.${parts[2]}`;
+          for (let i = 1; i <= 254; i++) {
+            ips.push(`${base}.${i}`);
+          }
+        }
       }
     }
   }
