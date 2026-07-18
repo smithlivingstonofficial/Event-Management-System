@@ -629,35 +629,7 @@
       "image": "/images/microchip_rebus.png"
     }
   ],
-  "teams": [
-    {
-      "id": "t_1",
-      "name": "Alpha Coders",
-      "members": [
-        "Amit",
-        "Rahul"
-      ],
-      "color": "#fb7185"
-    },
-    {
-      "id": "t_2",
-      "name": "Byte Wizards",
-      "members": [
-        "Sanjay",
-        "Diya"
-      ],
-      "color": "#60a5fa"
-    },
-    {
-      "id": "t_3",
-      "name": "Pixel Pioneers",
-      "members": [
-        "Karan",
-        "Nisha"
-      ],
-      "color": "#fbbf24"
-    }
-  ],
+  "teams": [],
   "events": [
     {
       "id": "event_1784341369125",
@@ -724,28 +696,7 @@
         "completedQuestionIds": [],
         "currentRound": 1
       },
-      "teams": [
-        {
-          "id": "t_1",
-          "name": "Alpha Coders",
-          "members": [
-            "Amit",
-            "Rahul"
-          ],
-          "color": "#fb7185",
-          "score": 0
-        },
-        {
-          "id": "t_2",
-          "name": "Byte Wizards",
-          "members": [
-            "Sanjay",
-            "Diya"
-          ],
-          "color": "#60a5fa",
-          "score": 0
-        }
-      ],
+      "teams": [],
       "pptTeams": [],
       "posterTeams": [],
       "interviewTeams": [],
@@ -794,66 +745,229 @@
       "teams": [],
       "pptTeams": [
         {
-          "id": "t_1",
-          "name": "Alpha Coders",
-          "color": "#fb7185",
-          "members": [
-            "Amit",
-            "Rahul"
-          ],
-          "score": 65,
-          "criteria": {
-            "content": 11,
-            "delivery": 3,
-            "design": 14,
-            "qa": 20,
-            "time": 17
-          },
-          "judgeScores": {
-            "dev_3af07wk02": {
-              "judgeName": "Smith",
-              "score": 65,
-              "criteria": {
-                "content": 11,
-                "delivery": 3,
-                "design": 14,
-                "qa": 20,
-                "time": 17
-              },
-              "updatedAt": "2026-07-18T04:42:06.302Z"
-            }
-          }
+          "id": "ppt_team_1",
+          "name": "S. Janalakshmi",
+          "members": ["A16UCA011"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(0, 75%, 60%)"
         },
         {
-          "id": "t_2",
-          "name": "Byte Wizards",
-          "color": "#60a5fa",
-          "members": [
-            "Sanjay",
-            "Diya"
-          ],
-          "score": 46,
-          "criteria": {
-            "content": 0,
-            "delivery": 17,
-            "design": 12,
-            "qa": 17,
-            "time": 0
-          },
-          "judgeScores": {
-            "dev_3af07wk02": {
-              "judgeName": "Smith",
-              "score": 46,
-              "criteria": {
-                "content": 0,
-                "delivery": 17,
-                "design": 12,
-                "qa": 17,
-                "time": 0
-              },
-              "updatedAt": "2026-07-18T04:38:21.150Z"
-            }
-          }
+          "id": "ppt_team_2",
+          "name": "J. Bhuvaneswari & A. Akshaya",
+          "members": ["A16UCA007", "A16UCA002"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(15, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_3",
+          "name": "M. Bhuvaneswaran & K. Ganesan",
+          "members": ["A16UCA034", "A16UCA038"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(30, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_4",
+          "name": "A. Rishandhprasanna & G. Sravana Kumar",
+          "members": ["A16UCA059", "A16UCA061"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(45, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_5",
+          "name": "I. Tharun Kumar & T. Santhosh",
+          "members": ["A16UCA066", "A16UCA060"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(60, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_6",
+          "name": "P. Sri Abirami & S. Ranjani",
+          "members": ["A16UCA027", "A16UCA021"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(75, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_7",
+          "name": "R. Harina & M. Gurulakshmi",
+          "members": ["A15UCA009", "A15UCA008"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(90, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_8",
+          "name": "B. Madhubala & C. Bhavana",
+          "members": ["A15UCA016", "A15UCA004"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(105, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_9",
+          "name": "M. Birundha Devi & K. Akalya",
+          "members": ["A15UCA005", "A15UCA001"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(120, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_10",
+          "name": "A. Dharshini & S. Gowsalya",
+          "members": ["A15UCA006", "A15UCA007"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(135, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_11",
+          "name": "P. Aruna Devi & V. Kalai Selvi",
+          "members": ["A15UCA002", "A15UCA013"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(150, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_12",
+          "name": "M. Bharani Rajesh",
+          "members": ["A15UCA045"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(165, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_13",
+          "name": "S. Abdul Rahik & K. Balaji",
+          "members": ["A15UCA040", "A15UCA044"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(180, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_14",
+          "name": "A. Dharshan & S. Kevin",
+          "members": ["A15UCA046", "A15UCA066"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(195, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_15",
+          "name": "P. Jeya Shree & J. Harisha",
+          "members": ["A15UCA011", "A15UCA010"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(210, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_16",
+          "name": "K. Kalaiyarasan & P. Kamesh",
+          "members": ["A15UCA058", "A15UCA029"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(225, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_17",
+          "name": "S. Hemalatha & K. Harini",
+          "members": ["A14UCA012", "A14UCA011"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(240, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_18",
+          "name": "A. Akshaya Durga & M. Dhivya Bharathi",
+          "members": ["A14UCA001", "A14UCA009"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(255, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_19",
+          "name": "M. Maha Lakshmi & N. Vijayalakshmi",
+          "members": ["A14UCA018", "A14UCA087"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(270, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_20",
+          "name": "R. Gowtham & S. Manikandaprabhu",
+          "members": ["A14UCA050", "A14UCA064"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(285, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_21",
+          "name": "S. Pavithra & A. Rashmiya Parveen",
+          "members": ["A14UCA028", "A14UCA031"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(300, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_22",
+          "name": "S. Mahalakshmi & V. Mahalakshmi",
+          "members": ["A14UCA019", "A14UCA020"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(315, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_23",
+          "name": "M. Parkavi & S. Yogeshwari",
+          "members": ["A14UCA027", "A14UCA038"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(330, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_24",
+          "name": "T. Vinnarasi & S. Veylu Vanthal",
+          "members": ["A14UCA037", "A14UCA036"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(345, 75%, 60%)"
+        },
+        {
+          "id": "ppt_team_25",
+          "name": "F. Mercy Mary & S. Saranya",
+          "members": ["A14UCA021", "A14UCA033"],
+          "score": 0,
+          "criteria": { "content": 0, "delivery": 0, "design": 0, "qa": 0, "time": 0 },
+          "judgeScores": {},
+          "color": "hsl(355, 75%, 60%)"
         }
       ],
       "posterTeams": [],
@@ -1254,40 +1368,7 @@
       },
       "teams": [],
       "pptTeams": [],
-      "posterTeams": [
-        {
-          "id": "t_1",
-          "name": "Alpha Coders",
-          "color": "#fb7185",
-          "members": [
-            "Amit",
-            "Rahul"
-          ],
-          "score": 0,
-          "criteria": {
-            "creativity": 0,
-            "relevance": 0,
-            "aesthetics": 0,
-            "explanation": 0
-          }
-        },
-        {
-          "id": "t_2",
-          "name": "Byte Wizards",
-          "color": "#60a5fa",
-          "members": [
-            "Sanjay",
-            "Diya"
-          ],
-          "score": 0,
-          "criteria": {
-            "creativity": 0,
-            "relevance": 0,
-            "aesthetics": 0,
-            "explanation": 0
-          }
-        }
-      ],
+      "posterTeams": [],
       "interviewTeams": [],
       "debuggingTeams": []
     },
@@ -1309,40 +1390,7 @@
       "teams": [],
       "pptTeams": [],
       "posterTeams": [],
-      "interviewTeams": [
-        {
-          "id": "t_1",
-          "name": "Alpha Coders",
-          "color": "#fb7185",
-          "members": [
-            "Amit",
-            "Rahul"
-          ],
-          "score": 0,
-          "criteria": {
-            "calmness": 0,
-            "mind": 0,
-            "communication": 0,
-            "arguments": 0
-          }
-        },
-        {
-          "id": "t_2",
-          "name": "Byte Wizards",
-          "color": "#60a5fa",
-          "members": [
-            "Sanjay",
-            "Diya"
-          ],
-          "score": 0,
-          "criteria": {
-            "calmness": 0,
-            "mind": 0,
-            "communication": 0,
-            "arguments": 0
-          }
-        }
-      ],
+      "interviewTeams": [],
       "debuggingTeams": []
     },
     {
@@ -1364,40 +1412,7 @@
       "pptTeams": [],
       "posterTeams": [],
       "interviewTeams": [],
-      "debuggingTeams": [
-        {
-          "id": "t_1",
-          "name": "Alpha Coders",
-          "color": "#fb7185",
-          "members": [
-            "Amit",
-            "Rahul"
-          ],
-          "score": 0,
-          "criteria": {
-            "syntactic": 0,
-            "logical": 0,
-            "speed": 0,
-            "style": 0
-          }
-        },
-        {
-          "id": "t_2",
-          "name": "Byte Wizards",
-          "color": "#60a5fa",
-          "members": [
-            "Sanjay",
-            "Diya"
-          ],
-          "score": 0,
-          "criteria": {
-            "syntactic": 0,
-            "logical": 0,
-            "speed": 0,
-            "style": 0
-          }
-        }
-      ]
+      "debuggingTeams": []
     }
   ]
 }

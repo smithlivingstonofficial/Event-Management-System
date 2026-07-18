@@ -631,24 +631,6 @@
   ],
   "teams": [
     {
-      "id": "t_1",
-      "name": "Alpha Coders",
-      "members": [
-        "Amit",
-        "Rahul"
-      ],
-      "color": "#fb7185"
-    },
-    {
-      "id": "t_2",
-      "name": "Byte Wizards",
-      "members": [
-        "Sanjay",
-        "Diya"
-      ],
-      "color": "#60a5fa"
-    },
-    {
       "id": "t_3",
       "name": "Pixel Pioneers",
       "members": [
@@ -656,6 +638,12 @@
         "Nisha"
       ],
       "color": "#fbbf24"
+    },
+    {
+      "id": "t_1784349937012",
+      "name": "Smith Durai",
+      "members": [],
+      "color": "#00cc8f"
     }
   ],
   "events": [
@@ -724,28 +712,7 @@
         "completedQuestionIds": [],
         "currentRound": 1
       },
-      "teams": [
-        {
-          "id": "t_1",
-          "name": "Alpha Coders",
-          "members": [
-            "Amit",
-            "Rahul"
-          ],
-          "color": "#fb7185",
-          "score": 0
-        },
-        {
-          "id": "t_2",
-          "name": "Byte Wizards",
-          "members": [
-            "Sanjay",
-            "Diya"
-          ],
-          "color": "#60a5fa",
-          "score": 0
-        }
-      ],
+      "teams": [],
       "pptTeams": [],
       "posterTeams": [],
       "interviewTeams": [],
@@ -794,65 +761,17 @@
       "teams": [],
       "pptTeams": [
         {
-          "id": "t_1",
-          "name": "Alpha Coders",
-          "color": "#fb7185",
-          "members": [
-            "Amit",
-            "Rahul"
-          ],
-          "score": 32,
-          "criteria": {
-            "content": 18,
-            "delivery": 0,
-            "design": 14,
-            "qa": 0,
-            "time": 0
-          },
-          "judgeScores": {
-            "dev_3af07wk02": {
-              "judgeName": "Smith",
-              "score": 32,
-              "criteria": {
-                "content": 18,
-                "delivery": 0,
-                "design": 14,
-                "qa": 0,
-                "time": 0
-              },
-              "updatedAt": "2026-07-18T04:35:10.980Z"
-            }
-          }
-        },
-        {
-          "id": "t_2",
-          "name": "Byte Wizards",
-          "color": "#60a5fa",
-          "members": [
-            "Sanjay",
-            "Diya"
-          ],
-          "score": 46,
+          "id": "t_1784349937012",
+          "name": "Smith Durai",
+          "color": "#00cc8f",
+          "members": [],
+          "score": 0,
           "criteria": {
             "content": 0,
-            "delivery": 17,
-            "design": 12,
-            "qa": 17,
+            "delivery": 0,
+            "design": 0,
+            "qa": 0,
             "time": 0
-          },
-          "judgeScores": {
-            "dev_3af07wk02": {
-              "judgeName": "Smith",
-              "score": 46,
-              "criteria": {
-                "content": 0,
-                "delivery": 17,
-                "design": 12,
-                "qa": 17,
-                "time": 0
-              },
-              "updatedAt": "2026-07-18T04:34:20.446Z"
-            }
           }
         }
       ],
@@ -875,6 +794,177 @@
         }
       ],
       "auditLogs": [
+        {
+          "id": "log_1784349726302",
+          "timestamp": "2026-07-18T04:42:06.302Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=11, delivery=3, design=14, qa=20, time=17 (Total: 65)"
+        },
+        {
+          "id": "log_1784349501150",
+          "timestamp": "2026-07-18T04:38:21.150Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=0, delivery=17, design=12, qa=17, time=0 (Total: 46)"
+        },
+        {
+          "id": "log_1784349496373",
+          "timestamp": "2026-07-18T04:38:16.373Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=18, delivery=12, design=14, qa=20, time=17 (Total: 81)"
+        },
+        {
+          "id": "log_1784349489999",
+          "timestamp": "2026-07-18T04:38:09.999Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=18, delivery=12, design=14, qa=20, time=17 (Total: 81)"
+        },
+        {
+          "id": "log_1784349312473",
+          "timestamp": "2026-07-18T04:35:12.473Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=0, design=14, qa=0, time=0 (Total: 28)"
+        },
+        {
+          "id": "log_1784349312415",
+          "timestamp": "2026-07-18T04:35:12.415Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=0, design=14, qa=0, time=0 (Total: 28)"
+        },
+        {
+          "id": "log_1784349312354",
+          "timestamp": "2026-07-18T04:35:12.354Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=0, design=14, qa=0, time=0 (Total: 28)"
+        },
+        {
+          "id": "log_1784349312214",
+          "timestamp": "2026-07-18T04:35:12.214Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=0, design=14, qa=0, time=0 (Total: 28)"
+        },
+        {
+          "id": "log_1784349312034",
+          "timestamp": "2026-07-18T04:35:12.034Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=0, design=14, qa=0, time=0 (Total: 28)"
+        },
+        {
+          "id": "log_1784349311907",
+          "timestamp": "2026-07-18T04:35:11.907Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=0, design=14, qa=0, time=0 (Total: 28)"
+        },
+        {
+          "id": "log_1784349311851",
+          "timestamp": "2026-07-18T04:35:11.851Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=0, design=14, qa=0, time=0 (Total: 28)"
+        },
+        {
+          "id": "log_1784349311793",
+          "timestamp": "2026-07-18T04:35:11.793Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=0, design=14, qa=0, time=0 (Total: 29)"
+        },
+        {
+          "id": "log_1784349311736",
+          "timestamp": "2026-07-18T04:35:11.736Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=0, design=14, qa=0, time=0 (Total: 29)"
+        },
+        {
+          "id": "log_1784349311498",
+          "timestamp": "2026-07-18T04:35:11.498Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=0, design=14, qa=0, time=0 (Total: 29)"
+        },
+        {
+          "id": "log_1784349311434",
+          "timestamp": "2026-07-18T04:35:11.434Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=16, delivery=0, design=14, qa=0, time=0 (Total: 30)"
+        },
+        {
+          "id": "log_1784349311386",
+          "timestamp": "2026-07-18T04:35:11.386Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=16, delivery=0, design=14, qa=0, time=0 (Total: 30)"
+        },
+        {
+          "id": "log_1784349311333",
+          "timestamp": "2026-07-18T04:35:11.333Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=16, delivery=0, design=14, qa=0, time=0 (Total: 30)"
+        },
+        {
+          "id": "log_1784349311278",
+          "timestamp": "2026-07-18T04:35:11.278Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=0, design=14, qa=0, time=0 (Total: 31)"
+        },
+        {
+          "id": "log_1784349311224",
+          "timestamp": "2026-07-18T04:35:11.224Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=0, design=14, qa=0, time=0 (Total: 31)"
+        },
         {
           "id": "log_1784349310980",
           "timestamp": "2026-07-18T04:35:10.980Z",
@@ -1083,40 +1173,7 @@
       },
       "teams": [],
       "pptTeams": [],
-      "posterTeams": [
-        {
-          "id": "t_1",
-          "name": "Alpha Coders",
-          "color": "#fb7185",
-          "members": [
-            "Amit",
-            "Rahul"
-          ],
-          "score": 0,
-          "criteria": {
-            "creativity": 0,
-            "relevance": 0,
-            "aesthetics": 0,
-            "explanation": 0
-          }
-        },
-        {
-          "id": "t_2",
-          "name": "Byte Wizards",
-          "color": "#60a5fa",
-          "members": [
-            "Sanjay",
-            "Diya"
-          ],
-          "score": 0,
-          "criteria": {
-            "creativity": 0,
-            "relevance": 0,
-            "aesthetics": 0,
-            "explanation": 0
-          }
-        }
-      ],
+      "posterTeams": [],
       "interviewTeams": [],
       "debuggingTeams": []
     },
@@ -1138,40 +1195,7 @@
       "teams": [],
       "pptTeams": [],
       "posterTeams": [],
-      "interviewTeams": [
-        {
-          "id": "t_1",
-          "name": "Alpha Coders",
-          "color": "#fb7185",
-          "members": [
-            "Amit",
-            "Rahul"
-          ],
-          "score": 0,
-          "criteria": {
-            "calmness": 0,
-            "mind": 0,
-            "communication": 0,
-            "arguments": 0
-          }
-        },
-        {
-          "id": "t_2",
-          "name": "Byte Wizards",
-          "color": "#60a5fa",
-          "members": [
-            "Sanjay",
-            "Diya"
-          ],
-          "score": 0,
-          "criteria": {
-            "calmness": 0,
-            "mind": 0,
-            "communication": 0,
-            "arguments": 0
-          }
-        }
-      ],
+      "interviewTeams": [],
       "debuggingTeams": []
     },
     {
@@ -1193,40 +1217,7 @@
       "pptTeams": [],
       "posterTeams": [],
       "interviewTeams": [],
-      "debuggingTeams": [
-        {
-          "id": "t_1",
-          "name": "Alpha Coders",
-          "color": "#fb7185",
-          "members": [
-            "Amit",
-            "Rahul"
-          ],
-          "score": 0,
-          "criteria": {
-            "syntactic": 0,
-            "logical": 0,
-            "speed": 0,
-            "style": 0
-          }
-        },
-        {
-          "id": "t_2",
-          "name": "Byte Wizards",
-          "color": "#60a5fa",
-          "members": [
-            "Sanjay",
-            "Diya"
-          ],
-          "score": 0,
-          "criteria": {
-            "syntactic": 0,
-            "logical": 0,
-            "speed": 0,
-            "style": 0
-          }
-        }
-      ]
+      "debuggingTeams": []
     }
   ]
 }
