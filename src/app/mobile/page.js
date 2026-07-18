@@ -183,6 +183,51 @@ export default function MobileController() {
     setIsUnlockedOverride(false);
   }, [currentTeamIndex, selectedEventId]);
 
+  // Subscribe to EventSource SSE stream for the selected event to get real-time additions (teams/questions/judges)
+  useEffect(() => {
+    if (!selectedEventId || !mounted) return;
+
+    let eventSource = null;
+    const connectSSE = () => {
+      const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+      eventSource = new EventSource(`${origin}/api/event/${selectedEventId}/stream`);
+
+      eventSource.addEventListener('state', (e) => {
+        try {
+          const json = JSON.parse(e.data);
+          if (json.event) {
+            setDb(prev => {
+              const nextEvents = prev.events.map(ev => ev.id === json.event.id ? json.event : ev);
+              if (!nextEvents.some(ev => ev.id === json.event.id)) {
+                nextEvents.push(json.event);
+              }
+              return {
+                ...prev,
+                events: nextEvents
+              };
+            });
+          }
+        } catch (err) {
+          console.error('Failed to parse SSE payload:', err);
+        }
+      });
+
+      eventSource.onerror = (err) => {
+        console.error('Mobile SSE connection lost. Reconnecting in 3 seconds...', err);
+        eventSource.close();
+        setTimeout(connectSSE, 3000);
+      };
+    };
+
+    connectSSE();
+
+    return () => {
+      if (eventSource) {
+        eventSource.close();
+      }
+    };
+  }, [selectedEventId, mounted]);
+
   useEffect(() => {
     if (activeEvent && deviceId) {
       const activeJudges = activeEvent.connectedJudges || [];

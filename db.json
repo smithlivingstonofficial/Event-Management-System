@@ -801,10 +801,10 @@
             "Amit",
             "Rahul"
           ],
-          "score": 81,
+          "score": 65,
           "criteria": {
-            "content": 18,
-            "delivery": 12,
+            "content": 11,
+            "delivery": 3,
             "design": 14,
             "qa": 20,
             "time": 17
@@ -812,15 +812,15 @@
           "judgeScores": {
             "dev_3af07wk02": {
               "judgeName": "Smith",
-              "score": 81,
+              "score": 65,
               "criteria": {
-                "content": 18,
-                "delivery": 12,
+                "content": 11,
+                "delivery": 3,
                 "design": 14,
                 "qa": 20,
                 "time": 17
               },
-              "updatedAt": "2026-07-18T04:38:16.373Z"
+              "updatedAt": "2026-07-18T04:42:06.302Z"
             }
           }
         },
@@ -875,6 +875,15 @@
         }
       ],
       "auditLogs": [
+        {
+          "id": "log_1784349726302",
+          "timestamp": "2026-07-18T04:42:06.302Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=11, delivery=3, design=14, qa=20, time=17 (Total: 65)"
+        },
         {
           "id": "log_1784349501150",
           "timestamp": "2026-07-18T04:38:21.150Z",
