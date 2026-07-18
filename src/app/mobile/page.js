@@ -60,6 +60,11 @@ export default function MobileController() {
   const [db, setDb] = useState({ categories: [], questions: [], teams: [], events: [] });
   const [selectedEventId, setSelectedEventId] = useState('');
   const [activeTab, setActiveTab] = useState('teams'); // 'teams' | 'pptTeams' | ...
+  const [currentTeamIndex, setCurrentTeamIndex] = useState(0);
+  const [localCriteria, setLocalCriteria] = useState({});
+  const [localQuizScore, setLocalQuizScore] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUnlockedOverride, setIsUnlockedOverride] = useState(false);
   const [loading, setLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState('');
 
@@ -137,7 +142,46 @@ export default function MobileController() {
 
   // Check if current device is registered as an active judge
   const activeEvent = db.events.find(e => e.id === selectedEventId);
+  
+  // Automatically determine which track is enabled on activeEvent and set activeTab
+  useEffect(() => {
+    if (activeEvent) {
+      if ((activeEvent.pptTeams || []).length > 0) {
+        setActiveTab('pptTeams');
+      } else if ((activeEvent.posterTeams || []).length > 0) {
+        setActiveTab('posterTeams');
+      } else if ((activeEvent.interviewTeams || []).length > 0) {
+        setActiveTab('interviewTeams');
+      } else if ((activeEvent.debuggingTeams || []).length > 0) {
+        setActiveTab('debuggingTeams');
+      } else {
+        setActiveTab('teams'); // Default/Quiz
+      }
+      setCurrentTeamIndex(0); // Reset index on event change
+    }
+  }, [selectedEventId, activeEvent?.id]);
+
   const teamList = activeEvent ? (activeEvent[activeTab] || []) : [];
+  const currentTeam = teamList[currentTeamIndex];
+
+  // Synchronize local edit state when team changes
+  useEffect(() => {
+    if (currentTeam) {
+      const match = currentTeam.judgeScores?.[deviceId];
+      if (match) {
+        setLocalCriteria(match.criteria || {});
+        setLocalQuizScore(match.score || 0);
+      } else {
+        setLocalCriteria({});
+        setLocalQuizScore(0);
+      }
+    }
+  }, [currentTeamIndex, selectedEventId, activeTab, currentTeam?.id]);
+
+  // Reset unlock override when team changes
+  useEffect(() => {
+    setIsUnlockedOverride(false);
+  }, [currentTeamIndex, selectedEventId]);
 
   useEffect(() => {
     if (activeEvent && deviceId) {
@@ -245,33 +289,45 @@ export default function MobileController() {
     }
   };
 
-  // Stepper / Input changes for Quiz Scoring
-  const handleQuizScoreUpdate = (teamId, newScore) => {
+  // Stepper / Input changes for Quiz Scoring (local state only)
+  const handleQuizScoreUpdate = (newScore) => {
     const val = Math.max(0, Number(newScore) || 0);
-    submitJudgeScore(teamId, val, null);
+    setLocalQuizScore(val);
   };
 
-  // Slider adjustments for evaluated judged round criteria
-  const handleJudgedCriteriaUpdate = (teamId, criterionId, val) => {
-    if (!activeEvent) return;
-    const trackTeams = activeEvent[activeTab] || [];
-    const team = trackTeams.find(t => t.id === teamId);
-    if (!team) return;
-
-    const currentJudgeScore = team.judgeScores?.[deviceId];
-    const currentCriteria = currentJudgeScore?.criteria || team.criteria || {};
-
-    const updatedCriteria = {
-      ...currentCriteria,
+  // Slider adjustments for evaluated judged round criteria (local state only)
+  const handleJudgedCriteriaUpdate = (criterionId, val) => {
+    setLocalCriteria(prev => ({
+      ...prev,
       [criterionId]: Math.max(0, Number(val) || 0)
-    };
+    }));
+  };
 
-    let sum = 0;
-    Object.keys(updatedCriteria).forEach(k => {
-      sum += updatedCriteria[k];
-    });
+  // Handles explicit score submission for active team
+  const handleScoreSubmit = async (e) => {
+    if (e) e.preventDefault();
+    if (!currentTeam) return;
 
-    submitJudgeScore(teamId, sum, updatedCriteria);
+    let finalScore = 0;
+    let finalCriteria = null;
+
+    if (activeTab === 'teams') {
+      finalScore = localQuizScore;
+      finalCriteria = null;
+    } else {
+      const criteriaInfo = TRACKS_CRITERIA[activeTab];
+      if (!criteriaInfo) return;
+
+      finalCriteria = {};
+      criteriaInfo.criteria.forEach(crit => {
+        finalCriteria[crit.id] = localCriteria[crit.id] !== undefined ? localCriteria[crit.id] : 0;
+        finalScore += finalCriteria[crit.id];
+      });
+    }
+
+    setIsSubmitting(true);
+    await submitJudgeScore(currentTeam.id, finalScore, finalCriteria);
+    setIsSubmitting(false);
   };
 
   if (!mounted || loading) {
@@ -366,44 +422,52 @@ export default function MobileController() {
         <span style={{ fontSize: '0.95rem', fontWeight: '850', color: '#1e293b' }}>{activeEvent?.name}</span>
       </div>
 
-      {/* Tab bar selection */}
-      <div className={styles.tabBar}>
-        {TABS.map(t => (
-          <button
-            key={t.key}
-            className={`${styles.tabButton} ${activeTab === t.key ? styles.tabButtonActive : ''}`}
-            onClick={() => {
-              setActiveTab(t.key);
-              localStorage.setItem('judgeActiveTab', t.key);
-            }}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Team Cards Lists */}
-      <main className={styles.teamList}>
-        {teamList.length === 0 ? (
+      {teamList.length === 0 ? (
+        <main className={styles.teamList}>
           <div className={styles.noTeams}>
             No teams registered for this track. Configure teams on the laptop dashboard.
           </div>
-        ) : (
-          teamList.map(team => {
+        </main>
+      ) : (
+        <main style={{ display: 'flex', flexDirection: 'column' }}>
+          {/* Progress Indicator */}
+          <div className={styles.progressContainer}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Progress</span>
+              <span style={{ fontSize: '0.8rem', fontWeight: '850', color: '#4f46e5' }}>Team {currentTeamIndex + 1} of {teamList.length}</span>
+            </div>
+            <div style={{ width: '100%', height: '6px', background: '#f1f5f9', borderRadius: '10px', overflow: 'hidden' }}>
+              <div style={{ width: `${((currentTeamIndex + 1) / teamList.length) * 100}%`, height: '100%', background: 'linear-gradient(90deg, #4f46e5, #6366f1)', borderRadius: '10px', transition: 'width 0.3s ease' }} />
+            </div>
+          </div>
+
+          {/* Single Team Card */}
+          {(() => {
+            const team = teamList[currentTeamIndex];
             const isQuiz = activeTab === 'teams';
             const criteriaInfo = isQuiz ? null : TRACKS_CRITERIA[activeTab];
 
-            // UI/UX: Display the judge's OWN score instead of the global aggregated average
+            // Check if this judge device has already submitted scores for this team
             const judgeScoreRecord = team.judgeScores?.[deviceId];
-            const displayedScore = judgeScoreRecord ? judgeScoreRecord.score : 0;
+            const isLocked = !!judgeScoreRecord && !isUnlockedOverride;
+
+            // Compute score to display
+            let displayedScore = 0;
+            if (isLocked) {
+              displayedScore = judgeScoreRecord.score;
+            } else if (isQuiz) {
+              displayedScore = localQuizScore;
+            } else {
+              // Sum criteria
+              displayedScore = Object.keys(localCriteria).reduce((acc, k) => acc + (localCriteria[k] || 0), 0);
+            }
 
             return (
               <section
-                key={team.id}
                 className={styles.teamCard}
-                style={{ borderLeft: `6px solid ${team.color || '#cbd5e1'}` }}
+                style={{ borderTop: `6px solid ${team.color || '#4f46e5'}`, borderLeft: '1px solid #e2e8f0' }}
               >
-                {/* Team header and current score */}
+                {/* Team header */}
                 <div className={styles.teamHeader}>
                   <div>
                     <h2 className={styles.teamName}>{team.name}</h2>
@@ -411,13 +475,41 @@ export default function MobileController() {
                       <p className={styles.teamMembers}>{team.members.join(', ')}</p>
                     )}
                   </div>
-                  <div className={styles.scoreBadge}>
-                    <span className={styles.scoreNumber} style={{ color: team.color || '#4f46e5' }}>
+                  <div className={styles.scoreBadge} style={{ background: isLocked ? 'rgba(16, 185, 129, 0.05)' : '#f8fafc', borderColor: isLocked ? 'rgba(16, 185, 129, 0.2)' : '#e2e8f0' }}>
+                    <span className={styles.scoreNumber} style={{ color: isLocked ? '#10b981' : (team.color || '#4f46e5') }}>
                       {displayedScore}
                     </span>
                     <span className={styles.scoreUnits}>pts</span>
                   </div>
                 </div>
+
+                {/* Score Locked Alert banner */}
+                {isLocked && (
+                  <div className={styles.lockedBadge}>
+                    <span className={styles.lockedText}>🔒 Score Submitted & Locked</span>
+                    <span className={styles.lockedDesc}>You graded this team {displayedScore} pts. Results are saved.</span>
+                    <button
+                      onClick={() => setIsUnlockedOverride(true)}
+                      style={{
+                        marginTop: '0.65rem',
+                        padding: '0.4rem 0.85rem',
+                        background: 'rgba(79, 70, 229, 0.08)',
+                        color: '#4f46e5',
+                        border: '1.5px solid rgba(79, 70, 229, 0.25)',
+                        borderRadius: '8px',
+                        fontSize: '0.75rem',
+                        fontWeight: '800',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.3rem',
+                        transition: 'all 0.15s ease'
+                      }}
+                    >
+                      🔓 Unlock Score to Edit
+                    </button>
+                  </div>
+                )}
 
                 {/* Score Controls */}
                 {isQuiz ? (
@@ -426,25 +518,29 @@ export default function MobileController() {
                     <div className={styles.stepperRow}>
                       <button
                         className={`${styles.stepperBtn} ${styles.stepperBtnSub}`}
-                        onClick={() => handleQuizScoreUpdate(team.id, displayedScore - 10)}
+                        disabled={isLocked}
+                        onClick={() => handleQuizScoreUpdate(displayedScore - 10)}
                       >
                         -10
                       </button>
                       <button
                         className={`${styles.stepperBtn} ${styles.stepperBtnSub}`}
-                        onClick={() => handleQuizScoreUpdate(team.id, displayedScore - 1)}
+                        disabled={isLocked}
+                        onClick={() => handleQuizScoreUpdate(displayedScore - 1)}
                       >
                         -1
                       </button>
                       <button
                         className={`${styles.stepperBtn} ${styles.stepperBtnAdd}`}
-                        onClick={() => handleQuizScoreUpdate(team.id, displayedScore + 1)}
+                        disabled={isLocked}
+                        onClick={() => handleQuizScoreUpdate(displayedScore + 1)}
                       >
                         +1
                       </button>
                       <button
                         className={`${styles.stepperBtn} ${styles.stepperBtnAdd}`}
-                        onClick={() => handleQuizScoreUpdate(team.id, displayedScore + 10)}
+                        disabled={isLocked}
+                        onClick={() => handleQuizScoreUpdate(displayedScore + 10)}
                       >
                         +10
                       </button>
@@ -454,8 +550,9 @@ export default function MobileController() {
                       <input
                         type="number"
                         className={styles.manualInput}
+                        disabled={isLocked}
                         value={displayedScore}
-                        onChange={(e) => handleQuizScoreUpdate(team.id, e.target.value)}
+                        onChange={(e) => handleQuizScoreUpdate(e.target.value)}
                       />
                     </div>
                   </div>
@@ -463,32 +560,67 @@ export default function MobileController() {
                   /* Judged: Sliders per evaluation criteria */
                   <div className={styles.judgedControls}>
                     {criteriaInfo.criteria.map(crit => {
-                      const criteriaObj = judgeScoreRecord ? (judgeScoreRecord.criteria || {}) : {};
-                      const val = criteriaObj[crit.id] || 0;
+                      const val = isLocked 
+                        ? (judgeScoreRecord.criteria?.[crit.id] || 0)
+                        : (localCriteria[crit.id] || 0);
+
                       return (
                         <div key={crit.id} className={styles.sliderRow}>
                           <div className={styles.sliderHeader}>
                             <span className={styles.sliderName}>{crit.name}</span>
-                            <span className={styles.sliderVal}>{val} / {crit.max}</span>
+                            <span className={styles.sliderVal} style={{ background: isLocked ? 'rgba(16, 185, 129, 0.08)' : 'rgba(79, 70, 229, 0.08)', color: isLocked ? '#10b981' : '#4f46e5' }}>{val} / {crit.max}</span>
                           </div>
                           <input
                             type="range"
                             className={styles.sliderInput}
+                            disabled={isLocked}
                             min="0"
                             max={crit.max}
                             value={val}
-                            onChange={(e) => handleJudgedCriteriaUpdate(team.id, crit.id, e.target.value)}
+                            style={{ accentColor: isLocked ? '#10b981' : '#4f46e5' }}
+                            onChange={(e) => handleJudgedCriteriaUpdate(crit.id, e.target.value)}
                           />
                         </div>
                       );
                     })}
                   </div>
                 )}
+
+                {/* Submit button when not locked */}
+                {!isLocked && (
+                  <div style={{ marginTop: '0.75rem' }}>
+                    <button
+                      onClick={handleScoreSubmit}
+                      disabled={isSubmitting}
+                      className={styles.submitBtn}
+                    >
+                      {isSubmitting ? 'Submitting...' : '💾 Submit Score'}
+                    </button>
+                  </div>
+                )}
               </section>
             );
-          })
-        )}
-      </main>
+          })()}
+
+          {/* Navigation Controls */}
+          <div className={styles.navRow}>
+            <button
+              className={styles.navBtn}
+              onClick={() => setCurrentTeamIndex(prev => Math.max(0, prev - 1))}
+              disabled={currentTeamIndex === 0}
+            >
+              &larr; Prev Team
+            </button>
+            <button
+              className={styles.navBtn}
+              onClick={() => setCurrentTeamIndex(prev => Math.min(teamList.length - 1, prev + 1))}
+              disabled={currentTeamIndex === teamList.length - 1}
+            >
+              Next Team &rarr;
+            </button>
+          </div>
+        </main>
+      )}
 
       {/* Floating Save Toast feedback */}
       {toastMessage && (

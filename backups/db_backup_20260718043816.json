@@ -851,7 +851,7 @@
                 "qa": 17,
                 "time": 0
               },
-              "updatedAt": "2026-07-18T04:38:21.150Z"
+              "updatedAt": "2026-07-18T04:34:20.446Z"
             }
           }
         }
@@ -875,15 +875,6 @@
         }
       ],
       "auditLogs": [
-        {
-          "id": "log_1784349501150",
-          "timestamp": "2026-07-18T04:38:21.150Z",
-          "judgeName": "Smith",
-          "teamName": "Byte Wizards",
-          "track": "PPT Presentation",
-          "action": "Updated Grade",
-          "details": "Scores: content=0, delivery=17, design=12, qa=17, time=0 (Total: 46)"
-        },
         {
           "id": "log_1784349496373",
           "timestamp": "2026-07-18T04:38:16.373Z",

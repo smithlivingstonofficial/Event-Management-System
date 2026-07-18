@@ -393,3 +393,109 @@
   85% { opacity: 1; transform: translate(-50%, 0); }
   100% { opacity: 0; transform: translate(-50%, -15px); }
 }
+
+/* Progress Bar styling */
+.progressContainer {
+  margin-bottom: 1.25rem;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 0.85rem 1.1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+/* Locked Indicator Card Overlay */
+.lockedBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 185, 129, 0.04);
+  border: 1.5px solid rgba(16, 185, 129, 0.25);
+  border-radius: 16px;
+  padding: 1.1rem 1.25rem;
+  text-align: center;
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+  animation: pulseLight 2s infinite ease-in-out;
+}
+
+@keyframes pulseLight {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.008); box-shadow: 0 0 12px rgba(16, 185, 129, 0.04); }
+  100% { transform: scale(1); }
+}
+
+.lockedText {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #065f46;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.lockedDesc {
+  font-size: 0.72rem;
+  color: #047857;
+  font-weight: 600;
+}
+
+/* Submit and Navigation buttons */
+.submitBtn {
+  width: 100%;
+  padding: 0.95rem;
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-sizing: border-box;
+}
+
+.submitBtn:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 5px rgba(79, 70, 229, 0.2);
+}
+
+.navRow {
+  display: flex;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+
+.navBtn {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  color: #1e293b;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  user-select: none;
+}
+
+.navBtn:active:not(:disabled) {
+  background: #f8fafc;
+  transform: scale(0.97);
+}
+
+.navBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
