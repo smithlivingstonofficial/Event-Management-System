@@ -1,0 +1,448 @@
+/* ==========================================
+   Core Variable Themes (Default Dark)
+ ========================================== */
+:root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --border-color: #334155;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --accent-neon: #10b981;
+    --accent-neon-hover: #059669;
+    --danger: #ef4444;
+    
+    /* Theme Map Links */
+    --input-bg: #0f172a;
+    --readonly-bg: #1e293b;
+    --panel-bg: rgba(15, 23, 42, 0.6);
+    --question-bg: rgba(15, 23, 42, 0.4);
+    --shadow-intensity: rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================
+   Light Theme Override Configurations
+ ========================================== */
+body.light-theme {
+    --bg-color: #f1f5f9;
+    --card-bg: #ffffff;
+    --border-color: #cbd5e1;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --accent-neon: #059669;
+    --accent-neon-hover: #047857;
+    
+    /* Theme Map Links */
+    --input-bg: #ffffff;
+    --readonly-bg: #f8fafc;
+    --panel-bg: #f8fafc;
+    --question-bg: #f1f5f9;
+    --shadow-intensity: rgba(15, 23, 42, 0.08);
+}
+
+/* ==========================================
+   Layout Base Styles
+ ========================================== */
+.bca_quiz_body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    padding: 40px 20px;
+    line-height: 1.6;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px var(--shadow-intensity), 0 8px 10px -6px var(--shadow-intensity);
+    border: 1px solid var(--border-color);
+    position: relative;
+    transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Header & Typography */
+h1.bca_title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    background: linear-gradient(to right, #60a5fa, #34d399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.05em;
+}
+
+hr.bca_hr {
+    border: 0;
+    height: 1px;
+    background: var(--border-color);
+    margin: 30px 0;
+}
+
+/* Theme Toggle Button Position Overrides */
+.theme-toggle-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: auto;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    background: var(--panel-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    box-shadow: none;
+}
+
+.theme-toggle-btn:hover {
+    background: var(--primary);
+    color: #ffffff;
+    transform: none;
+}
+
+/* Student Details Panel Layout */
+.student-details {
+    background: var(--panel-bg);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.student-details h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #60a5fa;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+/* Modern Input Fields & Dropdowns */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Focus and Readonly States */
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.input-group input[readonly] {
+    background-color: var(--readonly-bg);
+    color: var(--text-muted);
+    border-style: dashed;
+    cursor: not-allowed;
+}
+
+/* Interactive Action Buttons */
+.bca_quiz_body button {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.bca_quiz_body button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.bca_quiz_body button:active {
+    transform: translateY(1px);
+}
+
+/* Event Dynamic Submission Button (Quiz Page) */
+.bca_quiz_body button.btn-submit-quiz {
+    background: var(--accent-neon);
+    margin-top: 20px;
+}
+
+.bca_quiz_body button.btn-submit-quiz:hover {
+    background: var(--accent-neon-hover);
+}
+
+/* Quiz Presentation Elements */
+.question {
+    margin: 25px 0;
+    padding: 24px;
+    background: var(--question-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.question p {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 18px;
+    color: var(--text-main);
+}
+
+.question label {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.question label:hover {
+    background: var(--panel-bg);
+}
+
+.question input[type="radio"] {
+    margin-right: 12px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+}
+
+/* Responsive Grid Layout for Desktop Form View */
+@media (min-width: 768px) {
+    .student-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .student-details h2 {
+        grid-column: 1 / -1;
+    }
+
+    #teamDiv {
+        grid-column: 1 / -1;
+    }
+}
+
+/* ==========================================
+   Quiz Event Split-Screen Layout Matrices
+ ========================================== */
+.arena-split-zone {
+    animation: fadeInArena 0.4s ease-in-out;
+}
+
+.ppt-display-panel iframe {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .arena-split-zone {
+        flex-direction: column;
+    }
+    .ppt-display-panel {
+        min-height: 280px;
+    }
+}
+
+@keyframes fadeInArena {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Excel sheet styles overrides */
+.privileged-tab {
+    display: none;
+}
+.sheet-section {
+    display: none;
+    margin-top: 20px;
+}
+.sheet-section.active {
+    display: block;
+}
+.excel-container {
+    width: 100%;
+    height: 450px;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: #ffffff;
+}
+body.light-theme .excel-container { background: #ffffff; }
+.action-row {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+.action-row button { width: auto; }
+.btn-success { background-color: var(--accent-neon) !important; }
+
+.helper-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+/* Winner podium style grid */
+.podium-card {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    transition: transform 0.2s ease;
+}
+.podium-card:hover { 
+    transform: translateY(-2px); 
+}
+.podium-card h3 {
+    margin-top: 0;
+    font-size: 1.35rem;
+    color: var(--primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+.rank-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 12px 0;
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.4);
+}
+.rank-box.gold { border-left: 4px solid #f59e0b; }
+.rank-box.silver { border-left: 4px solid #94a3b8; }
+.badge { font-size: 1.5rem; }
+.rank-info p { margin: 2px 0; font-size: 0.95rem; }
+.no-record { color: var(--text-muted); font-style: italic; font-size: 0.9rem; }
+
+.leaderboard-panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 30px;
+}
+.leaderboard-panel h3 {
+    margin-top: 0;
+    color: #60a5fa;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+.rank-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+.rank-table th {
+    padding: 12px;
+    background: rgba(15, 23, 42, 0.5);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-color);
+}
+.rank-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+}
+.rank-table tr:hover {
+    background: rgba(59, 130, 246, 0.05);
+}
+.pos-badge {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+.pos-1 { background: #f59e0b; color: #000; }
+.pos-2 { background: #cbd5e1; color: #000; }
+.pos-3 { background: #b45309; color: #fff; }
+
+.user-control-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 25px;
+    margin-top: 20px;
+}
+@media (max-width: 768px) { .user-control-grid { grid-template-columns: 1fr; } }
+.user-card-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(15, 23, 42, 0.4);
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+    .bca_quiz_body {
+        padding: 10px 5px !important;
+    }
+    .container {
+        padding: 20px 15px !important;
+        border-radius: 8px !important;
+    }
+    h1.bca_title {
+        font-size: 1.8rem !important;
+        margin-bottom: 20px !important;
+    }
+    .student-details {
+        padding: 15px !important;
+    }
+    .action-row {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+    .action-row button {
+        width: 100% !important;
+    }
+}

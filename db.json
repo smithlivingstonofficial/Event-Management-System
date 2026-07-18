@@ -660,10 +660,10 @@
   ],
   "events": [
     {
-      "id": "demo",
-      "name": "BCA Grand Tech Quiz 2026",
-      "status": "active",
-      "currentQuestionIndex": 18,
+      "id": "event_1784341369125",
+      "name": "Quiz",
+      "status": "idle",
+      "currentQuestionIndex": 0,
       "questionIds": [
         "btm_1",
         "btm_2",
@@ -721,10 +721,7 @@
         "timerDuration": 20,
         "timerRemaining": 20,
         "timerRunning": false,
-        "completedQuestionIds": [
-          "gtt_1"
-        ],
-        "currentRound": 5
+        "completedQuestionIds": []
       },
       "teams": [
         {
@@ -745,19 +742,30 @@
             "Diya"
           ],
           "color": "#60a5fa",
-          "score": 10
-        },
-        {
-          "id": "t_3",
-          "name": "Pixel Pioneers",
-          "members": [
-            "Karan",
-            "Nisha"
-          ],
-          "color": "#fbbf24",
           "score": 0
         }
       ],
+      "pptTeams": [],
+      "posterTeams": [],
+      "interviewTeams": [],
+      "debuggingTeams": []
+    },
+    {
+      "id": "event_1784341403712",
+      "name": "Paper Presentation",
+      "status": "idle",
+      "currentQuestionIndex": 0,
+      "questionIds": [],
+      "state": {
+        "showQuestion": false,
+        "showAnswer": false,
+        "timerStartedAt": null,
+        "timerDuration": 20,
+        "timerRemaining": 20,
+        "timerRunning": false,
+        "completedQuestionIds": []
+      },
+      "teams": [],
       "pptTeams": [
         {
           "id": "t_1",
@@ -767,13 +775,195 @@
             "Amit",
             "Rahul"
           ],
-          "score": 15,
+          "score": 0,
           "criteria": {
-            "content": 15,
+            "content": 0,
             "delivery": 0,
             "design": 0,
             "qa": 0,
             "time": 0
+          }
+        },
+        {
+          "id": "t_2",
+          "name": "Byte Wizards",
+          "color": "#60a5fa",
+          "members": [
+            "Sanjay",
+            "Diya"
+          ],
+          "score": 0,
+          "criteria": {
+            "content": 0,
+            "delivery": 0,
+            "design": 0,
+            "qa": 0,
+            "time": 0
+          }
+        }
+      ],
+      "posterTeams": [],
+      "interviewTeams": [],
+      "debuggingTeams": []
+    },
+    {
+      "id": "event_1784341421119",
+      "name": "Poster Presentation",
+      "status": "idle",
+      "currentQuestionIndex": 0,
+      "questionIds": [],
+      "state": {
+        "showQuestion": false,
+        "showAnswer": false,
+        "timerStartedAt": null,
+        "timerDuration": 20,
+        "timerRemaining": 20,
+        "timerRunning": false,
+        "completedQuestionIds": []
+      },
+      "teams": [],
+      "pptTeams": [],
+      "posterTeams": [
+        {
+          "id": "t_1",
+          "name": "Alpha Coders",
+          "color": "#fb7185",
+          "members": [
+            "Amit",
+            "Rahul"
+          ],
+          "score": 0,
+          "criteria": {
+            "creativity": 0,
+            "relevance": 0,
+            "aesthetics": 0,
+            "explanation": 0
+          }
+        },
+        {
+          "id": "t_2",
+          "name": "Byte Wizards",
+          "color": "#60a5fa",
+          "members": [
+            "Sanjay",
+            "Diya"
+          ],
+          "score": 0,
+          "criteria": {
+            "creativity": 0,
+            "relevance": 0,
+            "aesthetics": 0,
+            "explanation": 0
+          }
+        }
+      ],
+      "interviewTeams": [],
+      "debuggingTeams": []
+    },
+    {
+      "id": "event_1784341437672",
+      "name": "Stress Interview",
+      "status": "idle",
+      "currentQuestionIndex": 0,
+      "questionIds": [],
+      "state": {
+        "showQuestion": false,
+        "showAnswer": false,
+        "timerStartedAt": null,
+        "timerDuration": 20,
+        "timerRemaining": 20,
+        "timerRunning": false,
+        "completedQuestionIds": []
+      },
+      "teams": [],
+      "pptTeams": [],
+      "posterTeams": [],
+      "interviewTeams": [
+        {
+          "id": "t_1",
+          "name": "Alpha Coders",
+          "color": "#fb7185",
+          "members": [
+            "Amit",
+            "Rahul"
+          ],
+          "score": 0,
+          "criteria": {
+            "calmness": 0,
+            "mind": 0,
+            "communication": 0,
+            "arguments": 0
+          }
+        },
+        {
+          "id": "t_2",
+          "name": "Byte Wizards",
+          "color": "#60a5fa",
+          "members": [
+            "Sanjay",
+            "Diya"
+          ],
+          "score": 0,
+          "criteria": {
+            "calmness": 0,
+            "mind": 0,
+            "communication": 0,
+            "arguments": 0
+          }
+        }
+      ],
+      "debuggingTeams": []
+    },
+    {
+      "id": "event_1784341452383",
+      "name": "Debugging",
+      "status": "idle",
+      "currentQuestionIndex": 0,
+      "questionIds": [],
+      "state": {
+        "showQuestion": false,
+        "showAnswer": false,
+        "timerStartedAt": null,
+        "timerDuration": 20,
+        "timerRemaining": 20,
+        "timerRunning": false,
+        "completedQuestionIds": []
+      },
+      "teams": [],
+      "pptTeams": [],
+      "posterTeams": [],
+      "interviewTeams": [],
+      "debuggingTeams": [
+        {
+          "id": "t_1",
+          "name": "Alpha Coders",
+          "color": "#fb7185",
+          "members": [
+            "Amit",
+            "Rahul"
+          ],
+          "score": 0,
+          "criteria": {
+            "syntactic": 0,
+            "logical": 0,
+            "speed": 0,
+            "style": 0
+          }
+        },
+        {
+          "id": "t_2",
+          "name": "Byte Wizards",
+          "color": "#60a5fa",
+          "members": [
+            "Sanjay",
+            "Diya"
+          ],
+          "score": 0,
+          "criteria": {
+            "syntactic": 0,
+            "logical": 0,
+            "speed": 0,
+            "style": 0
           }
         }
       ]

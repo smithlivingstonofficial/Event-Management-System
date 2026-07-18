@@ -136,6 +136,20 @@ export function useSoundEngine() {
     playTone(880, 0.15, 'sine', 0.18, 0.08);
   }, [playTone]);
 
+  // 🔓 UNLOCK AUDIO — manual interaction hook
+  const unlockAudio = useCallback(() => {
+    try {
+      const ctx = getCtx();
+      if (ctx.state === 'suspended') {
+        ctx.resume();
+      }
+      return ctx.state;
+    } catch (e) {
+      console.warn('Unlock audio error:', e);
+      return 'closed';
+    }
+  }, [getCtx]);
+
   return {
     playTick,
     playUrgentTick,
@@ -146,5 +160,6 @@ export function useSoundEngine() {
     playQuestionSelect,
     playRoundFanfare,
     playTimerStart,
+    unlockAudio,
   };
 }

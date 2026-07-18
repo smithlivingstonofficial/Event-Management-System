@@ -1,6 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
+import { EventEmitter } from 'events';
+export const dbEmitter = new EventEmitter();
+dbEmitter.setMaxListeners(100);
+
 const DB_FILE = path.join(process.cwd(), 'db.json');
 const BACKUP_DIR = path.join(process.cwd(), 'backups');
 
@@ -36,6 +40,9 @@ export function saveDb(data) {
     
     // 2. Perform automated backup
     triggerBackup(data);
+    
+    // 3. Emit change notification to active streams
+    dbEmitter.emit('change', data);
     return true;
   } catch (error) {
     console.error('Error writing database file:', error);

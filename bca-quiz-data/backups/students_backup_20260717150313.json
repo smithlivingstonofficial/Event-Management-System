@@ -1,0 +1,15 @@
+[
+  {
+    "eventName": "Quiz Competition",
+    "name": "Durai Kumaran",
+    "regNo": "BCA001",
+    "dept": "BCA",
+    "participantType": "Solo",
+    "teamName": null,
+    "score": 5,
+    "totalQuestions": 10,
+    "submittedAt": "2026-06-28T18:09:34.139Z",
+    "awardedBy": "durai",
+    "modifiedAt": "2026-07-17T15:03:13.532Z"
+  }
+]

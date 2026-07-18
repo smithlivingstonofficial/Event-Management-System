@@ -1,6 +1,25 @@
 import { NextResponse } from 'next/server';
 import { getDb, saveDb } from '@/lib/db';
 
+const TRACKS_CRITERIA = {
+  pptTeams: {
+    title: 'PPT Presentation',
+    criteria: [{ id: 'content' }, { id: 'delivery' }, { id: 'design' }, { id: 'qa' }, { id: 'time' }]
+  },
+  posterTeams: {
+    title: 'Poster Presentation',
+    criteria: [{ id: 'creativity' }, { id: 'relevance' }, { id: 'aesthetics' }, { id: 'explanation' }]
+  },
+  interviewTeams: {
+    title: 'Stress Interview',
+    criteria: [{ id: 'calmness' }, { id: 'mind' }, { id: 'communication' }, { id: 'arguments' }]
+  },
+  debuggingTeams: {
+    title: 'Debugging Challenge',
+    criteria: [{ id: 'syntactic' }, { id: 'logical' }, { id: 'speed' }, { id: 'style' }]
+  }
+};
+
 // GET: Returns the detailed event state, including active question info, categories, and questions
 export async function GET(request, { params }) {
   const { id } = await params;
@@ -60,6 +79,17 @@ export async function PUT(request, { params }) {
   // Ensure currentRound exists
   if (!event.state.currentRound) {
     event.state.currentRound = 1;
+  }
+
+  // Ensure connection and log settings exist
+  if (!event.settings) {
+    event.settings = { maxJudges: 3 };
+  }
+  if (!event.connectedJudges) {
+    event.connectedJudges = [];
+  }
+  if (!event.auditLogs) {
+    event.auditLogs = [];
   }
   
   switch (action) {
@@ -245,6 +275,136 @@ export async function PUT(request, { params }) {
       event.state.timerRunning = false;
       event.state.timerStartedAt = null;
       break;
+
+    case 'register-judge': {
+      const { deviceId, name } = payload;
+      
+      const existingIndex = event.connectedJudges.findIndex(j => j.deviceId === deviceId);
+      if (existingIndex !== -1) {
+        event.connectedJudges[existingIndex].name = name;
+        event.connectedJudges[existingIndex].registeredAt = new Date().toISOString();
+      } else {
+        const limit = event.settings.maxJudges || 3;
+        if (event.connectedJudges.length >= limit) {
+          return NextResponse.json({ error: `Connection limit reached. Max: ${limit} judges allowed.` }, { status: 403 });
+        }
+        event.connectedJudges.push({
+          deviceId,
+          name,
+          registeredAt: new Date().toISOString()
+        });
+        
+        event.auditLogs.unshift({
+          id: 'log_' + Date.now(),
+          timestamp: new Date().toISOString(),
+          judgeName: name,
+          teamName: 'System',
+          track: 'Security',
+          action: 'Judge Connected',
+          details: `Device connected. Current connection count: ${event.connectedJudges.length}`
+        });
+      }
+      break;
+    }
+
+    case 'remove-judge': {
+      const { deviceId } = payload;
+      const target = event.connectedJudges.find(j => j.deviceId === deviceId);
+      if (target) {
+        event.connectedJudges = event.connectedJudges.filter(j => j.deviceId !== deviceId);
+        
+        event.auditLogs.unshift({
+          id: 'log_' + Date.now(),
+          timestamp: new Date().toISOString(),
+          judgeName: 'Administrator',
+          teamName: 'System',
+          track: 'Security',
+          action: 'Judge Disconnected',
+          details: `Removed judge "${target.name}" (${deviceId})`
+        });
+      }
+      break;
+    }
+
+    case 'update-event-settings': {
+      event.settings = {
+        ...event.settings,
+        ...payload
+      };
+      if (event.settings.maxJudges && event.connectedJudges.length > event.settings.maxJudges) {
+        event.connectedJudges = event.connectedJudges.slice(0, event.settings.maxJudges);
+      }
+      break;
+    }
+
+    case 'update-judge-score': {
+      const { teamId, trackKey, deviceId, judgeName, score, criteria } = payload;
+      const trackTeams = event[trackKey] || [];
+      const team = trackTeams.find(t => t.id === teamId);
+      
+      if (team) {
+        if (!team.judgeScores) team.judgeScores = {};
+        
+        team.judgeScores[deviceId] = {
+          judgeName,
+          score: Number(score) || 0,
+          criteria: criteria || null,
+          updatedAt: new Date().toISOString()
+        };
+        
+        const allJudgeKeys = Object.keys(team.judgeScores);
+        const judgeCount = allJudgeKeys.length;
+        
+        if (judgeCount > 0) {
+          if (trackKey !== 'teams' && TRACKS_CRITERIA[trackKey]) {
+            const criteriaKeys = TRACKS_CRITERIA[trackKey].criteria.map(c => c.id);
+            const avgCriteria = {};
+            
+            criteriaKeys.forEach(ck => {
+              let criteriaSum = 0;
+              let gradedCount = 0;
+              
+              allJudgeKeys.forEach(jk => {
+                const jScore = team.judgeScores[jk];
+                if (jScore.criteria && jScore.criteria[ck] !== undefined) {
+                  criteriaSum += Number(jScore.criteria[ck]) || 0;
+                  gradedCount++;
+                }
+              });
+              
+              avgCriteria[ck] = gradedCount > 0 ? Math.round((criteriaSum / gradedCount) * 10) / 10 : 0;
+            });
+            
+            team.criteria = avgCriteria;
+            
+            let totalScore = 0;
+            Object.keys(avgCriteria).forEach(ck => {
+              totalScore += avgCriteria[ck];
+            });
+            team.score = Math.round(totalScore * 10) / 10;
+          } else {
+            let scoreSum = 0;
+            allJudgeKeys.forEach(jk => {
+              scoreSum += Number(team.judgeScores[jk].score) || 0;
+            });
+            team.score = Math.round((scoreSum / judgeCount) * 10) / 10;
+          }
+        }
+        
+        event.auditLogs.unshift({
+          id: 'log_' + Date.now(),
+          timestamp: new Date().toISOString(),
+          judgeName,
+          teamName: team.name,
+          track: trackKey === 'teams' ? 'Live Quiz' : TRACKS_CRITERIA[trackKey]?.title || trackKey,
+          action: 'Updated Grade',
+          details: criteria 
+            ? `Scores: ${Object.entries(criteria).map(([k, v]) => `${k}=${v}`).join(', ')} (Total: ${score})`
+            : `Score override: ${score}`
+        });
+      }
+      break;
+    }
 
     default:
       return NextResponse.json({ error: 'Invalid action' }, { status: 400 });

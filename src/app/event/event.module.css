@@ -7,7 +7,7 @@
   color: var(--text-main);
   position: relative;
   overflow: hidden;
-  padding: 2.5rem 0 4.5rem 0; /* Removed horizontal padding so orbital stretches 100% */
+  padding: 2.5rem 0 4.5rem 0;
 }
 
 /* Background grid effect */
@@ -18,7 +18,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
+  background-image:
     linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
   background-size: 50px 50px;
@@ -26,6 +26,7 @@
   pointer-events: none;
   z-index: 1;
 }
+
 
 /* LOBBY VIEW */
 .lobbyContainer {
@@ -293,7 +294,7 @@
 }
 
 .questionTextLarge {
-  font-size: 2.75rem;
+  font-size: clamp(1.8rem, 3.2vw + 1vh, 3.5rem);
   font-weight: 900;
   line-height: 1.35;
   color: var(--text-main);
@@ -396,7 +397,7 @@
 }
 
 .optText {
-  font-size: 1.45rem;
+  font-size: clamp(1.1rem, 1.8vw + 0.5vh, 1.8rem);
   font-weight: 700;
   color: var(--text-main);
   line-height: 1.3;
@@ -708,26 +709,28 @@
 }
 
 .scoreFlashAdd {
-  background: rgba(16, 185, 129, 0.12) !important;
+  background: rgba(16, 185, 129, 0.18) !important;
   animation: scoreFlashPulseAdd 0.8s ease-out;
 }
 
 .scoreFlashSub {
-  background: rgba(244, 63, 94, 0.12) !important;
+  background: rgba(244, 63, 94, 0.18) !important;
   animation: scoreFlashPulseSub 0.8s ease-out;
 }
 
 @keyframes scoreFlashPulseAdd {
   0% { transform: scale(1); }
-  30% { transform: scale(1.05); background: rgba(16, 185, 129, 0.25); }
+  30% { transform: scale(1.05); background: rgba(16, 185, 129, 0.3); }
   100% { transform: scale(1); background: transparent; }
 }
 
 @keyframes scoreFlashPulseSub {
   0% { transform: scale(1); }
-  30% { transform: scale(0.97); background: rgba(244, 63, 94, 0.25); }
+  30% { transform: scale(0.97); background: rgba(244, 63, 94, 0.3); }
   100% { transform: scale(1); background: transparent; }
 }
+
+
 
 /* Presentation Orbital Category Grid System */
 .orbitalWrapper {
@@ -740,148 +743,317 @@
   min-height: 640px;
   position: relative;
   overflow: hidden;
-}
-
-
-.orbitalBoard {
-  position: relative;
-  width: 680px;
-  height: 680px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 3;
+  z-index: 2;
 }
 
 .orbitalContainer {
   position: relative;
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Perfect circle orbit radius = dynamic from react state, fallback to 240px */
+  --or: var(--orbit-r, 240px);
+}
+.orbitalBoard {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Orbit Path Track */
+/* === ORBIT TRACK RINGS === */
+.orbitLineBg {
+  position: absolute;
+  width: calc(2 * var(--or) + 30px);
+  height: calc(2 * var(--or) + 30px);
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  background: radial-gradient(circle, transparent 60%, rgba(255, 255, 255, 0.04) 100%);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .orbitLine {
   position: absolute;
-  width: 560px; /* 2 * radius (280px) */
-  height: 560px;
+  width: calc(2 * var(--or));
+  height: calc(2 * var(--or));
   border-radius: 50%;
-  border: 3px dashed rgba(99, 102, 241, 0.16);
+  border: 1.5px dashed rgba(139, 92, 246, 0.35);
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 2;
-  animation: rotateOrbitLine 90s linear infinite;
+  animation: orbitLineSpin 80s linear infinite;
 }
 
-@keyframes rotateOrbitLine {
+.orbitLineInner {
+  position: absolute;
+  width: calc(2 * var(--or) - 60px);
+  height: calc(2 * var(--or) - 60px);
+  border-radius: 50%;
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+  animation: orbitLineSpin 55s linear infinite reverse;
+}
+
+@keyframes orbitLineSpin {
   from { transform: translate(-50%, -50%) rotate(0deg); }
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
+/* === PREMIUM CENTRAL HUB === */
 .centralHub {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 260px;
-  height: 260px;
+  width: min(320px, 30vw);
+  height: min(320px, 30vw);
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary) 0%, #17153f 100%);
+  background:
+    radial-gradient(circle at 35% 35%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+    linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 1.5rem;
-  color: #ffffff;
-  box-shadow: 0 16px 48px rgba(99, 102, 241, 0.35), 0 0 0 1px rgba(255,255,255,0.15);
+  padding: 2rem;
+  color: var(--text-main);
+  border: 2.5px solid rgba(99, 102, 241, 0.2);
   z-index: 10;
-  border: 4px solid #ffffff;
+  transition: all 0.5s ease;
+  box-shadow:
+    0 0 0 8px rgba(99, 102, 241, 0.05),
+    0 0 0 18px rgba(99, 102, 241, 0.02),
+    0 24px 70px rgba(0, 0, 0, 0.12),
+    0 0 50px rgba(99, 102, 241, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 1);
 }
 
 .centralPulse {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 115%;
+  height: 115%;
   border-radius: 50%;
-  border: 2px solid var(--primary);
-  animation: hubPulse 2.5s infinite ease-out;
+  border: 1.5px solid var(--glow-color, #8b5cf6);
+  animation: hubPulse 2.8s infinite ease-out;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.centralPulse2 {
+  position: absolute;
+  width: 130%;
+  height: 130%;
+  border-radius: 50%;
+  border: 1px solid var(--glow-color, #8b5cf6);
+  animation: hubPulse 2.8s 1.4s infinite ease-out;
   pointer-events: none;
   z-index: -1;
 }
 
 @keyframes hubPulse {
-  0% { transform: scale(1); opacity: 0.9; }
-  100% { transform: scale(1.35); opacity: 0; }
+  0% { opacity: 0.7; transform: scale(0.95); }
+  100% { opacity: 0; transform: scale(1.2); }
 }
 
 .hubRoundLabel {
-  font-size: 0.95rem;
+  font-size: min(0.95rem, 1.8vw);
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: #fbbf24;
-  margin-bottom: 0.4rem;
+  letter-spacing: 0.28em;
+  margin-bottom: 0.65rem;
+  opacity: 0.85;
 }
 
 .hubCategoryName {
-  font-size: 1.5rem;
-  font-weight: 850;
-  line-height: 1.35;
-  margin-bottom: 0.6rem;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  font-size: min(1.9rem, 3.2vw);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, var(--text-main) 0%, var(--primary) 40%, var(--text-main) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textShimmer 5s linear infinite;
+}
+
+@keyframes textShimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: -200% center; }
 }
 
 .hubProgress {
-  font-size: 0.9rem;
-  font-weight: 800;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 0.35rem 0.9rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.25);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  font-size: min(1rem, 2vw);
+  font-weight: 700;
+  color: var(--primary);
+  background: rgba(99, 102, 241, 0.08);
+  padding: 0.45rem 1.35rem;
+  border-radius: 999px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.08);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
-.orbitCard {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid var(--border-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+/* === ORBIT CARDS – STATIC POSITIONS, INDIVIDUAL FLOAT ANIMATIONS === */
+.orbitingCardsContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  pointer-events: none;
   z-index: 5;
-  font-size: 1.2rem;
-  font-weight: 850;
-  animation: floatCard 4s ease-in-out infinite;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes floatCard {
+/* Each orbit card is positioned absolutely at computed x,y from center */
+.orbitCardWrapper {
+  position: absolute;
+  left: calc(50% + var(--cx));
+  top: calc(50% + var(--cy));
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  pointer-events: none;
+  /* Individual float-bob animation */
+  animation: floatBob 4s ease-in-out infinite;
+  animation-delay: var(--bob-delay, 0s);
+}
+
+@keyframes floatBob {
   0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
   50% { transform: translate(-50%, -50%) translateY(-10px); }
 }
 
+.orbitCard {
+  width: min(115px, 10vw);
+  height: min(115px, 10vw);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: min(1.65rem, 2.8vw);
+  font-weight: 850;
+  pointer-events: auto;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.orbitCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
 .orbitCardActive {
-  border-color: rgba(99, 102, 241, 0.25);
-  color: var(--primary);
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.08);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: var(--text-main);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.08);
 }
 
 .orbitCardActive:hover {
-  transform: translate(-50%, -50%) scale(1.1);
-  border-color: var(--primary);
-  box-shadow: 0 12px 28px rgba(99, 102, 241, 0.2), 0 0 15px rgba(99, 102, 241, 0.25);
+  transform: scale(1.22) !important;
+  border-color: var(--glow-color) !important;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.15), 0 0 25px var(--glow-color) !important;
+  color: var(--glow-color);
+  cursor: pointer;
 }
 
 .orbitCardCompleted {
-  background: #ecfdf5;
-  border-color: var(--success);
-  color: var(--success);
-  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.15);
-  opacity: 0.95;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  box-shadow: 0 8px 35px rgba(16, 185, 129, 0.4), inset 0 1px 1px rgba(255,255,255,0.2);
+  opacity: 0.9;
 }
+
+.orbitCardCompleted svg {
+  width: min(38px, 3.8vw);
+  height: min(38px, 3.8vw);
+}
+
+.orbitCardCompleted:hover {
+  transform: scale(1.18) !important;
+  box-shadow: 0 16px 50px rgba(16, 185, 129, 0.55);
+  cursor: pointer;
+}
+
+/* Connection lines from cards to center hub */
+.orbitConnectionLine {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  background: linear-gradient(to right, rgba(139, 92, 246, 0.5), transparent);
+  transform-origin: 0 50%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.4;
+}
+
+
+
+/* Ambient Floating Glow Blobs */
+.ambientGlow1,
+.ambientGlow2 {
+  position: absolute;
+  width: min(550px, 50vw);
+  height: min(550px, 50vw);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow-color) 0%, transparent 70%);
+  opacity: 0.12;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+
+.ambientGlow1 {
+  top: -15%;
+  left: -15%;
+  animation: floatGlow1 30s ease-in-out infinite alternate;
+}
+
+.ambientGlow2 {
+  bottom: -15%;
+  right: -15%;
+  animation: floatGlow2 38s ease-in-out infinite alternate;
+}
+
+@keyframes floatGlow1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(140px, 100px) scale(1.25); }
+}
+
+@keyframes floatGlow2 {
+  0% { transform: translate(0, 0) scale(1.15); }
+  100% { transform: translate(-120px, -80px) scale(0.9); }
+}
+
+
+
+
+

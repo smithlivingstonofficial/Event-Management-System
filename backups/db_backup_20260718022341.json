@@ -19,6 +19,18 @@
     {
       "id": "web-development-and-web-technologies",
       "name": "Web Development & Web Technologies"
+    },
+    {
+      "id": "rapid-fire",
+      "name": "Rapid Fire"
+    },
+    {
+      "id": "fun-tech-trivia",
+      "name": "Fun Tech Trivia"
+    },
+    {
+      "id": "connect-the-clues",
+      "name": "Connect the Clues"
     }
   ],
   "questions": [
@@ -417,6 +429,204 @@
       "correctAnswer": "C",
       "timeLimit": 20,
       "points": 100
+    },
+    {
+      "id": "rf_1",
+      "categoryId": "rapid-fire",
+      "text": "Which programming language, developed by Apple, is the modern standard for building iOS and macOS apps (succeeding Objective-C)?",
+      "options": [],
+      "correctAnswer": "Swift",
+      "timeLimit": 15,
+      "points": 100
+    },
+    {
+      "id": "rf_2",
+      "categoryId": "rapid-fire",
+      "text": "In database management, what is the acronym for the four key properties (Atomicity, Consistency, Isolation, Durability) that guarantee transaction reliability?",
+      "options": [],
+      "correctAnswer": "ACID",
+      "timeLimit": 15,
+      "points": 100
+    },
+    {
+      "id": "rf_3",
+      "categoryId": "rapid-fire",
+      "text": "What is the acronym for the lightweight, human-readable data format that represents structured objects using curly braces {} and arrays using []?",
+      "options": [],
+      "correctAnswer": "JSON",
+      "timeLimit": 15,
+      "points": 100
+    },
+    {
+      "id": "rf_4",
+      "categoryId": "rapid-fire",
+      "text": "In Node.js development, what is the three-letter command-line tool used to install, update, and manage third-party project packages?",
+      "options": [],
+      "correctAnswer": "npm",
+      "timeLimit": 15,
+      "points": 100
+    },
+    {
+      "id": "rf_5",
+      "categoryId": "rapid-fire",
+      "text": "In HTML, what is the tag name used to define the most important heading of a webpage?",
+      "options": [],
+      "correctAnswer": "h1",
+      "timeLimit": 15,
+      "points": 100
+    },
+    {
+      "id": "rf_6",
+      "categoryId": "rapid-fire",
+      "text": "Which CSS box-model property controls the space inside an element, between the content itself and its border?",
+      "options": [],
+      "correctAnswer": "padding",
+      "timeLimit": 15,
+      "points": 100
+    },
+    {
+      "id": "ftt_1",
+      "categoryId": "fun-tech-trivia",
+      "text": "When a Windows computer suffers a critical system crash, it displays a full-screen error message. What is this screen famously called?",
+      "options": [
+        "Red Alert Screen",
+        "Blue Screen of Death (BSOD)",
+        "Black Box Failure",
+        "Error Page of Doom"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ftt_2",
+      "categoryId": "fun-tech-trivia",
+      "text": "In software and games, what is the term for a hidden feature, message, or joke left by developers for players to find?",
+      "options": [
+        "Trojan Horse",
+        "Gold Mine",
+        "Easter Egg",
+        "Phantom Code"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ftt_3",
+      "categoryId": "fun-tech-trivia",
+      "text": "What is the name of the classic, pixelated offline game that automatically appears in Google Chrome when your internet connection is lost?",
+      "options": [
+        "Snake",
+        "Pac-Man",
+        "T-Rex Dinosaur Runner",
+        "Space Invaders"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ftt_4",
+      "categoryId": "fun-tech-trivia",
+      "text": "We connect to Wi-Fi daily. What does the acronym \"Wi-Fi\" officially stand for in technical terms?",
+      "options": [
+        "Wireless Fidelity",
+        "Wide-range Frequency",
+        "Wired Fiber",
+        "Nothing (it is just a catchy brand name with no technical meaning)"
+      ],
+      "correctAnswer": "D",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ftt_5",
+      "categoryId": "fun-tech-trivia",
+      "text": "On Windows, what is the legendary three-key shortcut used to quickly open the Task Manager or unlock the computer?",
+      "options": [
+        "Ctrl + Shift + Esc",
+        "Ctrl + Alt + Delete",
+        "Alt + F4",
+        "Windows + D"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ftt_6",
+      "categoryId": "fun-tech-trivia",
+      "text": "What is the name of the small files stored by web browsers to remember your login sessions and cart items?",
+      "options": [
+        "Wafers",
+        "Crackers",
+        "Cookies",
+        "Breadcrumbs"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ctc_1",
+      "categoryId": "connect-the-clues",
+      "text": "Connect the Pictures: Combine the two visual points in the image to identify the network security system.",
+      "options": [],
+      "correctAnswer": "Firewall",
+      "timeLimit": 30,
+      "points": 150,
+      "image": "/images/firewall_rebus.png"
+    },
+    {
+      "id": "ctc_2",
+      "categoryId": "connect-the-clues",
+      "text": "Connect the Pictures: Combine the two visual points in the image to find the popular web programming language.",
+      "options": [],
+      "correctAnswer": "JavaScript",
+      "timeLimit": 30,
+      "points": 150,
+      "image": "/images/javascript_rebus.png"
+    },
+    {
+      "id": "ctc_3",
+      "categoryId": "connect-the-clues",
+      "text": "Connect the Pictures: Combine the two visual points in the image to find the hardware input device.",
+      "options": [],
+      "correctAnswer": "Keyboard",
+      "timeLimit": 30,
+      "points": 150,
+      "image": "/images/keyboard_rebus.png"
+    },
+    {
+      "id": "ctc_4",
+      "categoryId": "connect-the-clues",
+      "text": "Connect the Pictures: Combine the two visual points in the image to identify the short-range wireless standard.",
+      "options": [],
+      "correctAnswer": "Bluetooth",
+      "timeLimit": 30,
+      "points": 150,
+      "image": "/images/bluetooth_rebus.png"
+    },
+    {
+      "id": "ctc_5",
+      "categoryId": "connect-the-clues",
+      "text": "Connect the Pictures: Combine the two visual points in the image to identify the main computer circuit board.",
+      "options": [],
+      "correctAnswer": "Motherboard",
+      "timeLimit": 30,
+      "points": 150,
+      "image": "/images/motherboard_rebus.png"
+    },
+    {
+      "id": "ctc_6",
+      "categoryId": "connect-the-clues",
+      "text": "Connect the Pictures: Combine the two visual points in the image to identify the hardware processor component.",
+      "options": [],
+      "correctAnswer": "Microchip",
+      "timeLimit": 30,
+      "points": 150,
+      "image": "/images/microchip_rebus.png"
     }
   ],
   "teams": [
@@ -450,10 +660,10 @@
   ],
   "events": [
     {
-      "id": "demo",
-      "name": "BCA Grand Tech Quiz 2026",
-      "status": "active",
-      "currentQuestionIndex": 24,
+      "id": "event_1784341369125",
+      "name": "Quiz",
+      "status": "idle",
+      "currentQuestionIndex": 0,
       "questionIds": [
         "btm_1",
         "btm_2",
@@ -484,17 +694,34 @@
         "web_3",
         "web_4",
         "web_5",
-        "web_6"
+        "web_6",
+        "rf_1",
+        "rf_2",
+        "rf_3",
+        "rf_4",
+        "rf_5",
+        "rf_6",
+        "ftt_1",
+        "ftt_2",
+        "ftt_3",
+        "ftt_4",
+        "ftt_5",
+        "ftt_6",
+        "ctc_1",
+        "ctc_2",
+        "ctc_3",
+        "ctc_4",
+        "ctc_5",
+        "ctc_6"
       ],
       "state": {
-        "showQuestion": true,
+        "showQuestion": false,
         "showAnswer": false,
-        "timerStartedAt": "2026-07-17T11:05:41.458Z",
+        "timerStartedAt": null,
         "timerDuration": 20,
         "timerRemaining": 20,
-        "timerRunning": true,
-        "completedQuestionIds": [],
-        "currentRound": 5
+        "timerRunning": false,
+        "completedQuestionIds": []
       },
       "teams": [
         {
@@ -516,18 +743,122 @@
           ],
           "color": "#60a5fa",
           "score": 0
+        }
+      ],
+      "pptTeams": [],
+      "posterTeams": [],
+      "interviewTeams": [],
+      "debuggingTeams": []
+    },
+    {
+      "id": "event_1784341403712",
+      "name": "Paper Presentation",
+      "status": "idle",
+      "currentQuestionIndex": 0,
+      "questionIds": [],
+      "state": {
+        "showQuestion": false,
+        "showAnswer": false,
+        "timerStartedAt": null,
+        "timerDuration": 20,
+        "timerRemaining": 20,
+        "timerRunning": false,
+        "completedQuestionIds": []
+      },
+      "teams": [],
+      "pptTeams": [
+        {
+          "id": "t_1",
+          "name": "Alpha Coders",
+          "color": "#fb7185",
+          "members": [
+            "Amit",
+            "Rahul"
+          ],
+          "score": 0,
+          "criteria": {
+            "content": 0,
+            "delivery": 0,
+            "design": 0,
+            "qa": 0,
+            "time": 0
+          }
         },
         {
-          "id": "t_3",
-          "name": "Pixel Pioneers",
+          "id": "t_2",
+          "name": "Byte Wizards",
+          "color": "#60a5fa",
           "members": [
-            "Karan",
-            "Nisha"
+            "Sanjay",
+            "Diya"
           ],
-          "color": "#fbbf24",
-          "score": 0
+          "score": 0,
+          "criteria": {
+            "content": 0,
+            "delivery": 0,
+            "design": 0,
+            "qa": 0,
+            "time": 0
+          }
         }
-      ]
+      ],
+      "posterTeams": [],
+      "interviewTeams": [],
+      "debuggingTeams": []
+    },
+    {
+      "id": "event_1784341421119",
+      "name": "Poster Presentation",
+      "status": "idle",
+      "currentQuestionIndex": 0,
+      "questionIds": [],
+      "state": {
+        "showQuestion": false,
+        "showAnswer": false,
+        "timerStartedAt": null,
+        "timerDuration": 20,
+        "timerRemaining": 20,
+        "timerRunning": false,
+        "completedQuestionIds": []
+      },
+      "teams": [],
+      "pptTeams": [],
+      "posterTeams": [
+        {
+          "id": "t_1",
+          "name": "Alpha Coders",
+          "color": "#fb7185",
+          "members": [
+            "Amit",
+            "Rahul"
+          ],
+          "score": 0,
+          "criteria": {
+            "creativity": 0,
+            "relevance": 0,
+            "aesthetics": 0,
+            "explanation": 0
+          }
+        },
+        {
+          "id": "t_2",
+          "name": "Byte Wizards",
+          "color": "#60a5fa",
+          "members": [
+            "Sanjay",
+            "Diya"
+          ],
+          "score": 0,
+          "criteria": {
+            "creativity": 0,
+            "relevance": 0,
+            "aesthetics": 0,
+            "explanation": 0
+          }
+        }
+      ],
+      "interviewTeams": [],
+      "debuggingTeams": []
     }
   ]
 }

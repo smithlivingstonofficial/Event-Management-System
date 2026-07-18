@@ -1,0 +1,46 @@
+[
+    {
+        "collegeName": "ABC Arts and Science College",
+        "regNo": "BCA001",
+        "name": "Durai Kumaran",
+        "dept": "BCA",
+        "events": [
+            {
+                "eventName": "Quiz Competition",
+                "participantType": "Solo",
+                "teamName": ""
+            },
+            {
+                "eventName": "Web Design",
+                "participantType": "Team",
+                "teamName": "Tech Titans"
+            }
+        ]
+    },
+    {
+        "collegeName": "ABC Arts and Science College",
+        "regNo": "BCA002",
+        "name": "Arun Kumar",
+        "dept": "BCA",
+        "events": [
+            {
+                "eventName": "Coding Competition",
+                "participantType": "Team",
+                "teamName": "Code Masters"
+            }
+        ]
+    },
+    {
+        "collegeName": "XYZ College",
+        "regNo": "BCA101",
+        "name": "Priya",
+        "dept": "BCA",
+        "events": [
+            {
+                "eventName": "PPT Presentation",
+                "participantType": "Solo",
+                "teamName": "SoloMan"
+            }
+        ]
+    }
+]

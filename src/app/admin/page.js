@@ -4,6 +4,54 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './admin.module.css';
 
+const TRACKS_CRITERIA = {
+  pptTeams: {
+    key: 'pptTeams',
+    title: 'PPT Presentation',
+    desc: 'Evaluate the PowerPoint Presentation based on topic content, speaker slide deck flow, visual designs, Q&A defense and strict time limits.',
+    criteria: [
+      { id: 'content', name: 'Slide Content', max: 20 },
+      { id: 'delivery', name: 'Delivery & Voice', max: 20 },
+      { id: 'design', name: 'Visual Design', max: 20 },
+      { id: 'qa', name: 'Q&A Defense', max: 20 },
+      { id: 'time', name: 'Time Management', max: 20 }
+    ]
+  },
+  posterTeams: {
+    key: 'posterTeams',
+    title: 'Poster Presentation',
+    desc: 'Evaluate posters based on visual layouts, topic concept creativity, topical relevance, and student explanations.',
+    criteria: [
+      { id: 'creativity', name: 'Creativity & Originality', max: 25 },
+      { id: 'relevance', name: 'Topic Relevance', max: 25 },
+      { id: 'aesthetics', name: 'Visual Appeal & Aesthetics', max: 25 },
+      { id: 'explanation', name: 'Explanation & Q&A', max: 25 }
+    ]
+  },
+  interviewTeams: {
+    key: 'interviewTeams',
+    title: 'Stress Interview',
+    desc: 'Score individual candidates under intense stress testing: evaluate confidence, response speed, clarity, and rebuttal arguments.',
+    criteria: [
+      { id: 'calmness', name: 'Calmness under Stress', max: 30 },
+      { id: 'mind', name: 'Presence of Mind', max: 30 },
+      { id: 'communication', name: 'Communication Style', max: 20 },
+      { id: 'arguments', name: 'Counter-Arguments Quality', max: 20 }
+    ]
+  },
+  debuggingTeams: {
+    key: 'debuggingTeams',
+    title: 'Debugging Challenge',
+    desc: 'Grade code debugging rounds: code troubleshooting, resolving bugs, algorithm complexity optimization, and completion time.',
+    criteria: [
+      { id: 'syntactic', name: 'Syntactic Fixes', max: 30 },
+      { id: 'logical', name: 'Logical Debugging', max: 40 },
+      { id: 'speed', name: 'Completion Speed', max: 20 },
+      { id: 'style', name: 'Code Quality & Style', max: 10 }
+    ]
+  }
+};
+
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
   const [db, setDb] = useState({ categories: [], questions: [], teams: [], events: [] });
@@ -17,13 +65,17 @@ export default function AdminDashboard() {
   const [showTeamModal, setShowTeamModal] = useState(false);
 
   // Score Board states
-  const [selectedScoreboardEvent, setSelectedScoreboardEvent] = useState(null);
+  const [selectedScoreboardEventId, setSelectedScoreboardEventId] = useState('');
+  const selectedScoreboardEvent = db.events.find(e => e.id === selectedScoreboardEventId) || db.events[0];
   const [scoreboardSubTab, setScoreboardSubTab] = useState('overall'); // 'overall' | 'quiz' | 'ppt' | 'poster' | 'interview' | 'debugging'
   const [scoreboardSearch, setScoreboardSearch] = useState('');
   const [selectedScoreboardTeamId, setSelectedScoreboardTeamId] = useState('');
   const [showManageTeamsModal, setShowManageTeamsModal] = useState(false);
   const [manageTeamsList, setManageTeamsList] = useState([]); // List of team IDs
   const [manageTeamsEventKey, setManageTeamsEventKey] = useState(''); // 'pptTeams' | 'posterTeams' | ...
+  const [scoringTeam, setScoringTeam] = useState(null); // { teamId, eventKey }
+  const [showMobileQRModal, setShowMobileQRModal] = useState(false);
+  const [serverIP, setServerIP] = useState('');
 
   // Edit item targets (null if creating new)
   const [editEvent, setEditEvent] = useState(null);
@@ -82,12 +134,23 @@ export default function AdminDashboard() {
       const dbRes = await fetch('/api/db');
       if (dbRes.ok) {
         const dbData = await dbRes.json();
+        const activeEvents = dbData.events || [];
         setDb({
           categories: dbData.categories || [],
           questions: dbData.questions || [],
           teams: dbData.teams || [],
-          events: dbData.events || []
+          events: activeEvents
         });
+
+        // Automatically load first event's scoreboard
+        if (activeEvents.length > 0) {
+          setSelectedScoreboardEventId(prev => {
+            if (prev && activeEvents.some(e => e.id === prev)) {
+              return prev;
+            }
+            return activeEvents[0].id;
+          });
+        }
       }
       
       const backupRes = await fetch('/api/db/backup');
@@ -115,6 +178,36 @@ export default function AdminDashboard() {
       }
     }
   }, []);
+
+  // Sync scoreboard sub-tab when event selection changes
+  useEffect(() => {
+    if (selectedScoreboardEvent) {
+      const hasQuiz = (selectedScoreboardEvent.teams || []).length > 0 || (selectedScoreboardEvent.questionIds || []).length > 0;
+      const hasPpt = (selectedScoreboardEvent.pptTeams || []).length > 0;
+      const hasPoster = (selectedScoreboardEvent.posterTeams || []).length > 0;
+      const hasInterview = (selectedScoreboardEvent.interviewTeams || []).length > 0;
+      const hasDebugging = (selectedScoreboardEvent.debuggingTeams || []).length > 0;
+
+      let isValid = false;
+      if (scoreboardSubTab === 'overall' || scoreboardSubTab === 'judges') {
+        isValid = true;
+      } else if (scoreboardSubTab === 'quiz' && hasQuiz) {
+        isValid = true;
+      } else if (scoreboardSubTab === 'ppt' && hasPpt) {
+        isValid = true;
+      } else if (scoreboardSubTab === 'poster' && hasPoster) {
+        isValid = true;
+      } else if (scoreboardSubTab === 'interview' && hasInterview) {
+        isValid = true;
+      } else if (scoreboardSubTab === 'debugging' && hasDebugging) {
+        isValid = true;
+      }
+
+      if (!isValid) {
+        setScoreboardSubTab('overall');
+      }
+    }
+  }, [selectedScoreboardEventId, selectedScoreboardEvent?.id]);
 
   // Sync selected team selection automatically on sub-tab switch
   useEffect(() => {
@@ -506,7 +599,6 @@ export default function AdminDashboard() {
       team.score = total;
       
       updatedEvent[eventKey][teamIndex] = team;
-      setSelectedScoreboardEvent(updatedEvent);
       autoSaveEvent(updatedEvent);
     }
   };
@@ -519,9 +611,23 @@ export default function AdminDashboard() {
     const teamIndex = updatedEvent.teams.findIndex(t => t.id === teamId);
     if (teamIndex !== -1) {
       updatedEvent.teams[teamIndex].score = Number(val) || 0;
-      setSelectedScoreboardEvent(updatedEvent);
       autoSaveEvent(updatedEvent);
     }
+  };
+
+  const toggleMobileQR = async () => {
+    if (!showMobileQRModal) {
+      try {
+        const res = await fetch('/api/ip');
+        if (res.ok) {
+          const data = await res.json();
+          setServerIP(data.ip);
+        }
+      } catch (err) {
+        console.error('Failed to get server IP address:', err);
+      }
+    }
+    setShowMobileQRModal(!showMobileQRModal);
   };
 
   const openManageTeamsModal = (eventKey) => {
@@ -567,7 +673,6 @@ export default function AdminDashboard() {
     });
     
     updatedEvent[eventKey] = newTeamsList;
-    setSelectedScoreboardEvent(updatedEvent);
     setShowManageTeamsModal(false);
     autoSaveEvent(updatedEvent);
   };
@@ -601,7 +706,7 @@ export default function AdminDashboard() {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
             Events
           </button>
-          <button className={`${styles.navItem} ${activeTab === 'scoreboard' ? styles.navItemActive : ''}`} onClick={() => { setActiveTab('scoreboard'); setSelectedScoreboardEvent(null); setMobileMenuOpen(false); }}>
+          <button className={`${styles.navItem} ${activeTab === 'scoreboard' ? styles.navItemActive : ''}`} onClick={() => { setActiveTab('scoreboard'); if (db.events && db.events.length > 0 && !selectedScoreboardEventId) { setSelectedScoreboardEventId(db.events[0].id); } setMobileMenuOpen(false); }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
             Score Board
           </button>
@@ -816,7 +921,7 @@ export default function AdminDashboard() {
                               <button
                                 className={`${styles.btnSecondary} ${styles.btnSmall}`}
                                 onClick={() => {
-                                  setSelectedScoreboardEvent(event);
+                                  setSelectedScoreboardEventId(event.id);
                                   setScoreboardSubTab('overall');
                                   setActiveTab('scoreboard');
                                 }}
@@ -1238,7 +1343,15 @@ export default function AdminDashboard() {
                   ) : (
                     <div className={styles.eventsGrid}>
                       {db.events.map(event => (
-                        <article key={event.id} className={`${styles.eventCard} glass`}>
+                        <article 
+                          key={event.id} 
+                          className={`${styles.eventCard} glass`}
+                          onClick={() => {
+                            setSelectedScoreboardEventId(event.id);
+                            setScoreboardSubTab('overall');
+                          }}
+                          style={{ cursor: 'pointer' }}
+                        >
                           <div className={styles.eventInfo}>
                             <h3>{event.name}</h3>
                             <div className={styles.eventMeta}>
@@ -1258,10 +1371,7 @@ export default function AdminDashboard() {
                             <button
                               id={`btn-open-scoreboard-${event.id}`}
                               className={styles.btnPrimary}
-                              onClick={() => {
-                                setSelectedScoreboardEvent(event);
-                                setScoreboardSubTab('overall');
-                              }}
+                              style={{ pointerEvents: 'none' }}
                             >
                               Manage Scoreboard
                             </button>
@@ -1275,32 +1385,61 @@ export default function AdminDashboard() {
                 // View B: Scoreboard Dashboard for Selected Event
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <button 
-                        className={styles.btnSecondary} 
-                        onClick={() => setSelectedScoreboardEvent(null)}
-                        style={{ padding: '0.4rem 0.8rem', display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.9rem', fontWeight: 'bold' }}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                      <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Event:</span>
+                      <select
+                        value={selectedScoreboardEventId || (selectedScoreboardEvent ? selectedScoreboardEvent.id : '')}
+                        onChange={(e) => {
+                          setSelectedScoreboardEventId(e.target.value);
+                        }}
+                        style={{
+                          padding: '0.45rem 2.2rem 0.45rem 0.85rem',
+                          fontSize: '1.25rem',
+                          fontWeight: '850',
+                          color: 'var(--text-main)',
+                          border: '1.5px solid var(--border-color)',
+                          borderRadius: '12px',
+                          background: 'transparent',
+                          outline: 'none',
+                          cursor: 'pointer',
+                          appearance: 'none',
+                          backgroundImage: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
+                          backgroundPosition: 'right 0.75rem center',
+                          backgroundSize: '1.25rem',
+                          backgroundRepeat: 'no-repeat'
+                        }}
                       >
-                        &larr; Back
-                      </button>
-                      <h2 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--text-main)' }}>{selectedScoreboardEvent.name}</h2>
+                        {db.events.map(ev => (
+                          <option key={ev.id} value={ev.id}>{ev.name}</option>
+                        ))}
+                      </select>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', color: '#10b981', background: 'rgba(16, 185, 129, 0.05)', padding: '0.45rem 0.9rem', borderRadius: '20px', fontWeight: '800', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
-                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block', boxShadow: '0 0 6px #10b981' }} />
-                      <span>Saved to DB in Real-Time</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                      <button
+                        className={styles.btnSecondary}
+                        onClick={toggleMobileQR}
+                        style={{ padding: '0.45rem 0.95rem', display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.8rem', fontWeight: 'bold', borderRadius: '20px' }}
+                      >
+                        📱 Mobile Scoring
+                      </button>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', color: '#10b981', background: 'rgba(16, 185, 129, 0.05)', padding: '0.45rem 0.9rem', borderRadius: '20px', fontWeight: '800', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+                        <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block', boxShadow: '0 0 6px #10b981' }} />
+                        <span>Saved to DB in Real-Time</span>
+                      </div>
                     </div>
                   </div>
 
                   {/* Sub-tabs menu */}
                   <div style={{ display: 'flex', gap: '0.35rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.5rem', marginBottom: '1.5rem', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
                     {[
-                      { id: 'overall', name: 'Standings' },
-                      { id: 'quiz', name: 'Live Quiz' },
-                      { id: 'ppt', name: 'PPT Presentation' },
-                      { id: 'poster', name: 'Poster Presentation' },
-                      { id: 'interview', name: 'Stress Interview' },
-                      { id: 'debugging', name: 'Debugging' }
-                    ].map(sub => (
+                      { id: 'overall', name: 'Standings', enabled: true },
+                      { id: 'quiz', name: 'Live Quiz', enabled: (selectedScoreboardEvent.teams || []).length > 0 || (selectedScoreboardEvent.questionIds || []).length > 0 },
+                      { id: 'ppt', name: 'PPT Presentation', enabled: (selectedScoreboardEvent.pptTeams || []).length > 0 },
+                      { id: 'poster', name: 'Poster Presentation', enabled: (selectedScoreboardEvent.posterTeams || []).length > 0 },
+                      { id: 'interview', name: 'Stress Interview', enabled: (selectedScoreboardEvent.interviewTeams || []).length > 0 },
+                      { id: 'debugging', name: 'Debugging', enabled: (selectedScoreboardEvent.debuggingTeams || []).length > 0 },
+                      { id: 'judges', name: 'Judges & Logs 📱', enabled: true }
+                    ].filter(sub => sub.enabled).map(sub => (
                       <button
                         key={sub.id}
                         className={`${styles.navItem} ${scoreboardSubTab === sub.id ? styles.navItemActive : ''}`}
@@ -1609,62 +1748,59 @@ export default function AdminDashboard() {
                   {scoreboardSubTab === 'quiz' && (
                     <div className="animate-fade">
                       <div className={styles.cardHeader} style={{ marginBottom: '1rem' }}>
-                        <h3>⚡ Live Quiz Scores</h3>
+                        <h3>⚡ Live Quiz Leaderboard</h3>
                         <Link href={`/admin/control/${selectedScoreboardEvent.id}`} className={styles.btnSecondary} style={{ textDecoration: 'none', fontSize: '0.85rem' }}>
                           Open Live Quiz Control &rarr;
                         </Link>
                       </div>
                       <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
-                        Quiz scores are updated live from the active quiz screen. You can adjust scores manually below if there are disputes, or launch the presenter interface.
+                        Teams are ranked by their active Live Quiz scores. Click the "Score" button in the last column to edit points.
                       </p>
 
                       <div className={`${styles.tableContainer} glass`}>
                         <table className={styles.table}>
                           <thead>
                             <tr>
-                              <th>Color</th>
+                              <th>Rank</th>
                               <th>Team Name</th>
-                              <th>Members</th>
                               <th>Quiz Score</th>
+                              <th style={{ textAlign: 'right' }}>Actions</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {(selectedScoreboardEvent.teams || []).map((t, idx) => (
-                              <tr key={t.id} className={styles.tableRow}>
-                                <td style={{ width: '60px' }}>
-                                  <div style={{ width: '20px', height: '20px', borderRadius: '4px', backgroundColor: t.color || 'var(--primary)' }} />
-                                </td>
-                                <td style={{ fontWeight: 'bold' }}>{t.name}</td>
-                                <td style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>{(t.members || []).join(', ')}</td>
-                                <td>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                    <input
-                                      type="number"
-                                      value={t.score || 0}
-                                      onChange={(e) => handleQuizScoreChange(t.id, e.target.value)}
-                                      style={{ width: '80px', padding: '0.25rem 0.5rem', border: '1px solid var(--border-color)', borderRadius: '6px', textAlign: 'center', fontWeight: 'bold', fontFamily: 'var(--font-mono)' }}
-                                    />
-                                    <button 
-                                      className={`${styles.btnSecondary} ${styles.btnSmall}`} 
-                                      onClick={() => handleQuizScoreChange(t.id, (t.score || 0) + 10)}
-                                      style={{ padding: '0.2rem 0.4rem' }}
-                                    >
-                                      +10
-                                    </button>
-                                    <button 
-                                      className={`${styles.btnSecondary} ${styles.btnSmall}`}
-                                      onClick={() => handleQuizScoreChange(t.id, Math.max(0, (t.score || 0) - 10))}
-                                      style={{ padding: '0.2rem 0.4rem' }}
-                                    >
-                                      -10
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
+                            {[...(selectedScoreboardEvent.teams || [])]
+                              .sort((a, b) => (b.score || 0) - (a.score || 0))
+                              .map((t, idx) => {
+                                const rankStr = idx === 0 ? '🥇 1st' : idx === 1 ? '🥈 2nd' : idx === 2 ? '🥉 3rd' : `${idx + 1}th`;
+                                return (
+                                  <tr key={t.id} className={styles.tableRow}>
+                                    <td style={{ fontWeight: '800', width: '80px' }}>{rankStr}</td>
+                                    <td>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                        <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: t.color || 'var(--primary)', flexShrink: 0 }} />
+                                        <div>
+                                          <div style={{ fontWeight: 'bold', color: 'var(--text-main)' }}>{t.name}</div>
+                                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{(t.members || []).join(', ')}</div>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td style={{ fontWeight: '800', fontFamily: 'var(--font-mono)' }}>{t.score || 0} pts</td>
+                                    <td style={{ textAlign: 'right' }}>
+                                      <button
+                                        className={styles.btnSecondary}
+                                        onClick={() => setScoringTeam({ teamId: t.id, eventKey: 'teams' })}
+                                        style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: '0.35rem', fontWeight: 'bold' }}
+                                      >
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                        Score
+                                      </button>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
                             {(selectedScoreboardEvent.teams || []).length === 0 && (
                               <tr>
-                                <td colSpan="4" style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
+                                <td colSpan="4" style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
                                   No teams added to the Quiz. Edit the event to select Quiz teams.
                                 </td>
                               </tr>
@@ -1677,267 +1813,252 @@ export default function AdminDashboard() {
 
                   {/* Sub-tabs 3-6: PPT, Poster, Stress Interview, Debugging */}
                   {['ppt', 'poster', 'interview', 'debugging'].includes(scoreboardSubTab) && (() => {
-                    const subEventData = {
-                      ppt: {
-                        key: 'pptTeams',
-                        title: 'PPT Presentation',
-                        desc: 'Evaluate the PowerPoint Presentation based on topic content, speaker slide deck flow, visual designs, Q&A defense and strict time limits.',
-                        criteria: [
-                          { id: 'content', name: 'Slide Content', max: 20 },
-                          { id: 'delivery', name: 'Delivery & Voice', max: 20 },
-                          { id: 'design', name: 'Visual Design', max: 20 },
-                          { id: 'qa', name: 'Q&A Defense', max: 20 },
-                          { id: 'time', name: 'Time Management', max: 20 }
-                        ]
-                      },
-                      poster: {
-                        key: 'posterTeams',
-                        title: 'Poster Presentation',
-                        desc: 'Evaluate posters based on visual layouts, topic concept creativity, topical relevance, and student explanations.',
-                        criteria: [
-                          { id: 'creativity', name: 'Creativity & Originality', max: 25 },
-                          { id: 'relevance', name: 'Topic Relevance', max: 25 },
-                          { id: 'aesthetics', name: 'Visual Appeal & Aesthetics', max: 25 },
-                          { id: 'explanation', name: 'Explanation & Q&A', max: 25 }
-                        ]
-                      },
-                      interview: {
-                        key: 'interviewTeams',
-                        title: 'Stress Interview',
-                        desc: 'Score individual candidates under intense stress testing: evaluate confidence, response speed, clarity, and rebuttal arguments.',
-                        criteria: [
-                          { id: 'calmness', name: 'Calmness under Stress', max: 30 },
-                          { id: 'mind', name: 'Presence of Mind', max: 30 },
-                          { id: 'communication', name: 'Communication Style', max: 20 },
-                          { id: 'arguments', name: 'Counter-Arguments Quality', max: 20 }
-                        ]
-                      },
-                      debugging: {
-                        key: 'debuggingTeams',
-                        title: 'Debugging Challenge',
-                        desc: 'Grade code debugging rounds: code troubleshooting, resolving bugs, algorithm complexity optimization, and completion time.',
-                        criteria: [
-                          { id: 'syntactic', name: 'Syntactic Fixes', max: 30 },
-                          { id: 'logical', name: 'Logical Debugging', max: 40 },
-                          { id: 'speed', name: 'Completion Speed', max: 20 },
-                          { id: 'style', name: 'Code Quality & Style', max: 10 }
-                        ]
-                      }
+                    const eventKey = {
+                      ppt: 'pptTeams',
+                      poster: 'posterTeams',
+                      interview: 'interviewTeams',
+                      debugging: 'debuggingTeams'
                     }[scoreboardSubTab];
 
-                    const teamList = selectedScoreboardEvent[subEventData.key] || [];
+                    const subEventData = TRACKS_CRITERIA[eventKey];
+                    const teamList = selectedScoreboardEvent[eventKey] || [];
+                    const sortedTeamList = [...teamList].sort((a, b) => (b.score || 0) - (a.score || 0));
 
                     return (
                       <div className="animate-fade">
                         <div className={styles.cardHeader} style={{ marginBottom: '0.5rem' }}>
-                          <h3>{subEventData.title} Score Sheet</h3>
+                          <h3>{subEventData.title} Leaderboard</h3>
                           <button
                             className={`${styles.btnSecondary} ${styles.btnSmall}`}
-                            onClick={() => openManageTeamsModal(subEventData.key)}
+                            onClick={() => openManageTeamsModal(eventKey)}
                           >
                             Manage participating teams
                           </button>
                         </div>
                         <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
-                          {subEventData.desc} Adjust range sliders for each team below. Click "Save All Changes" at the top to save weights.
+                          {subEventData.desc} Click the "Score" button in the last column to grade each team/participant.
                         </p>
 
-                        {teamList.length === 0 ? (
+                        {sortedTeamList.length === 0 ? (
                           <div className={styles.emptyState} style={{ padding: '3.5rem' }}>
                             <p>No teams assigned to this competition track yet.</p>
                             <button
                               className={styles.btnPrimary}
-                              onClick={() => openManageTeamsModal(subEventData.key)}
+                              onClick={() => openManageTeamsModal(eventKey)}
                               style={{ marginTop: '1rem' }}
                             >
                               Assign Teams Now
                             </button>
                           </div>
                         ) : (
-                          <div className={styles.scoreboardSplit}>
-                            
-                            {/* LEFT SIDEBAR: List of teams participating (Scroll-Locked, Compact) */}
-                            <div className="glass" style={{ padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', borderRadius: '14px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-color)', maxHeight: '440px', overflowY: 'auto' }}>
-                              <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Participating Teams</h4>
-                              {teamList.map(team => {
-                                const isSelected = selectedScoreboardTeamId === team.id;
-                                return (
-                                  <button
-                                    key={team.id}
-                                    onClick={() => setSelectedScoreboardTeamId(team.id)}
-                                    style={{
-                                      width: '100%',
-                                      padding: '0.65rem 0.85rem',
-                                      borderRadius: '10px',
-                                      border: isSelected 
-                                        ? `1.5px solid ${team.color || 'var(--primary)'}` 
-                                        : '1px solid var(--border-color)',
-                                      background: isSelected 
-                                        ? `linear-gradient(to right, ${(team.color || '#6366f1')}0f, transparent)` 
-                                        : 'rgba(255,255,255,0.01)',
-                                      color: 'var(--text-main)',
-                                      textAlign: 'left',
-                                      cursor: 'pointer',
-                                      display: 'flex',
-                                      flexDirection: 'column',
-                                      gap: '0.2rem',
-                                      boxShadow: isSelected 
-                                        ? `0 4px 12px ${(team.color || '#6366f1')}14` 
-                                        : 'none',
-                                      transition: 'all 0.15s ease'
-                                    }}
-                                  >
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                                      <span style={{ fontWeight: '750', fontSize: '0.9rem' }}>{team.name}</span>
-                                      <span style={{ fontWeight: '900', color: team.color || 'var(--primary)', fontFamily: 'var(--font-mono)', fontSize: '0.95rem' }}>{team.score || 0} pts</span>
-                                    </div>
-                                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                                      {team.members ? team.members.join(', ') : 'No members'}
-                                    </span>
-                                  </button>
-                                );
-                              })}
-                            </div>
-
-                            {/* RIGHT CONTENT: Detailed control panel for the selected team */}
-                            {(() => {
-                              const activeTeam = teamList.find(t => t.id === selectedScoreboardTeamId) || teamList[0];
-                              if (!activeTeam) return null;
-                              
-                              return (
-                                <div
-                                  className="glass"
-                                  style={{
-                                    padding: '1.25rem 1.5rem',
-                                    borderRadius: '14px',
-                                    border: '1px solid var(--border-color)',
-                                    borderLeft: `6px solid ${activeTeam.color || 'var(--primary)'}`,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '1rem',
-                                    boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
-                                    maxHeight: '440px',
-                                    overflowY: 'auto'
-                                  }}
-                                >
-                                  {/* Team Header Summary */}
-                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-                                    <div>
-                                      <h3 style={{ margin: 0, fontSize: '1.3rem', color: 'var(--text-main)', fontWeight: '800' }}>{activeTeam.name}</h3>
-                                      <p style={{ margin: '0.15rem 0 0 0', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                                        Members: {activeTeam.members ? activeTeam.members.join(', ') : 'No members listed'}
-                                      </p>
-                                    </div>
-                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.2rem' }}>
-                                      <span style={{ fontSize: '1.75rem', fontWeight: '950', color: activeTeam.color || 'var(--primary)', fontFamily: 'var(--font-mono)' }}>
-                                        {activeTeam.score || 0}
-                                      </span>
-                                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>pts total</span>
-                                    </div>
-                                  </div>
-
-                                  {/* Sliders Grid (Professional Horizontal Grid rows) */}
-                                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                                    {subEventData.criteria.map(crit => {
-                                      const val = activeTeam.criteria?.[crit.id] || 0;
-                                      return (
-                                        <div 
-                                          key={crit.id} 
-                                          style={{ 
-                                            display: 'grid', 
-                                            gridTemplateColumns: '160px 1fr 100px', 
-                                            alignItems: 'center', 
-                                            gap: '1rem', 
-                                            background: 'rgba(248, 250, 252, 0.4)', 
-                                            padding: '0.5rem 0.85rem', 
-                                            borderRadius: '8px', 
-                                            border: '1px solid var(--border-color)' 
-                                          }}
-                                        >
-                                          {/* Criterion Info */}
-                                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
-                                            <span style={{ fontSize: '0.8rem', fontWeight: '750', color: 'var(--text-main)', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{crit.name}</span>
-                                            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '500' }}>Max {crit.max}</span>
-                                          </div>
-                                          
-                                          {/* Steppers + Slider */}
-                                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                                            <button
-                                              onClick={() => handleSliderChange(activeTeam.id, subEventData.key, crit.id, Math.max(0, val - 1))}
-                                              style={{
-                                                padding: 0,
-                                                borderRadius: '4px',
-                                                border: '1px solid var(--border-color)',
-                                                background: '#ffffff',
-                                                color: 'var(--text-main)',
-                                                cursor: 'pointer',
-                                                fontWeight: 'bold',
-                                                width: '22px',
-                                                height: '22px',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                fontSize: '0.85rem'
-                                              }}
-                                            >
-                                              -
-                                            </button>
-                                            
-                                            <input
-                                              type="range"
-                                              min="0"
-                                              max={crit.max}
-                                              value={val}
-                                              onChange={(e) => handleSliderChange(activeTeam.id, subEventData.key, crit.id, e.target.value)}
-                                              className={styles.compactRange}
-                                              style={{
-                                                flex: 1,
-                                                height: '4px',
-                                                borderRadius: '2px',
-                                                outline: 'none',
-                                                accentColor: activeTeam.color || 'var(--primary)',
-                                                background: '#e2e8f0',
-                                                cursor: 'pointer'
-                                              }}
-                                            />
-                                            
-                                            <button
-                                              onClick={() => handleSliderChange(activeTeam.id, subEventData.key, crit.id, Math.min(crit.max, val + 1))}
-                                              style={{
-                                                padding: 0,
-                                                borderRadius: '4px',
-                                                border: '1px solid var(--border-color)',
-                                                background: '#ffffff',
-                                                color: 'var(--text-main)',
-                                                cursor: 'pointer',
-                                                fontWeight: 'bold',
-                                                width: '22px',
-                                                height: '22px',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                fontSize: '0.85rem'
-                                              }}
-                                            >
-                                              +
-                                            </button>
-                                          </div>
-
-                                          {/* Value display */}
-                                          <div style={{ textAlign: 'right' }}>
-                                            <span style={{ fontSize: '0.95rem', fontWeight: '900', color: activeTeam.color || 'var(--primary)', fontFamily: 'var(--font-mono)' }}>{val}</span>
-                                            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}> / {crit.max}</span>
+                          <div className={`${styles.tableContainer} glass`}>
+                            <table className={styles.table}>
+                              <thead>
+                                <tr>
+                                  <th>Rank</th>
+                                  <th>Team Name</th>
+                                  <th>Total Score</th>
+                                  <th style={{ textAlign: 'right' }}>Actions</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {sortedTeamList.map((t, idx) => {
+                                  const rankStr = idx === 0 ? '🥇 1st' : idx === 1 ? '🥈 2nd' : idx === 2 ? '🥉 3rd' : `${idx + 1}th`;
+                                  return (
+                                    <tr key={t.id} className={styles.tableRow}>
+                                      <td style={{ fontWeight: '800', width: '80px' }}>{rankStr}</td>
+                                      <td>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                          <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: t.color || 'var(--primary)', flexShrink: 0 }} />
+                                          <div>
+                                            <div style={{ fontWeight: 'bold', color: 'var(--text-main)' }}>{t.name}</div>
+                                            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{(t.members || []).join(', ')}</div>
+                                            {t.judgeScores && Object.keys(t.judgeScores).length > 0 && (
+                                              <div style={{ fontSize: '0.7rem', color: '#4f46e5', marginTop: '0.25rem', fontWeight: '700', letterSpacing: '0.01em' }}>
+                                                ⚖️ {Object.values(t.judgeScores).map(js => `${js.judgeName}: ${js.score} pts`).join(' • ')}
+                                              </div>
+                                            )}
                                           </div>
                                         </div>
-                                      );
-                                    })}
-                                  </div>
-                                </div>
-                              );
-                            })()}
-
+                                      </td>
+                                      <td style={{ fontWeight: '800', fontFamily: 'var(--font-mono)' }}>{t.score || 0} pts</td>
+                                      <td style={{ textAlign: 'right' }}>
+                                        <button
+                                          className={styles.btnSecondary}
+                                          onClick={() => setScoringTeam({ teamId: t.id, eventKey })}
+                                          style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: '0.35rem', fontWeight: 'bold' }}
+                                        >
+                                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                          Score
+                                        </button>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
                           </div>
                         )}
+                      </div>
+                    );
+                  })()}
+
+                  {/* Sub-tab: Judges & Audit Logs */}
+                  {scoreboardSubTab === 'judges' && (() => {
+                    const connectedJudges = selectedScoreboardEvent.connectedJudges || [];
+                    const auditLogs = selectedScoreboardEvent.auditLogs || [];
+                    const maxJudges = selectedScoreboardEvent.settings?.maxJudges || 3;
+                    
+                    const handleUpdateMaxJudges = async (num) => {
+                      const updatedLimit = Math.max(1, Number(num) || 1);
+                      try {
+                        const res = await fetch(`/api/event/${selectedScoreboardEvent.id}`, {
+                          method: 'PUT',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            action: 'update-event-settings',
+                            payload: { maxJudges: updatedLimit }
+                          })
+                        });
+                        if (res.ok) {
+                          const data = await res.json();
+                          setDb(prev => ({
+                            ...prev,
+                            events: prev.events.map(e => e.id === data.event.id ? data.event : e)
+                          }));
+                        }
+                      } catch (err) {
+                        console.error('Failed to update max judges:', err);
+                      }
+                    };
+
+                    const handleDisconnectJudge = async (deviceId) => {
+                      try {
+                        const res = await fetch(`/api/event/${selectedScoreboardEvent.id}`, {
+                          method: 'PUT',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            action: 'remove-judge',
+                            payload: { deviceId }
+                          })
+                        });
+                        if (res.ok) {
+                          const data = await res.json();
+                          setDb(prev => ({
+                            ...prev,
+                            events: prev.events.map(e => e.id === data.event.id ? data.event : e)
+                          }));
+                        }
+                      } catch (err) {
+                        console.error('Failed to disconnect judge:', err);
+                      }
+                    };
+
+                    return (
+                      <div className="animate-fade" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                        {/* Upper Section: Settings and Connections */}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.25rem' }}>
+                          
+                          {/* Connection settings */}
+                          <div className="glass" style={{ padding: '1.25rem', borderRadius: '16px', border: '1.5px solid var(--border-color)' }}>
+                            <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.4rem', fontWeight: '850' }}>
+                              <span>⚙️</span> Access Settings
+                            </h3>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                              <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                Connection Limit (Max Judges)
+                              </label>
+                              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                                <input
+                                  type="number"
+                                  min="1"
+                                  max="15"
+                                  value={maxJudges}
+                                  onChange={(e) => handleUpdateMaxJudges(e.target.value)}
+                                  style={{ maxWidth: '90px', padding: '0.45rem', fontSize: '0.95rem', fontWeight: 'bold', textAlign: 'center', borderRadius: '8px', border: '1.5px solid var(--border-color)', outline: 'none' }}
+                                />
+                                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '500' }}>judges allowed to connect simultaneously.</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Connected devices */}
+                          <div className="glass" style={{ padding: '1.25rem', borderRadius: '16px', border: '1.5px solid var(--border-color)' }}>
+                            <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.4rem', fontWeight: '850' }}>
+                              <span>📱</span> Connected Judges ({connectedJudges.length} / {maxJudges})
+                            </h3>
+                            {connectedJudges.length === 0 ? (
+                              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: 0, textAlign: 'center', padding: '1.25rem 0', fontWeight: '500' }}>
+                                No devices connected. Share the QR code to connect mobile devices.
+                              </p>
+                            ) : (
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                {connectedJudges.map(judge => (
+                                  <div key={judge.deviceId} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 0.75rem', background: 'rgba(0,0,0,0.01)', borderRadius: '10px', border: '1px solid var(--border-color)', gap: '1rem' }}>
+                                    <div style={{ flex: 1 }}>
+                                      <div style={{ fontSize: '0.9rem', fontWeight: 'bold', color: 'var(--text-main)' }}>{judge.name}</div>
+                                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>ID: {judge.deviceId}</div>
+                                    </div>
+                                    <button
+                                      className={styles.btnSecondary}
+                                      onClick={() => handleDisconnectJudge(judge.deviceId)}
+                                      style={{ padding: '0.3rem 0.65rem', fontSize: '0.75rem', color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.2)', background: 'rgba(239, 68, 68, 0.03)', fontWeight: 'bold', borderRadius: '8px' }}
+                                    >
+                                      Remove
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Audit Logs table */}
+                        <div className="glass" style={{ padding: '1.25rem', borderRadius: '16px', border: '1.5px solid var(--border-color)' }}>
+                          <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.4rem', fontWeight: '850' }}>
+                            <span>📋</span> Event Audit Log
+                          </h3>
+                          {auditLogs.length === 0 ? (
+                            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: 0, textAlign: 'center', padding: '2rem 0', fontWeight: '500' }}>
+                              No log activities recorded yet. Actions will populate here as judges submit scores.
+                            </p>
+                          ) : (
+                            <div className={styles.tableContainer} style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                              <table className={styles.table}>
+                                <thead>
+                                  <tr>
+                                    <th style={{ width: '120px' }}>Timestamp</th>
+                                    <th>Judge</th>
+                                    <th>Track</th>
+                                    <th>Team</th>
+                                    <th>Action</th>
+                                    <th>Details</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {auditLogs.map((log) => (
+                                    <tr key={log.id} className={styles.tableRow}>
+                                      <td style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                                        {new Date(log.timestamp).toLocaleTimeString()}
+                                      </td>
+                                      <td style={{ fontWeight: 'bold', color: 'var(--text-main)' }}>{log.judgeName}</td>
+                                      <td>
+                                        <span style={{ padding: '0.15rem 0.45rem', borderRadius: '6px', fontSize: '0.7rem', fontWeight: '800', background: 'rgba(79, 70, 229, 0.08)', color: '#4f46e5' }}>
+                                          {log.track}
+                                        </span>
+                                      </td>
+                                      <td style={{ fontWeight: 'bold', color: 'var(--text-main)' }}>{log.teamName}</td>
+                                      <td style={{ fontWeight: '700', color: log.action === 'Judge Connected' ? '#10b981' : log.action === 'Judge Disconnected' ? '#ef4444' : 'var(--text-main)' }}>
+                                        {log.action}
+                                      </td>
+                                      <td style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>{log.details}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     );
                   })()}
@@ -1949,6 +2070,206 @@ export default function AdminDashboard() {
       </main>
 
       {/* MODALS */}
+      {showMobileQRModal && (() => {
+        let mobileUrl = '';
+        if (typeof window !== 'undefined') {
+          const { protocol, host, hostname, port } = window.location;
+          if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            const ip = serverIP || 'localhost';
+            mobileUrl = `${protocol}//${ip}${port ? `:${port}` : ''}/mobile`;
+          } else {
+            mobileUrl = `${protocol}//${host}/mobile`;
+          }
+        }
+        return (
+          <div className={styles.modalOverlay} role="dialog" aria-modal="true" aria-labelledby="mobile-qr-title">
+            <div className={`${styles.modalContent} glass`} style={{ maxWidth: '480px', textAlign: 'center', padding: '2rem' }}>
+              <h2 id="mobile-qr-title" style={{ fontSize: '1.5rem', color: 'var(--text-main)', fontWeight: '850', marginBottom: '0.5rem' }}>Mobile scoring controller</h2>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1.5rem', lineHeight: '1.4' }}>
+                Scan the QR code below using your mobile device connected to the **same local Wi-Fi / LAN network** to enter score changes in real-time.
+              </p>
+              
+              <div style={{ display: 'flex', justifyContent: 'center', margin: '1rem 0' }}>
+                <div style={{ background: '#ffffff', padding: '1rem', borderRadius: '16px', boxShadow: '0 8px 30px rgba(0,0,0,0.06)', display: 'inline-block' }}>
+                  {serverIP ? (
+                    <img 
+                      src={`/api/qr?text=${encodeURIComponent(mobileUrl)}`} 
+                      width="200" 
+                      height="200" 
+                      alt="Local scoring QR code link" 
+                    />
+                  ) : (
+                    <div style={{ width: '200px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 'bold' }}>
+                      Fetching Local Network IP...
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div style={{ margin: '1.25rem 0' }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: '800', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'block', marginBottom: '0.25rem' }}>Local LAN Link</span>
+                <code style={{ background: 'var(--bg-light)', padding: '0.4rem 0.8rem', borderRadius: '6px', fontSize: '0.9rem', color: 'var(--primary)', fontWeight: 'bold', fontFamily: 'monospace', border: '1px solid var(--border-color)', display: 'inline-block', maxWidth: '100%', wordBreak: 'break-all' }}>
+                  {mobileUrl}
+                </code>
+              </div>
+
+              <button 
+                className={styles.btnPrimary}
+                onClick={toggleMobileQR}
+                style={{ width: '100%', padding: '0.75rem', fontWeight: 'bold', marginTop: '1rem' }}
+              >
+                Close Link Window
+              </button>
+            </div>
+          </div>
+        );
+      })()}
+
+      {scoringTeam && (() => {
+        const eventKey = scoringTeam.eventKey;
+        const list = eventKey === 'teams' ? selectedScoreboardEvent.teams : selectedScoreboardEvent[eventKey];
+        const activeTeam = (list || []).find(t => t.id === scoringTeam.teamId);
+        if (!activeTeam) return null;
+
+        const isQuiz = eventKey === 'teams';
+        const subEventData = isQuiz ? null : TRACKS_CRITERIA[eventKey];
+
+        return (
+          <div className={styles.modalOverlay} role="dialog" aria-modal="true" aria-labelledby="score-modal-title">
+            <div className={`${styles.modalContent} glass`} style={{ maxWidth: '600px', borderLeft: `6px solid ${activeTeam.color || 'var(--primary)'}` }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+                <div>
+                  <h2 id="score-modal-title" style={{ margin: 0, fontSize: '1.5rem', color: 'var(--text-main)', fontWeight: '800' }}>{activeTeam.name}</h2>
+                  <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                    Members: {activeTeam.members ? activeTeam.members.join(', ') : 'No members'}
+                  </p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem' }}>
+                  <span style={{ fontSize: '2rem', fontWeight: '950', color: activeTeam.color || 'var(--primary)', fontFamily: 'var(--font-mono)' }}>
+                    {activeTeam.score || 0}
+                  </span>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 'bold' }}>pts total</span>
+                </div>
+              </div>
+
+              {isQuiz ? (
+                /* LIVE QUIZ SCORE CONTROLS */
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', padding: '0.5rem 0' }}>
+                  <label style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>Adjust Score Manually</label>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <input
+                      type="number"
+                      value={activeTeam.score || 0}
+                      onChange={(e) => handleQuizScoreChange(activeTeam.id, e.target.value)}
+                      style={{ flex: 1, padding: '0.6rem 1rem', border: '1px solid var(--border-color)', borderRadius: '8px', fontSize: '1.2rem', textAlign: 'center', fontWeight: 'bold', fontFamily: 'var(--font-mono)' }}
+                    />
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
+                    <button
+                      className={styles.btnSecondary}
+                      onClick={() => handleQuizScoreChange(activeTeam.id, Math.max(0, (activeTeam.score || 0) - 10))}
+                      style={{ padding: '0.5rem', fontWeight: 'bold', fontSize: '0.85rem' }}
+                    >
+                      -10
+                    </button>
+                    <button
+                      className={styles.btnSecondary}
+                      onClick={() => handleQuizScoreChange(activeTeam.id, Math.max(0, (activeTeam.score || 0) - 1))}
+                      style={{ padding: '0.5rem', fontWeight: 'bold', fontSize: '0.85rem' }}
+                    >
+                      -1
+                    </button>
+                    <button
+                      className={styles.btnSecondary}
+                      onClick={() => handleQuizScoreChange(activeTeam.id, (activeTeam.score || 0) + 1)}
+                      style={{ padding: '0.5rem', fontWeight: 'bold', fontSize: '0.85rem' }}
+                    >
+                      +1
+                    </button>
+                    <button
+                      className={styles.btnSecondary}
+                      onClick={() => handleQuizScoreChange(activeTeam.id, (activeTeam.score || 0) + 10)}
+                      style={{ padding: '0.5rem', fontWeight: 'bold', fontSize: '0.85rem' }}
+                    >
+                      +10
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* JUDGED TRACKS CRITERIA SLIDERS */
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.85rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Evaluation Criteria ({subEventData.title})
+                  </h4>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                    {subEventData.criteria.map(crit => {
+                      const val = activeTeam.criteria?.[crit.id] || 0;
+                      return (
+                        <div
+                          key={crit.id}
+                          className={styles.scoringModalRow}
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                            <span style={{ fontSize: '0.85rem', fontWeight: '750', color: 'var(--text-main)' }}>{crit.name}</span>
+                            <div style={{ fontSize: '0.85rem', fontFamily: 'var(--font-mono)' }}>
+                              <span style={{ fontWeight: '900', color: activeTeam.color || 'var(--primary)' }}>{val}</span>
+                              <span style={{ color: 'var(--text-muted)' }}> / {crit.max}</span>
+                            </div>
+                          </div>
+
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                            <button
+                              className={styles.stepperButton}
+                              onClick={() => handleSliderChange(activeTeam.id, eventKey, crit.id, Math.max(0, val - 1))}
+                            >
+                              -
+                            </button>
+                            
+                            <input
+                              type="range"
+                              min="0"
+                              max={crit.max}
+                              value={val}
+                              onChange={(e) => handleSliderChange(activeTeam.id, eventKey, crit.id, e.target.value)}
+                              className={styles.compactRange}
+                              style={{
+                                flex: 1,
+                                height: '4px',
+                                borderRadius: '2px',
+                                outline: 'none',
+                                accentColor: activeTeam.color || 'var(--primary)',
+                                background: '#e2e8f0',
+                                cursor: 'pointer'
+                              }}
+                            />
+                            
+                            <button
+                              className={styles.stepperButton}
+                              onClick={() => handleSliderChange(activeTeam.id, eventKey, crit.id, Math.min(crit.max, val + 1))}
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              <div className={styles.modalActions} style={{ marginTop: '2rem' }}>
+                <button
+                  className={styles.btnPrimary}
+                  onClick={() => setScoringTeam(null)}
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
       {showEventModal && (
         <div className={styles.modalOverlay} role="dialog" aria-modal="true" aria-labelledby="event-modal-title">
           <form onSubmit={handleEventSubmit} className={`${styles.modalContent} glass`} style={{ maxWidth: '800px' }}>

@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "question": "What does DBMS stand for?",
+    "options": {
+      "A": "Data Base Management System",
+      "B": "Database Management System",
+      "C": "Digital Base Management System",
+      "D": "Data Backup Management System"
+    },
+    "answer": "B"
+  },
+  {
+    "id": 2,
+    "question": "Which language is platform independent?",
+    "options": {
+      "A": "C",
+      "B": "C++",
+      "C": "Java",
+      "D": "Assembly"
+    },
+    "answer": "C"
+  },
+  {
+    "id": 3,
+    "question": "What does AI stand for?",
+    "options": {
+      "A": "Artificial Intelligence",
+      "B": "Automated Intelligence",
+      "C": "Advanced Interface",
+      "D": "Automatic Information"
+    },
+    "answer": "A"
+  },
+  {
+    "id": 4,
+    "question": "What is the default HTTP port?",
+    "options": {
+      "A": "21",
+      "B": "80",
+      "C": "443",
+      "D": "25"
+    },
+    "answer": "B"
+  },
+  {
+    "id": 5,
+    "question": "Which data structure uses FIFO?",
+    "options": {
+      "A": "Stack",
+      "B": "Queue",
+      "C": "Tree",
+      "D": "Graph"
+    },
+    "answer": "B"
+  },
+  {
+    "id": 6,
+    "question": "Which company developed Android?",
+    "options": {
+      "A": "Microsoft",
+      "B": "Apple",
+      "C": "Google",
+      "D": "IBM"
+    },
+    "answer": "C"
+  },
+  {
+    "id": 7,
+    "question": "What is the full form of SQL?",
+    "options": {
+      "A": "Structured Query Language",
+      "B": "Simple Query Language",
+      "C": "Standard Query Logic",
+      "D": "Sequential Query Language"
+    },
+    "answer": "A"
+  },
+  {
+    "id": 8,
+    "question": "Which keyword is used for inheritance in Java?",
+    "options": {
+      "A": "super",
+      "B": "implement",
+      "C": "extends",
+      "D": "inherit"
+    },
+    "answer": "C"
+  },
+  {
+    "id": 9,
+    "question": "What does CSS stand for?",
+    "options": {
+      "A": "Computer Style Sheets",
+      "B": "Cascading Style Sheets",
+      "C": "Creative Style System",
+      "D": "Colorful Style Sheets"
+    },
+    "answer": "B"
+  },
+  {
+    "id": 10,
+    "question": "Which protocol is used to send emails?",
+    "options": {
+      "A": "HTTP",
+      "B": "FTP",
+      "C": "SMTP",
+      "D": "DNS"
+    },
+    "answer": "C"
+  }
+]

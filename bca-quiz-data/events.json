@@ -1,0 +1,24 @@
+{
+    "events": [
+        {
+            "name": "Quiz Competition",
+            "participantTypes": ["Solo", "Team"],
+            "page": "quiz.html"
+        },
+        {
+            "name": "Debugging Contest",
+            "participantTypes": ["Solo"],
+            "page": "debugging.html"
+        },
+        {
+            "name": "Coding Competition",
+            "participantTypes": ["Solo", "Team"],
+            "page": "coding.html"
+        },
+        {
+            "name": "PPT Presentation",
+            "participantTypes": ["Solo"],
+            "page": "ppt.html"
+        }
+    ]
+}

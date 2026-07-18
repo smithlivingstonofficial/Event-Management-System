@@ -1,0 +1,2558 @@
+{
+  "categories": [
+    {
+      "id": "basic-technology-mcqs",
+      "name": "Basic Technology MCQs"
+    },
+    {
+      "id": "identify-the-logo",
+      "name": "Identify the Logo"
+    },
+    {
+      "id": "guess-the-technology",
+      "name": "Guess the Technology"
+    },
+    {
+      "id": "current-technology-and-ai",
+      "name": "Current Technology & AI"
+    },
+    {
+      "id": "web-development-and-web-technologies",
+      "name": "Web Development & Web Technologies"
+    },
+    {
+      "id": "rapid-fire",
+      "name": "Rapid Fire"
+    },
+    {
+      "id": "fun-tech-trivia",
+      "name": "Fun Tech Trivia"
+    },
+    {
+      "id": "connect-the-clues",
+      "name": "Connect the Clues"
+    }
+  ],
+  "questions": [
+    {
+      "id": "btm_1",
+      "categoryId": "basic-technology-mcqs",
+      "text": "Which of the following fundamental data structures operates on a strict Last-In, First-Out (LIFO) basis?",
+      "options": [
+        "Queue",
+        "Tree",
+        "Stack",
+        "Linked List"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "btm_2",
+      "categoryId": "basic-technology-mcqs",
+      "text": "In relational database design, what is the primary purpose of a Foreign Key?",
+      "options": [
+        "To encrypt confidential columns",
+        "To uniquely identify each row in its own table",
+        "To reference the primary key of another table",
+        "To speed up queries via indexing"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "btm_3",
+      "categoryId": "basic-technology-mcqs",
+      "text": "In network communications, which Transport Layer protocol guarantees reliable delivery of packets and ensures they are received in the correct order?",
+      "options": [
+        "UDP",
+        "TCP",
+        "IP",
+        "DNS"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "btm_4",
+      "categoryId": "basic-technology-mcqs",
+      "text": "In Python, what is the output of the expression [1, 2, 3] * 2?",
+      "options": [
+        "[2, 4, 6]",
+        "[1, 2, 3, 1, 2, 3]",
+        "[[1, 2, 3], [1, 2, 3]]",
+        "It raises a TypeError"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "btm_5",
+      "categoryId": "basic-technology-mcqs",
+      "text": "Which type of computer memory is volatile, meaning it requires constant electrical power to maintain its state and loses its data when turned off?",
+      "options": [
+        "ROM",
+        "SSD",
+        "RAM",
+        "Flash Memory"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "btm_6",
+      "categoryId": "basic-technology-mcqs",
+      "text": "In SQL database queries, which clause is used to filter aggregated group results after a GROUP BY clause has been applied?",
+      "options": [
+        "WHERE",
+        "HAVING",
+        "FILTER",
+        "DISTINCT"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "logo_1",
+      "categoryId": "identify-the-logo",
+      "text": "Identify this logo:",
+      "options": [],
+      "correctAnswer": "Nvidia",
+      "timeLimit": 20,
+      "points": 100,
+      "image": "/images/Nvidia.png"
+    },
+    {
+      "id": "logo_2",
+      "categoryId": "identify-the-logo",
+      "text": "Identify this logo:",
+      "options": [],
+      "correctAnswer": "Firebase",
+      "timeLimit": 20,
+      "points": 100,
+      "image": "/images/Firebase.png"
+    },
+    {
+      "id": "logo_3",
+      "categoryId": "identify-the-logo",
+      "text": "Identify this logo:",
+      "options": [],
+      "correctAnswer": "Docker",
+      "timeLimit": 20,
+      "points": 100,
+      "image": "/images/Docker.png"
+    },
+    {
+      "id": "logo_4",
+      "categoryId": "identify-the-logo",
+      "text": "Identify this logo:",
+      "options": [],
+      "correctAnswer": "Git",
+      "timeLimit": 20,
+      "points": 100,
+      "image": "/images/Git.png"
+    },
+    {
+      "id": "logo_5",
+      "categoryId": "identify-the-logo",
+      "text": "Identify this logo:",
+      "options": [],
+      "correctAnswer": "React JS",
+      "timeLimit": 20,
+      "points": 100,
+      "image": "/images/ReactJs.png"
+    },
+    {
+      "id": "logo_6",
+      "categoryId": "identify-the-logo",
+      "text": "Identify this logo:",
+      "options": [],
+      "correctAnswer": "Node JS",
+      "timeLimit": 20,
+      "points": 100,
+      "image": "/images/NodeJs.png"
+    },
+    {
+      "id": "gtt_1",
+      "categoryId": "guess-the-technology",
+      "text": "Which technology fits these clues?\n- Developed by Google in 2014.\n- Automates container deployment and scaling.\n- Uses concepts like Pods, Nodes, and Services.",
+      "options": [
+        "Docker",
+        "Kubernetes",
+        "Ansible",
+        "OpenStack"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "gtt_2",
+      "categoryId": "guess-the-technology",
+      "text": "Which technology fits these clues?\n- Released in 2009 as a NoSQL database.\n- Stores data in flexible, JSON-like documents (BSON).\n- Avoids schemas and traditional tables.",
+      "options": [
+        "PostgreSQL",
+        "MySQL",
+        "Redis",
+        "MongoDB"
+      ],
+      "correctAnswer": "D",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "gtt_3",
+      "categoryId": "guess-the-technology",
+      "text": "Which technology fits these clues?\n- Created by Guido van Rossum in 1991.\n- Uses clean indentation for code block readability.\n- The dominant language for Machine Learning and AI.",
+      "options": [
+        "Ruby",
+        "Python",
+        "Perl",
+        "PHP"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "gtt_4",
+      "categoryId": "guess-the-technology",
+      "text": "Which technology fits these clues?\n- Developed by Mozilla starting in 2010.\n- Guarantees memory safety without a garbage collector.\n- Uses an \"ownership and borrowing\" model.",
+      "options": [
+        "C++",
+        "Go",
+        "Rust",
+        "Swift"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "gtt_5",
+      "categoryId": "guess-the-technology",
+      "text": "Which technology fits these clues?\n- Launched in 2006 by Amazon.\n- The pioneer and market leader in cloud infrastructure.\n- Features core services like EC2, S3, and RDS.",
+      "options": [
+        "Google Cloud",
+        "Microsoft Azure",
+        "IBM Cloud",
+        "AWS"
+      ],
+      "correctAnswer": "D",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "gtt_6",
+      "categoryId": "guess-the-technology",
+      "text": "Which technology fits these clues?\n- Created by Linus Torvalds in 1991.\n- Open-source operating system kernel.\n- Powers 100% of the world's top 500 supercomputers.",
+      "options": [
+        "Unix",
+        "Linux",
+        "Windows Server",
+        "macOS"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ai_1",
+      "categoryId": "current-technology-and-ai",
+      "text": "Which AI model family, developed by Google, replaced Bard and is known for its native multimodal capabilities and massive context window?",
+      "options": [
+        "Claude",
+        "LLaMA",
+        "Gemini",
+        "GPT-4"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ai_2",
+      "categoryId": "current-technology-and-ai",
+      "text": "In the field of Artificial Intelligence, what does the widely used acronym LLM stand for?",
+      "options": [
+        "Latent Logic Model",
+        "Linear Learning Method",
+        "Large Language Model",
+        "Logical Linked Machine"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ai_3",
+      "categoryId": "current-technology-and-ai",
+      "text": "Which chipmaker is currently the dominant manufacturer of the high-performance H100 and A100 GPUs used to train state-of-the-art AI systems?",
+      "options": [
+        "AMD",
+        "Intel",
+        "Nvidia",
+        "Qualcomm"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ai_4",
+      "categoryId": "current-technology-and-ai",
+      "text": "What is the name of OpenAI's text-to-video generative model, announced in 2024, capable of creating highly detailed, realistic video clips from text prompts?",
+      "options": [
+        "Sora",
+        "Dall-E",
+        "Midjourney",
+        "Runway"
+      ],
+      "correctAnswer": "A",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ai_5",
+      "categoryId": "current-technology-and-ai",
+      "text": "What is the name of the popular AI-powered developer tool launched by GitHub that integrates directly into code editors to suggest code lines and entire functions in real-time?",
+      "options": [
+        "Tabnine",
+        "Whisper",
+        "Copilot",
+        "CodeWhisperer"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ai_6",
+      "categoryId": "current-technology-and-ai",
+      "text": "Which open-source Python library, developed by Meta's AI Research lab, is highly popular for training deep learning neural networks?",
+      "options": [
+        "TensorFlow",
+        "PyTorch",
+        "Keras",
+        "Scikit-Learn"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "web_1",
+      "categoryId": "web-development-and-web-technologies",
+      "text": "An element has width: 100px, padding: 20px, and a 5px border. If its CSS is set to box-sizing: border-box, what is the actual total width rendered on the screen?",
+      "options": [
+        "100px",
+        "125px",
+        "150px",
+        "75px"
+      ],
+      "correctAnswer": "A",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "web_2",
+      "categoryId": "web-development-and-web-technologies",
+      "text": "Both HTML tags <b> and <strong> make text look identical (bold). What is the main difference between using them?",
+      "options": [
+        "<strong> is modern and uses less RAM to render.",
+        "<strong> adds semantic importance for screen readers, while <b> only changes style.",
+        "<b> is deprecated and no longer supported in HTML5.",
+        "<b> is for uppercase, while <strong> is for lowercase."
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "web_3",
+      "categoryId": "web-development-and-web-technologies",
+      "text": "What happens when the browser runs this JavaScript code:\nconst title = \"Quiz\";\ntitle = \"Competition\";",
+      "options": [
+        "The title successfully updates to \"Competition\".",
+        "It prints \"Competition\" to the console.",
+        "It throws a TypeError (reassignment to constant).",
+        "It creates a new variable in memory."
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "web_4",
+      "categoryId": "web-development-and-web-technologies",
+      "text": "When you position an element as position: absolute in CSS, it positions itself relative to which ancestor?",
+      "options": [
+        "Always the main <body> element.",
+        "The nearest ancestor that has a position other than static.",
+        "Always the browser viewport (window).",
+        "Its immediate next sibling element."
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "web_5",
+      "categoryId": "web-development-and-web-technologies",
+      "text": "In JavaScript, what is the boolean outcome of the expression: 5 == \"5\"?",
+      "options": [
+        "false",
+        "true",
+        "undefined",
+        "NaN"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "web_6",
+      "categoryId": "web-development-and-web-technologies",
+      "text": "When browsing, what does the \"S\" stand for in the secure web address prefix HTTPS?",
+      "options": [
+        "Safe",
+        "Server",
+        "Secure",
+        "System"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "rf_1",
+      "categoryId": "rapid-fire",
+      "text": "Which programming language, developed by Apple, is the modern standard for building iOS and macOS apps (succeeding Objective-C)?",
+      "options": [],
+      "correctAnswer": "Swift",
+      "timeLimit": 15,
+      "points": 100
+    },
+    {
+      "id": "rf_2",
+      "categoryId": "rapid-fire",
+      "text": "In database management, what is the acronym for the four key properties (Atomicity, Consistency, Isolation, Durability) that guarantee transaction reliability?",
+      "options": [],
+      "correctAnswer": "ACID",
+      "timeLimit": 15,
+      "points": 100
+    },
+    {
+      "id": "rf_3",
+      "categoryId": "rapid-fire",
+      "text": "What is the acronym for the lightweight, human-readable data format that represents structured objects using curly braces {} and arrays using []?",
+      "options": [],
+      "correctAnswer": "JSON",
+      "timeLimit": 15,
+      "points": 100
+    },
+    {
+      "id": "rf_4",
+      "categoryId": "rapid-fire",
+      "text": "In Node.js development, what is the three-letter command-line tool used to install, update, and manage third-party project packages?",
+      "options": [],
+      "correctAnswer": "npm",
+      "timeLimit": 15,
+      "points": 100
+    },
+    {
+      "id": "rf_5",
+      "categoryId": "rapid-fire",
+      "text": "In HTML, what is the tag name used to define the most important heading of a webpage?",
+      "options": [],
+      "correctAnswer": "h1",
+      "timeLimit": 15,
+      "points": 100
+    },
+    {
+      "id": "rf_6",
+      "categoryId": "rapid-fire",
+      "text": "Which CSS box-model property controls the space inside an element, between the content itself and its border?",
+      "options": [],
+      "correctAnswer": "padding",
+      "timeLimit": 15,
+      "points": 100
+    },
+    {
+      "id": "ftt_1",
+      "categoryId": "fun-tech-trivia",
+      "text": "When a Windows computer suffers a critical system crash, it displays a full-screen error message. What is this screen famously called?",
+      "options": [
+        "Red Alert Screen",
+        "Blue Screen of Death (BSOD)",
+        "Black Box Failure",
+        "Error Page of Doom"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ftt_2",
+      "categoryId": "fun-tech-trivia",
+      "text": "In software and games, what is the term for a hidden feature, message, or joke left by developers for players to find?",
+      "options": [
+        "Trojan Horse",
+        "Gold Mine",
+        "Easter Egg",
+        "Phantom Code"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ftt_3",
+      "categoryId": "fun-tech-trivia",
+      "text": "What is the name of the classic, pixelated offline game that automatically appears in Google Chrome when your internet connection is lost?",
+      "options": [
+        "Snake",
+        "Pac-Man",
+        "T-Rex Dinosaur Runner",
+        "Space Invaders"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ftt_4",
+      "categoryId": "fun-tech-trivia",
+      "text": "We connect to Wi-Fi daily. What does the acronym \"Wi-Fi\" officially stand for in technical terms?",
+      "options": [
+        "Wireless Fidelity",
+        "Wide-range Frequency",
+        "Wired Fiber",
+        "Nothing (it is just a catchy brand name with no technical meaning)"
+      ],
+      "correctAnswer": "D",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ftt_5",
+      "categoryId": "fun-tech-trivia",
+      "text": "On Windows, what is the legendary three-key shortcut used to quickly open the Task Manager or unlock the computer?",
+      "options": [
+        "Ctrl + Shift + Esc",
+        "Ctrl + Alt + Delete",
+        "Alt + F4",
+        "Windows + D"
+      ],
+      "correctAnswer": "B",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ftt_6",
+      "categoryId": "fun-tech-trivia",
+      "text": "What is the name of the small files stored by web browsers to remember your login sessions and cart items?",
+      "options": [
+        "Wafers",
+        "Crackers",
+        "Cookies",
+        "Breadcrumbs"
+      ],
+      "correctAnswer": "C",
+      "timeLimit": 20,
+      "points": 100
+    },
+    {
+      "id": "ctc_1",
+      "categoryId": "connect-the-clues",
+      "text": "Connect the Pictures: Combine the two visual points in the image to identify the network security system.",
+      "options": [],
+      "correctAnswer": "Firewall",
+      "timeLimit": 30,
+      "points": 150,
+      "image": "/images/firewall_rebus.png"
+    },
+    {
+      "id": "ctc_2",
+      "categoryId": "connect-the-clues",
+      "text": "Connect the Pictures: Combine the two visual points in the image to find the popular web programming language.",
+      "options": [],
+      "correctAnswer": "JavaScript",
+      "timeLimit": 30,
+      "points": 150,
+      "image": "/images/javascript_rebus.png"
+    },
+    {
+      "id": "ctc_3",
+      "categoryId": "connect-the-clues",
+      "text": "Connect the Pictures: Combine the two visual points in the image to find the hardware input device.",
+      "options": [],
+      "correctAnswer": "Keyboard",
+      "timeLimit": 30,
+      "points": 150,
+      "image": "/images/keyboard_rebus.png"
+    },
+    {
+      "id": "ctc_4",
+      "categoryId": "connect-the-clues",
+      "text": "Connect the Pictures: Combine the two visual points in the image to identify the short-range wireless standard.",
+      "options": [],
+      "correctAnswer": "Bluetooth",
+      "timeLimit": 30,
+      "points": 150,
+      "image": "/images/bluetooth_rebus.png"
+    },
+    {
+      "id": "ctc_5",
+      "categoryId": "connect-the-clues",
+      "text": "Connect the Pictures: Combine the two visual points in the image to identify the main computer circuit board.",
+      "options": [],
+      "correctAnswer": "Motherboard",
+      "timeLimit": 30,
+      "points": 150,
+      "image": "/images/motherboard_rebus.png"
+    },
+    {
+      "id": "ctc_6",
+      "categoryId": "connect-the-clues",
+      "text": "Connect the Pictures: Combine the two visual points in the image to identify the hardware processor component.",
+      "options": [],
+      "correctAnswer": "Microchip",
+      "timeLimit": 30,
+      "points": 150,
+      "image": "/images/microchip_rebus.png"
+    }
+  ],
+  "teams": [
+    {
+      "id": "t_1",
+      "name": "Alpha Coders",
+      "members": [
+        "Amit",
+        "Rahul"
+      ],
+      "color": "#fb7185"
+    },
+    {
+      "id": "t_2",
+      "name": "Byte Wizards",
+      "members": [
+        "Sanjay",
+        "Diya"
+      ],
+      "color": "#60a5fa"
+    },
+    {
+      "id": "t_3",
+      "name": "Pixel Pioneers",
+      "members": [
+        "Karan",
+        "Nisha"
+      ],
+      "color": "#fbbf24"
+    }
+  ],
+  "events": [
+    {
+      "id": "demo",
+      "name": "BCA Grand Tech Quiz 2026",
+      "status": "active",
+      "currentQuestionIndex": 36,
+      "questionIds": [
+        "btm_1",
+        "btm_2",
+        "btm_3",
+        "btm_4",
+        "btm_5",
+        "btm_6",
+        "logo_1",
+        "logo_2",
+        "logo_3",
+        "logo_4",
+        "logo_5",
+        "logo_6",
+        "gtt_1",
+        "gtt_2",
+        "gtt_3",
+        "gtt_4",
+        "gtt_5",
+        "gtt_6",
+        "ai_1",
+        "ai_2",
+        "ai_3",
+        "ai_4",
+        "ai_5",
+        "ai_6",
+        "web_1",
+        "web_2",
+        "web_3",
+        "web_4",
+        "web_5",
+        "web_6",
+        "rf_1",
+        "rf_2",
+        "rf_3",
+        "rf_4",
+        "rf_5",
+        "rf_6",
+        "ftt_1",
+        "ftt_2",
+        "ftt_3",
+        "ftt_4",
+        "ftt_5",
+        "ftt_6",
+        "ctc_1",
+        "ctc_2",
+        "ctc_3",
+        "ctc_4",
+        "ctc_5",
+        "ctc_6"
+      ],
+      "state": {
+        "showQuestion": true,
+        "showAnswer": false,
+        "timerStartedAt": null,
+        "timerDuration": 20,
+        "timerRemaining": 20,
+        "timerRunning": false,
+        "completedQuestionIds": [],
+        "currentRound": 7,
+        "showStandings": false
+      },
+      "teams": [
+        {
+          "id": "t_1",
+          "name": "Alpha Coders",
+          "members": [
+            "Amit",
+            "Rahul"
+          ],
+          "color": "#fb7185",
+          "score": 0
+        },
+        {
+          "id": "t_2",
+          "name": "Byte Wizards",
+          "members": [
+            "Sanjay",
+            "Diya"
+          ],
+          "color": "#60a5fa",
+          "score": 0
+        },
+        {
+          "id": "t_3",
+          "name": "Pixel Pioneers",
+          "members": [
+            "Karan",
+            "Nisha"
+          ],
+          "color": "#fbbf24",
+          "score": 0
+        }
+      ],
+      "pptTeams": [
+        {
+          "id": "t_1",
+          "name": "Alpha Coders",
+          "color": "#fb7185",
+          "members": [
+            "Amit",
+            "Rahul"
+          ],
+          "score": 92,
+          "criteria": {
+            "content": 17,
+            "delivery": 19,
+            "design": 18,
+            "qa": 18,
+            "time": 20
+          },
+          "judgeScores": {
+            "dev_tp4rk5tx6": {
+              "judgeName": "Smith",
+              "score": 95,
+              "criteria": {
+                "content": 20,
+                "delivery": 19,
+                "design": 18,
+                "qa": 18,
+                "time": 20
+              },
+              "updatedAt": "2026-07-18T02:10:52.199Z"
+            },
+            "dev_sjlc32c0v": {
+              "judgeName": "Ram",
+              "score": 89,
+              "criteria": {
+                "content": 14,
+                "delivery": 19,
+                "design": 18,
+                "qa": 18,
+                "time": 20
+              },
+              "updatedAt": "2026-07-18T02:12:59.729Z"
+            }
+          }
+        }
+      ],
+      "settings": {
+        "maxJudges": 3
+      },
+      "connectedJudges": [
+        {
+          "deviceId": "dev_tp4rk5tx6",
+          "name": "Smith",
+          "registeredAt": "2026-07-18T02:10:02.734Z"
+        },
+        {
+          "deviceId": "dev_sjlc32c0v",
+          "name": "Ram",
+          "registeredAt": "2026-07-18T02:12:45.366Z"
+        }
+      ],
+      "auditLogs": [
+        {
+          "id": "log_1784340779729",
+          "timestamp": "2026-07-18T02:12:59.729Z",
+          "judgeName": "Ram",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=19, design=18, qa=18, time=20 (Total: 89)"
+        },
+        {
+          "id": "log_1784340778584",
+          "timestamp": "2026-07-18T02:12:58.584Z",
+          "judgeName": "Ram",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=19, delivery=19, design=18, qa=18, time=20 (Total: 94)"
+        },
+        {
+          "id": "log_1784340776778",
+          "timestamp": "2026-07-18T02:12:56.778Z",
+          "judgeName": "Ram",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=18, delivery=19, design=18, qa=18, time=20 (Total: 93)"
+        },
+        {
+          "id": "log_1784340765366",
+          "timestamp": "2026-07-18T02:12:45.366Z",
+          "judgeName": "Ram",
+          "teamName": "System",
+          "track": "Security",
+          "action": "Judge Connected",
+          "details": "Device connected. Current connection count: 2"
+        },
+        {
+          "id": "log_1784340652199",
+          "timestamp": "2026-07-18T02:10:52.199Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=19, design=18, qa=18, time=20 (Total: 95)"
+        },
+        {
+          "id": "log_1784340648494",
+          "timestamp": "2026-07-18T02:10:48.494Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=19, design=18, qa=0, time=20 (Total: 77)"
+        },
+        {
+          "id": "log_1784340625369",
+          "timestamp": "2026-07-18T02:10:25.369Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=19, design=18, qa=20, time=20 (Total: 97)"
+        },
+        {
+          "id": "log_1784340624382",
+          "timestamp": "2026-07-18T02:10:24.382Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=1, design=18, qa=20, time=20 (Total: 79)"
+        },
+        {
+          "id": "log_1784340623274",
+          "timestamp": "2026-07-18T02:10:23.274Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=20, time=20 (Total: 98)"
+        },
+        {
+          "id": "log_1784340622623",
+          "timestamp": "2026-07-18T02:10:22.623Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=1, time=20 (Total: 79)"
+        },
+        {
+          "id": "log_1784340622209",
+          "timestamp": "2026-07-18T02:10:22.209Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=1, time=0 (Total: 59)"
+        },
+        {
+          "id": "log_1784340621488",
+          "timestamp": "2026-07-18T02:10:21.488Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=17, time=0 (Total: 75)"
+        },
+        {
+          "id": "log_1784340621461",
+          "timestamp": "2026-07-18T02:10:21.461Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=17, time=0 (Total: 75)"
+        },
+        {
+          "id": "log_1784340621409",
+          "timestamp": "2026-07-18T02:10:21.409Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=16, time=0 (Total: 74)"
+        },
+        {
+          "id": "log_1784340621339",
+          "timestamp": "2026-07-18T02:10:21.339Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=15, time=0 (Total: 73)"
+        },
+        {
+          "id": "log_1784340621274",
+          "timestamp": "2026-07-18T02:10:21.274Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=14, time=0 (Total: 72)"
+        },
+        {
+          "id": "log_1784340621213",
+          "timestamp": "2026-07-18T02:10:21.213Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=14, time=0 (Total: 72)"
+        },
+        {
+          "id": "log_1784340621150",
+          "timestamp": "2026-07-18T02:10:21.150Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=12, time=0 (Total: 70)"
+        },
+        {
+          "id": "log_1784340621108",
+          "timestamp": "2026-07-18T02:10:21.108Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=12, time=0 (Total: 70)"
+        },
+        {
+          "id": "log_1784340621008",
+          "timestamp": "2026-07-18T02:10:21.008Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=11, time=0 (Total: 69)"
+        },
+        {
+          "id": "log_1784340618653",
+          "timestamp": "2026-07-18T02:10:18.653Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=20, design=18, qa=19, time=0 (Total: 77)"
+        },
+        {
+          "id": "log_1784340618626",
+          "timestamp": "2026-07-18T02:10:18.626Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=19, design=18, qa=19, time=0 (Total: 76)"
+        },
+        {
+          "id": "log_1784340618572",
+          "timestamp": "2026-07-18T02:10:18.572Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=18, design=18, qa=19, time=0 (Total: 75)"
+        },
+        {
+          "id": "log_1784340618531",
+          "timestamp": "2026-07-18T02:10:18.531Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=18, design=18, qa=19, time=0 (Total: 75)"
+        },
+        {
+          "id": "log_1784340618492",
+          "timestamp": "2026-07-18T02:10:18.492Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=17, design=18, qa=19, time=0 (Total: 74)"
+        },
+        {
+          "id": "log_1784340618458",
+          "timestamp": "2026-07-18T02:10:18.458Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=17, design=18, qa=19, time=0 (Total: 74)"
+        },
+        {
+          "id": "log_1784340618321",
+          "timestamp": "2026-07-18T02:10:18.321Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=16, design=18, qa=19, time=0 (Total: 73)"
+        },
+        {
+          "id": "log_1784340616644",
+          "timestamp": "2026-07-18T02:10:16.644Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=9, design=18, qa=19, time=0 (Total: 66)"
+        },
+        {
+          "id": "log_1784340616601",
+          "timestamp": "2026-07-18T02:10:16.601Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=9, design=18, qa=19, time=0 (Total: 66)"
+        },
+        {
+          "id": "log_1784340616558",
+          "timestamp": "2026-07-18T02:10:16.558Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=20, delivery=9, design=18, qa=19, time=0 (Total: 66)"
+        },
+        {
+          "id": "log_1784340616499",
+          "timestamp": "2026-07-18T02:10:16.499Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=19, delivery=9, design=18, qa=19, time=0 (Total: 65)"
+        },
+        {
+          "id": "log_1784340616444",
+          "timestamp": "2026-07-18T02:10:16.444Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=19, delivery=9, design=18, qa=19, time=0 (Total: 65)"
+        },
+        {
+          "id": "log_1784340616390",
+          "timestamp": "2026-07-18T02:10:16.390Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=19, delivery=9, design=18, qa=19, time=0 (Total: 65)"
+        },
+        {
+          "id": "log_1784340616358",
+          "timestamp": "2026-07-18T02:10:16.358Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=18, delivery=9, design=18, qa=19, time=0 (Total: 64)"
+        },
+        {
+          "id": "log_1784340616320",
+          "timestamp": "2026-07-18T02:10:16.320Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=9, design=18, qa=19, time=0 (Total: 63)"
+        },
+        {
+          "id": "log_1784340616292",
+          "timestamp": "2026-07-18T02:10:16.292Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=9, design=18, qa=19, time=0 (Total: 63)"
+        },
+        {
+          "id": "log_1784340616218",
+          "timestamp": "2026-07-18T02:10:16.218Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=16, delivery=9, design=18, qa=19, time=0 (Total: 62)"
+        },
+        {
+          "id": "log_1784340616159",
+          "timestamp": "2026-07-18T02:10:16.159Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=9, design=18, qa=19, time=0 (Total: 61)"
+        },
+        {
+          "id": "log_1784340616112",
+          "timestamp": "2026-07-18T02:10:16.112Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=9, design=18, qa=19, time=0 (Total: 60)"
+        },
+        {
+          "id": "log_1784340616084",
+          "timestamp": "2026-07-18T02:10:16.084Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=9, design=18, qa=19, time=0 (Total: 60)"
+        },
+        {
+          "id": "log_1784340616048",
+          "timestamp": "2026-07-18T02:10:16.048Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=13, delivery=9, design=18, qa=19, time=0 (Total: 59)"
+        },
+        {
+          "id": "log_1784340616011",
+          "timestamp": "2026-07-18T02:10:16.011Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=12, delivery=9, design=18, qa=19, time=0 (Total: 58)"
+        },
+        {
+          "id": "log_1784340615850",
+          "timestamp": "2026-07-18T02:10:15.850Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=11, delivery=9, design=18, qa=19, time=0 (Total: 57)"
+        },
+        {
+          "id": "log_1784340612924",
+          "timestamp": "2026-07-18T02:10:12.924Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=4, delivery=9, design=18, qa=19, time=0 (Total: 50)"
+        },
+        {
+          "id": "log_1784340612882",
+          "timestamp": "2026-07-18T02:10:12.882Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=4, delivery=9, design=18, qa=19, time=0 (Total: 50)"
+        },
+        {
+          "id": "log_1784340612843",
+          "timestamp": "2026-07-18T02:10:12.843Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=5, delivery=9, design=18, qa=19, time=0 (Total: 51)"
+        },
+        {
+          "id": "log_1784340612807",
+          "timestamp": "2026-07-18T02:10:12.807Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=5, delivery=9, design=18, qa=19, time=0 (Total: 51)"
+        },
+        {
+          "id": "log_1784340612687",
+          "timestamp": "2026-07-18T02:10:12.687Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=5, delivery=9, design=18, qa=19, time=0 (Total: 51)"
+        },
+        {
+          "id": "log_1784340612651",
+          "timestamp": "2026-07-18T02:10:12.651Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=5, delivery=9, design=18, qa=19, time=0 (Total: 51)"
+        },
+        {
+          "id": "log_1784340612591",
+          "timestamp": "2026-07-18T02:10:12.591Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=5, delivery=9, design=18, qa=19, time=0 (Total: 51)"
+        },
+        {
+          "id": "log_1784340612520",
+          "timestamp": "2026-07-18T02:10:12.520Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=5, delivery=9, design=18, qa=19, time=0 (Total: 51)"
+        },
+        {
+          "id": "log_1784340612418",
+          "timestamp": "2026-07-18T02:10:12.418Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=6, delivery=9, design=18, qa=19, time=0 (Total: 52)"
+        },
+        {
+          "id": "log_1784340612357",
+          "timestamp": "2026-07-18T02:10:12.357Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=6, delivery=9, design=18, qa=19, time=0 (Total: 52)"
+        },
+        {
+          "id": "log_1784340612024",
+          "timestamp": "2026-07-18T02:10:12.024Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=6, delivery=9, design=18, qa=19, time=0 (Total: 52)"
+        },
+        {
+          "id": "log_1784340611985",
+          "timestamp": "2026-07-18T02:10:11.985Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=6, delivery=9, design=18, qa=19, time=0 (Total: 52)"
+        },
+        {
+          "id": "log_1784340611939",
+          "timestamp": "2026-07-18T02:10:11.939Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=9, design=18, qa=19, time=0 (Total: 53)"
+        },
+        {
+          "id": "log_1784340611911",
+          "timestamp": "2026-07-18T02:10:11.911Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=9, design=18, qa=19, time=0 (Total: 53)"
+        },
+        {
+          "id": "log_1784340611883",
+          "timestamp": "2026-07-18T02:10:11.883Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=8, delivery=9, design=18, qa=19, time=0 (Total: 54)"
+        },
+        {
+          "id": "log_1784340611847",
+          "timestamp": "2026-07-18T02:10:11.847Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=8, delivery=9, design=18, qa=19, time=0 (Total: 54)"
+        },
+        {
+          "id": "log_1784340611722",
+          "timestamp": "2026-07-18T02:10:11.722Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=9, delivery=9, design=18, qa=19, time=0 (Total: 55)"
+        },
+        {
+          "id": "log_1784340611515",
+          "timestamp": "2026-07-18T02:10:11.515Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=9, design=18, qa=19, time=0 (Total: 61)"
+        },
+        {
+          "id": "log_1784340611480",
+          "timestamp": "2026-07-18T02:10:11.480Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=10, design=18, qa=19, time=0 (Total: 62)"
+        },
+        {
+          "id": "log_1784340611432",
+          "timestamp": "2026-07-18T02:10:11.432Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=10, design=18, qa=19, time=0 (Total: 62)"
+        },
+        {
+          "id": "log_1784340611338",
+          "timestamp": "2026-07-18T02:10:11.338Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=11, design=18, qa=19, time=0 (Total: 63)"
+        },
+        {
+          "id": "log_1784340611308",
+          "timestamp": "2026-07-18T02:10:11.308Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=11, design=18, qa=19, time=0 (Total: 63)"
+        },
+        {
+          "id": "log_1784340611254",
+          "timestamp": "2026-07-18T02:10:11.254Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=11, design=18, qa=19, time=0 (Total: 63)"
+        },
+        {
+          "id": "log_1784340611213",
+          "timestamp": "2026-07-18T02:10:11.213Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=12, design=18, qa=19, time=0 (Total: 64)"
+        },
+        {
+          "id": "log_1784340611165",
+          "timestamp": "2026-07-18T02:10:11.165Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=12, design=18, qa=19, time=0 (Total: 64)"
+        },
+        {
+          "id": "log_1784340611110",
+          "timestamp": "2026-07-18T02:10:11.110Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=13, design=18, qa=19, time=0 (Total: 65)"
+        },
+        {
+          "id": "log_1784340610978",
+          "timestamp": "2026-07-18T02:10:10.978Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=8, design=18, qa=19, time=0 (Total: 60)"
+        },
+        {
+          "id": "log_1784340610921",
+          "timestamp": "2026-07-18T02:10:10.921Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=8, design=18, qa=19, time=0 (Total: 60)"
+        },
+        {
+          "id": "log_1784340610890",
+          "timestamp": "2026-07-18T02:10:10.890Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=8, design=18, qa=19, time=0 (Total: 60)"
+        },
+        {
+          "id": "log_1784340610860",
+          "timestamp": "2026-07-18T02:10:10.860Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=8, design=18, qa=19, time=0 (Total: 60)"
+        },
+        {
+          "id": "log_1784340610821",
+          "timestamp": "2026-07-18T02:10:10.821Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=8, design=18, qa=19, time=0 (Total: 60)"
+        },
+        {
+          "id": "log_1784340610774",
+          "timestamp": "2026-07-18T02:10:10.774Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=8, design=18, qa=19, time=0 (Total: 60)"
+        },
+        {
+          "id": "log_1784340610668",
+          "timestamp": "2026-07-18T02:10:10.668Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=9, design=18, qa=19, time=0 (Total: 61)"
+        },
+        {
+          "id": "log_1784340610619",
+          "timestamp": "2026-07-18T02:10:10.619Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=9, design=18, qa=19, time=0 (Total: 61)"
+        },
+        {
+          "id": "log_1784340610579",
+          "timestamp": "2026-07-18T02:10:10.579Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=10, design=18, qa=19, time=0 (Total: 62)"
+        },
+        {
+          "id": "log_1784340610552",
+          "timestamp": "2026-07-18T02:10:10.552Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=12, design=18, qa=19, time=0 (Total: 64)"
+        },
+        {
+          "id": "log_1784340610474",
+          "timestamp": "2026-07-18T02:10:10.474Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=9, design=18, qa=19, time=0 (Total: 61)"
+        },
+        {
+          "id": "log_1784340610445",
+          "timestamp": "2026-07-18T02:10:10.445Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=10, design=18, qa=19, time=0 (Total: 62)"
+        },
+        {
+          "id": "log_1784340610276",
+          "timestamp": "2026-07-18T02:10:10.276Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=11, design=18, qa=19, time=0 (Total: 63)"
+        },
+        {
+          "id": "log_1784340610207",
+          "timestamp": "2026-07-18T02:10:10.207Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=11, design=18, qa=19, time=0 (Total: 63)"
+        },
+        {
+          "id": "log_1784340607545",
+          "timestamp": "2026-07-18T02:10:07.545Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=17, design=18, qa=19, time=0 (Total: 69)"
+        },
+        {
+          "id": "log_1784340607515",
+          "timestamp": "2026-07-18T02:10:07.515Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=15, delivery=17, design=18, qa=19, time=0 (Total: 69)"
+        },
+        {
+          "id": "log_1784340607484",
+          "timestamp": "2026-07-18T02:10:07.484Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=17, design=18, qa=19, time=0 (Total: 68)"
+        },
+        {
+          "id": "log_1784340607456",
+          "timestamp": "2026-07-18T02:10:07.456Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=17, design=18, qa=19, time=0 (Total: 68)"
+        },
+        {
+          "id": "log_1784340607431",
+          "timestamp": "2026-07-18T02:10:07.431Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=14, delivery=17, design=18, qa=19, time=0 (Total: 68)"
+        },
+        {
+          "id": "log_1784340607314",
+          "timestamp": "2026-07-18T02:10:07.314Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=13, delivery=17, design=18, qa=19, time=0 (Total: 67)"
+        },
+        {
+          "id": "log_1784340607259",
+          "timestamp": "2026-07-18T02:10:07.259Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=13, delivery=17, design=18, qa=19, time=0 (Total: 67)"
+        },
+        {
+          "id": "log_1784340607223",
+          "timestamp": "2026-07-18T02:10:07.223Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=12, delivery=17, design=18, qa=19, time=0 (Total: 66)"
+        },
+        {
+          "id": "log_1784340607186",
+          "timestamp": "2026-07-18T02:10:07.186Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=12, delivery=17, design=18, qa=19, time=0 (Total: 66)"
+        },
+        {
+          "id": "log_1784340607144",
+          "timestamp": "2026-07-18T02:10:07.144Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=11, delivery=17, design=18, qa=19, time=0 (Total: 65)"
+        },
+        {
+          "id": "log_1784340607083",
+          "timestamp": "2026-07-18T02:10:07.083Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=11, delivery=17, design=18, qa=19, time=0 (Total: 65)"
+        },
+        {
+          "id": "log_1784340606939",
+          "timestamp": "2026-07-18T02:10:06.939Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=11, delivery=17, design=18, qa=19, time=0 (Total: 65)"
+        },
+        {
+          "id": "log_1784340606896",
+          "timestamp": "2026-07-18T02:10:06.896Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=10, delivery=17, design=18, qa=19, time=0 (Total: 64)"
+        },
+        {
+          "id": "log_1784340606845",
+          "timestamp": "2026-07-18T02:10:06.845Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=9, delivery=17, design=18, qa=19, time=0 (Total: 63)"
+        },
+        {
+          "id": "log_1784340606727",
+          "timestamp": "2026-07-18T02:10:06.727Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=8, delivery=17, design=18, qa=19, time=0 (Total: 62)"
+        },
+        {
+          "id": "log_1784340602734",
+          "timestamp": "2026-07-18T02:10:02.734Z",
+          "judgeName": "Smith",
+          "teamName": "System",
+          "track": "Security",
+          "action": "Judge Connected",
+          "details": "Device connected. Current connection count: 1"
+        }
+      ]
+    },
+    {
+      "id": "event_1784303908411",
+      "name": "Paper Presentation",
+      "status": "active",
+      "currentQuestionIndex": 0,
+      "questionIds": [],
+      "state": {
+        "showQuestion": false,
+        "showAnswer": false,
+        "timerStartedAt": null,
+        "timerDuration": 20,
+        "timerRemaining": 20,
+        "timerRunning": false,
+        "completedQuestionIds": [],
+        "currentRound": 1
+      },
+      "teams": [],
+      "pptTeams": [
+        {
+          "id": "t_1",
+          "name": "Alpha Coders",
+          "color": "#fb7185",
+          "members": [
+            "Amit",
+            "Rahul"
+          ],
+          "score": 59,
+          "criteria": {
+            "content": 7,
+            "delivery": 3,
+            "design": 19,
+            "qa": 15,
+            "time": 15
+          },
+          "judgeScores": {
+            "dev_tp4rk5tx6": {
+              "judgeName": "Smith",
+              "score": 59,
+              "criteria": {
+                "content": 7,
+                "delivery": 3,
+                "design": 19,
+                "qa": 15,
+                "time": 15
+              },
+              "updatedAt": "2026-07-18T02:08:18.402Z"
+            }
+          }
+        },
+        {
+          "id": "t_2",
+          "name": "Byte Wizards",
+          "color": "#60a5fa",
+          "members": [
+            "Sanjay",
+            "Diya"
+          ],
+          "score": 49,
+          "criteria": {
+            "content": 17,
+            "delivery": 17,
+            "design": 12,
+            "qa": 0,
+            "time": 3
+          },
+          "judgeScores": {
+            "dev_tp4rk5tx6": {
+              "judgeName": "Smith",
+              "score": 49,
+              "criteria": {
+                "content": 17,
+                "delivery": 17,
+                "design": 12,
+                "qa": 0,
+                "time": 3
+              },
+              "updatedAt": "2026-07-18T02:08:10.266Z"
+            }
+          }
+        },
+        {
+          "id": "t_3",
+          "name": "Pixel Pioneers",
+          "color": "#fbbf24",
+          "members": [
+            "Karan",
+            "Nisha"
+          ],
+          "score": 65,
+          "criteria": {
+            "content": 10,
+            "delivery": 20,
+            "design": 11,
+            "qa": 13,
+            "time": 11
+          },
+          "judgeScores": {
+            "dev_tp4rk5tx6": {
+              "judgeName": "Smith",
+              "score": 72,
+              "criteria": {
+                "content": 17,
+                "delivery": 20,
+                "design": 11,
+                "qa": 13,
+                "time": 11
+              },
+              "updatedAt": "2026-07-18T02:07:27.837Z"
+            }
+          }
+        }
+      ],
+      "posterTeams": [],
+      "interviewTeams": [
+        {
+          "id": "t_1",
+          "name": "Alpha Coders",
+          "color": "#fb7185",
+          "members": [
+            "Amit",
+            "Rahul"
+          ],
+          "score": 8,
+          "criteria": {
+            "calmness": 0,
+            "mind": 8,
+            "communication": 0,
+            "arguments": 0
+          }
+        },
+        {
+          "id": "t_2",
+          "name": "Byte Wizards",
+          "color": "#60a5fa",
+          "members": [
+            "Sanjay",
+            "Diya"
+          ],
+          "score": 0,
+          "criteria": {
+            "calmness": 0,
+            "mind": 0,
+            "communication": 0,
+            "arguments": 0
+          }
+        },
+        {
+          "id": "t_3",
+          "name": "Pixel Pioneers",
+          "color": "#fbbf24",
+          "members": [
+            "Karan",
+            "Nisha"
+          ],
+          "score": 0,
+          "criteria": {
+            "calmness": 0,
+            "mind": 0,
+            "communication": 0,
+            "arguments": 0
+          }
+        }
+      ],
+      "debuggingTeams": [],
+      "settings": {
+        "maxJudges": 3
+      },
+      "connectedJudges": [
+        {
+          "deviceId": "dev_tp4rk5tx6",
+          "name": "Smith",
+          "registeredAt": "2026-07-18T02:07:07.479Z"
+        }
+      ],
+      "auditLogs": [
+        {
+          "id": "log_1784340498402",
+          "timestamp": "2026-07-18T02:08:18.402Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=3, design=19, qa=15, time=15 (Total: 59)"
+        },
+        {
+          "id": "log_1784340498324",
+          "timestamp": "2026-07-18T02:08:18.324Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=4, design=19, qa=15, time=15 (Total: 60)"
+        },
+        {
+          "id": "log_1784340498284",
+          "timestamp": "2026-07-18T02:08:18.284Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=4, design=19, qa=15, time=15 (Total: 60)"
+        },
+        {
+          "id": "log_1784340498207",
+          "timestamp": "2026-07-18T02:08:18.207Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=4, design=19, qa=15, time=15 (Total: 60)"
+        },
+        {
+          "id": "log_1784340498099",
+          "timestamp": "2026-07-18T02:08:18.099Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=5, design=19, qa=15, time=15 (Total: 61)"
+        },
+        {
+          "id": "log_1784340497855",
+          "timestamp": "2026-07-18T02:08:17.855Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=11, design=19, qa=15, time=15 (Total: 67)"
+        },
+        {
+          "id": "log_1784340497453",
+          "timestamp": "2026-07-18T02:08:17.453Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=16, design=19, qa=15, time=15 (Total: 72)"
+        },
+        {
+          "id": "log_1784340497289",
+          "timestamp": "2026-07-18T02:08:17.289Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=12, design=19, qa=15, time=15 (Total: 68)"
+        },
+        {
+          "id": "log_1784340496788",
+          "timestamp": "2026-07-18T02:08:16.788Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=5, design=19, qa=15, time=15 (Total: 61)"
+        },
+        {
+          "id": "log_1784340496506",
+          "timestamp": "2026-07-18T02:08:16.506Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=9, design=19, qa=15, time=15 (Total: 65)"
+        },
+        {
+          "id": "log_1784340496085",
+          "timestamp": "2026-07-18T02:08:16.085Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=14, design=19, qa=15, time=15 (Total: 70)"
+        },
+        {
+          "id": "log_1784340495920",
+          "timestamp": "2026-07-18T02:08:15.920Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=11, design=19, qa=15, time=15 (Total: 67)"
+        },
+        {
+          "id": "log_1784340495749",
+          "timestamp": "2026-07-18T02:08:15.749Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=9, design=19, qa=15, time=15 (Total: 65)"
+        },
+        {
+          "id": "log_1784340493992",
+          "timestamp": "2026-07-18T02:08:13.992Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=5, design=19, qa=15, time=15 (Total: 61)"
+        },
+        {
+          "id": "log_1784340493956",
+          "timestamp": "2026-07-18T02:08:13.956Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=5, design=19, qa=15, time=15 (Total: 61)"
+        },
+        {
+          "id": "log_1784340493914",
+          "timestamp": "2026-07-18T02:08:13.914Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=5, design=19, qa=15, time=15 (Total: 61)"
+        },
+        {
+          "id": "log_1784340493870",
+          "timestamp": "2026-07-18T02:08:13.870Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=5, design=19, qa=15, time=15 (Total: 61)"
+        },
+        {
+          "id": "log_1784340493824",
+          "timestamp": "2026-07-18T02:08:13.824Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=5, design=19, qa=15, time=15 (Total: 61)"
+        },
+        {
+          "id": "log_1784340493664",
+          "timestamp": "2026-07-18T02:08:13.664Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=6, design=19, qa=15, time=15 (Total: 62)"
+        },
+        {
+          "id": "log_1784340490266",
+          "timestamp": "2026-07-18T02:08:10.266Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=3 (Total: 49)"
+        },
+        {
+          "id": "log_1784340490226",
+          "timestamp": "2026-07-18T02:08:10.226Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=3 (Total: 49)"
+        },
+        {
+          "id": "log_1784340490191",
+          "timestamp": "2026-07-18T02:08:10.191Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=3 (Total: 49)"
+        },
+        {
+          "id": "log_1784340490110",
+          "timestamp": "2026-07-18T02:08:10.110Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=3 (Total: 49)"
+        },
+        {
+          "id": "log_1784340490078",
+          "timestamp": "2026-07-18T02:08:10.078Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=3 (Total: 49)"
+        },
+        {
+          "id": "log_1784340490044",
+          "timestamp": "2026-07-18T02:08:10.044Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=3 (Total: 49)"
+        },
+        {
+          "id": "log_1784340489827",
+          "timestamp": "2026-07-18T02:08:09.827Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=3 (Total: 49)"
+        },
+        {
+          "id": "log_1784340489791",
+          "timestamp": "2026-07-18T02:08:09.791Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=3 (Total: 49)"
+        },
+        {
+          "id": "log_1784340489740",
+          "timestamp": "2026-07-18T02:08:09.740Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=4 (Total: 50)"
+        },
+        {
+          "id": "log_1784340489699",
+          "timestamp": "2026-07-18T02:08:09.699Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=4 (Total: 50)"
+        },
+        {
+          "id": "log_1784340489647",
+          "timestamp": "2026-07-18T02:08:09.647Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=4 (Total: 50)"
+        },
+        {
+          "id": "log_1784340489614",
+          "timestamp": "2026-07-18T02:08:09.614Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=4 (Total: 50)"
+        },
+        {
+          "id": "log_1784340489513",
+          "timestamp": "2026-07-18T02:08:09.513Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=5 (Total: 51)"
+        },
+        {
+          "id": "log_1784340489473",
+          "timestamp": "2026-07-18T02:08:09.473Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=5 (Total: 51)"
+        },
+        {
+          "id": "log_1784340489437",
+          "timestamp": "2026-07-18T02:08:09.437Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=5 (Total: 51)"
+        },
+        {
+          "id": "log_1784340489404",
+          "timestamp": "2026-07-18T02:08:09.404Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=6 (Total: 52)"
+        },
+        {
+          "id": "log_1784340489377",
+          "timestamp": "2026-07-18T02:08:09.377Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=6 (Total: 52)"
+        },
+        {
+          "id": "log_1784340489345",
+          "timestamp": "2026-07-18T02:08:09.345Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=6 (Total: 52)"
+        },
+        {
+          "id": "log_1784340489240",
+          "timestamp": "2026-07-18T02:08:09.240Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=6 (Total: 52)"
+        },
+        {
+          "id": "log_1784340489193",
+          "timestamp": "2026-07-18T02:08:09.193Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=7 (Total: 53)"
+        },
+        {
+          "id": "log_1784340489158",
+          "timestamp": "2026-07-18T02:08:09.158Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=7 (Total: 53)"
+        },
+        {
+          "id": "log_1784340489103",
+          "timestamp": "2026-07-18T02:08:09.103Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=8 (Total: 54)"
+        },
+        {
+          "id": "log_1784340489054",
+          "timestamp": "2026-07-18T02:08:09.054Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=9 (Total: 55)"
+        },
+        {
+          "id": "log_1784340489004",
+          "timestamp": "2026-07-18T02:08:09.004Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=10 (Total: 56)"
+        },
+        {
+          "id": "log_1784340488847",
+          "timestamp": "2026-07-18T02:08:08.847Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=11 (Total: 57)"
+        },
+        {
+          "id": "log_1784340486215",
+          "timestamp": "2026-07-18T02:08:06.215Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=17, design=12, qa=0, time=20 (Total: 66)"
+        },
+        {
+          "id": "log_1784340485228",
+          "timestamp": "2026-07-18T02:08:05.228Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=13, design=12, qa=0, time=20 (Total: 62)"
+        },
+        {
+          "id": "log_1784340483529",
+          "timestamp": "2026-07-18T02:08:03.529Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=17, design=19, qa=15, time=15 (Total: 73)"
+        },
+        {
+          "id": "log_1784340481186",
+          "timestamp": "2026-07-18T02:08:01.186Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=6, design=19, qa=15, time=15 (Total: 62)"
+        },
+        {
+          "id": "log_1784340469526",
+          "timestamp": "2026-07-18T02:07:49.526Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=11, design=19, qa=15, time=15 (Total: 67)"
+        },
+        {
+          "id": "log_1784340452859",
+          "timestamp": "2026-07-18T02:07:32.859Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=0, delivery=11, design=19, qa=15, time=15 (Total: 60)"
+        },
+        {
+          "id": "log_1784340452825",
+          "timestamp": "2026-07-18T02:07:32.825Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=0, delivery=11, design=19, qa=15, time=15 (Total: 60)"
+        },
+        {
+          "id": "log_1784340452797",
+          "timestamp": "2026-07-18T02:07:32.797Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=0, delivery=11, design=19, qa=15, time=15 (Total: 60)"
+        },
+        {
+          "id": "log_1784340452711",
+          "timestamp": "2026-07-18T02:07:32.711Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=0, delivery=11, design=19, qa=15, time=15 (Total: 60)"
+        },
+        {
+          "id": "log_1784340452659",
+          "timestamp": "2026-07-18T02:07:32.659Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=0, delivery=11, design=19, qa=15, time=15 (Total: 60)"
+        },
+        {
+          "id": "log_1784340452613",
+          "timestamp": "2026-07-18T02:07:32.613Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=1, delivery=11, design=19, qa=15, time=15 (Total: 61)"
+        },
+        {
+          "id": "log_1784340452563",
+          "timestamp": "2026-07-18T02:07:32.563Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=1, delivery=11, design=19, qa=15, time=15 (Total: 61)"
+        },
+        {
+          "id": "log_1784340452492",
+          "timestamp": "2026-07-18T02:07:32.492Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=2, delivery=11, design=19, qa=15, time=15 (Total: 62)"
+        },
+        {
+          "id": "log_1784340452409",
+          "timestamp": "2026-07-18T02:07:32.409Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=3, delivery=11, design=19, qa=15, time=15 (Total: 63)"
+        },
+        {
+          "id": "log_1784340452157",
+          "timestamp": "2026-07-18T02:07:32.157Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=4, delivery=11, design=19, qa=15, time=15 (Total: 64)"
+        },
+        {
+          "id": "log_1784340452111",
+          "timestamp": "2026-07-18T02:07:32.111Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=5, delivery=11, design=19, qa=15, time=15 (Total: 65)"
+        },
+        {
+          "id": "log_1784340452076",
+          "timestamp": "2026-07-18T02:07:32.076Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=11, design=19, qa=15, time=15 (Total: 67)"
+        },
+        {
+          "id": "log_1784340452030",
+          "timestamp": "2026-07-18T02:07:32.030Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=5, delivery=11, design=19, qa=15, time=15 (Total: 65)"
+        },
+        {
+          "id": "log_1784340451998",
+          "timestamp": "2026-07-18T02:07:31.998Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=7, delivery=11, design=19, qa=15, time=15 (Total: 67)"
+        },
+        {
+          "id": "log_1784340451948",
+          "timestamp": "2026-07-18T02:07:31.948Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=3, delivery=11, design=19, qa=15, time=15 (Total: 63)"
+        },
+        {
+          "id": "log_1784340451668",
+          "timestamp": "2026-07-18T02:07:31.668Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=8, delivery=11, design=19, qa=15, time=15 (Total: 68)"
+        },
+        {
+          "id": "log_1784340450761",
+          "timestamp": "2026-07-18T02:07:30.761Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=11, design=19, qa=15, time=15 (Total: 77)"
+        },
+        {
+          "id": "log_1784340449898",
+          "timestamp": "2026-07-18T02:07:29.898Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=9, delivery=11, design=19, qa=15, time=15 (Total: 69)"
+        },
+        {
+          "id": "log_1784340447837",
+          "timestamp": "2026-07-18T02:07:27.837Z",
+          "judgeName": "Smith",
+          "teamName": "Pixel Pioneers",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=17, delivery=20, design=11, qa=13, time=11 (Total: 72)"
+        },
+        {
+          "id": "log_1784340447170",
+          "timestamp": "2026-07-18T02:07:27.170Z",
+          "judgeName": "Smith",
+          "teamName": "Pixel Pioneers",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=12, delivery=20, design=11, qa=13, time=11 (Total: 67)"
+        },
+        {
+          "id": "log_1784340446454",
+          "timestamp": "2026-07-18T02:07:26.454Z",
+          "judgeName": "Smith",
+          "teamName": "Pixel Pioneers",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=12, delivery=14, design=11, qa=13, time=11 (Total: 61)"
+        },
+        {
+          "id": "log_1784340445229",
+          "timestamp": "2026-07-18T02:07:25.229Z",
+          "judgeName": "Smith",
+          "teamName": "Pixel Pioneers",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=12, delivery=5, design=11, qa=13, time=11 (Total: 52)"
+        },
+        {
+          "id": "log_1784340437656",
+          "timestamp": "2026-07-18T02:07:17.656Z",
+          "judgeName": "Smith",
+          "teamName": "Byte Wizards",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=10, delivery=13, design=12, qa=0, time=20 (Total: 55)"
+        },
+        {
+          "id": "log_1784340436922",
+          "timestamp": "2026-07-18T02:07:16.922Z",
+          "judgeName": "Smith",
+          "teamName": "Alpha Coders",
+          "track": "PPT Presentation",
+          "action": "Updated Grade",
+          "details": "Scores: content=18, delivery=11, design=19, qa=15, time=15 (Total: 78)"
+        },
+        {
+          "id": "log_1784340427479",
+          "timestamp": "2026-07-18T02:07:07.479Z",
+          "judgeName": "Smith",
+          "teamName": "System",
+          "track": "Security",
+          "action": "Judge Connected",
+          "details": "Device connected. Current connection count: 1"
+        }
+      ]
+    }
+  ]
+}

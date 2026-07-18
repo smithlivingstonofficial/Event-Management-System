@@ -54,6 +54,29 @@ function getCategoryIcon(categoryId) {
   }
 }
 
+function getCategoryColor(categoryId) {
+  switch (categoryId) {
+    case 'basic-technology-mcqs':
+      return '#6366f1';
+    case 'identify-the-logo':
+      return '#ec4899';
+    case 'guess-the-technology':
+      return '#f59e0b';
+    case 'current-technology-and-ai':
+      return '#10b981';
+    case 'web-development-and-web-technologies':
+      return '#06b6d4';
+    case 'rapid-fire':
+      return '#ef4444';
+    case 'fun-tech-trivia':
+      return '#8b5cf6';
+    case 'connect-the-clues':
+      return '#14b8a6';
+    default:
+      return '#4f46e5';
+  }
+}
+
 export default function PresenterScreen() {
   const params = useParams();
   const eventId = params.id;
@@ -65,11 +88,33 @@ export default function PresenterScreen() {
   const [roundOverlayText, setRoundOverlayText] = useState('');
   const [scoreFlashes, setScoreFlashes] = useState({});
   const [audioState, setAudioState] = useState('suspended');
+  const [orbitRadius, setOrbitRadius] = useState(300);
   const localTimer = useRef(null);
   const prevTimerVal = useRef(null);
   const prevRound = useRef(null);
   const prevScores = useRef({});
   const sound = useSoundEngine();
+
+  // Compute orbit radius from viewport so Q circles fill the screen
+  useEffect(() => {
+    const compute = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const tickerH = 70; // bottom score ticker
+      const cardHalf = 60; // half of card size (120px)
+      const margin = 40;   // breathing room from edges
+      // Radius = distance from screen center to card center
+      // Must not overflow horizontally or vertically
+      const maxByWidth  = vw / 2 - cardHalf - margin;
+      const maxByHeight = (vh - tickerH) / 2 - cardHalf - margin;
+      const r = Math.max(180, Math.min(maxByWidth, maxByHeight));
+      setOrbitRadius(Math.round(r));
+    };
+    compute();
+    window.addEventListener('resize', compute);
+    return () => window.removeEventListener('resize', compute);
+  }, []);
+
 
   // Connect to SSE stream for zero-latency updates
   useEffect(() => {
@@ -300,7 +345,7 @@ export default function PresenterScreen() {
   const isQuestionActive = activeQuestion !== null;
   const activeQuestionCategory = isQuestionActive ? categories.find(c => c.id === activeQuestion.categoryId) : null;
   const activeQuestionIcon = activeQuestionCategory?.icon || activeQuestion?.categoryId;
-  const activeQuestionColor = activeQuestionCategory?.color || 'var(--primary)';
+  const activeQuestionColor = activeQuestionCategory?.color || getCategoryColor(activeQuestion?.categoryId) || 'var(--primary)';
   const status = event.status;
   const completedQIds = event.state.completedQuestionIds || [];
   const currentRound = event.state.currentRound || 1;
@@ -322,50 +367,6 @@ export default function PresenterScreen() {
   return (
     <main className={styles.fullScreen}>
 
-      {/* Floating Audio Unlock Controls */}
-      {audioState === 'suspended' ? (
-        <button
-          onClick={handleUnlockAudio}
-          style={{
-            position: 'fixed',
-            top: '20px',
-            left: '20px',
-            zIndex: 1000,
-            background: '#ef4444',
-            color: 'white',
-            border: 'none',
-            borderRadius: '20px',
-            padding: '8px 16px',
-            fontSize: '0.8rem',
-            fontWeight: '800',
-            boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.35rem'
-          }}
-        >
-          🔇 Sound Blocked (Click to Enable)
-        </button>
-      ) : (
-        <div
-          style={{
-            position: 'fixed',
-            top: '20px',
-            left: '20px',
-            zIndex: 1000,
-            background: 'rgba(16, 185, 129, 0.1)',
-            color: '#10b981',
-            borderRadius: '20px',
-            padding: '6px 12px',
-            fontSize: '0.75rem',
-            fontWeight: 'bold',
-            border: '1px solid rgba(16, 185, 129, 0.2)'
-          }}
-        >
-          🔊 Audio Active
-        </div>
-      )}
 
       {/* === ROUND ANNOUNCEMENT OVERLAY === */}
       {showRoundOverlay && (
@@ -561,7 +562,7 @@ export default function PresenterScreen() {
                     {activeQuestion.categoryName}
                   </span>
                   <h1 className={styles.qCount} id="question-index-title">
-                    Active Question ({activeQuestion.points} points)
+                    Active Question
                   </h1>
                 </div>
 
@@ -592,7 +593,7 @@ export default function PresenterScreen() {
                   
                   {/* Left Column: Question Prompt */}
                   <div className={`${styles.questionCard} glass`} style={{ minHeight: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <p id="question-text" className={styles.questionTextLarge} style={{ textAlign: 'left', fontSize: '2.2rem' }}>
+                    <p id="question-text" className={styles.questionTextLarge} style={{ textAlign: 'left' }}>
                       {activeQuestion.text}
                     </p>
                   </div>
@@ -626,7 +627,7 @@ export default function PresenterScreen() {
                 /* Centered Single Column with Large Logo (Round 2 Style) */
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', flex: 1, justifyContent: 'center', width: '100%' }}>
                   <div className={`${styles.questionCard} glass`} style={{ width: '100%', textAlign: 'center', padding: '1.5rem 2rem' }}>
-                    <p id="question-text" className={styles.questionTextLarge} style={{ margin: 0, fontSize: '2.5rem' }}>
+                    <p id="question-text" className={styles.questionTextLarge} style={{ margin: 0 }}>
                       {activeQuestion.text}
                     </p>
                   </div>
@@ -680,7 +681,7 @@ export default function PresenterScreen() {
                     <div className={styles.shoutPrompt}>
                       <span className={styles.shoutIcon}>🎤</span>
                       <span className={styles.shoutText}>SHOUT YOUR ANSWER!</span>
-                      <span className={styles.shoutSub}>First correct team wins {activeQuestion.points} pts</span>
+                      <span className={styles.shoutSub}>First correct team wins!</span>
                     </div>
                   )}
                 </div>
@@ -729,22 +730,30 @@ export default function PresenterScreen() {
           ) : (
             /* B. If showQuestion is FALSE, render the Interactive Category Grid */
             <section className={`${styles.orbitalWrapper} ${styles.animateSlideEntry}`}>
-              <div className={styles.orbitalBoard}>
-                {categories.filter((_, idx) => idx === currentRound - 1).map(cat => {
-                  // Filter event questions belonging to this category
-                  const catQuestions = questions
-                    .filter(q => q.categoryId === cat.id)
-                    .sort((a, b) => a.points - b.points);
+              {categories.filter((_, idx) => idx === currentRound - 1).map(cat => {
+                const catColor = cat.color || getCategoryColor(cat.id);
+                // Filter event questions belonging to this category
+                const catQuestions = questions
+                  .filter(q => q.categoryId === cat.id)
+                  .sort((a, b) => a.points - b.points);
 
-                  return (
-                    <div key={cat.id} className={styles.orbitalContainer}>
-                      {/* Orbit Track Line */}
+                return (
+                  <div key={cat.id} className={styles.orbitalContainer} style={{ '--glow-color': catColor, '--orbit-r': `${orbitRadius}px` }}>
+                    {/* Ambient Light Blobs */}
+                    <div className={styles.ambientGlow1} style={{ '--glow-color': catColor }} />
+                    <div className={styles.ambientGlow2} style={{ '--glow-color': catColor }} />
+
+                    <div className={styles.orbitalBoard}>
+                      {/* Orbit Track Lines (Concentric High-Tech Rings) */}
+                      <div className={styles.orbitLineBg} />
                       <div className={styles.orbitLine} />
+                      <div className={styles.orbitLineInner} />
 
                       {/* Central Hub */}
-                      <div className={styles.centralHub} style={{ border: `3px solid ${cat.color || '#4f46e5'}`, boxShadow: `0 0 25px ${(cat.color || '#4f46e5')}33` }}>
-                        <div className={styles.centralPulse} style={{ background: cat.color || '#4f46e5' }} />
-                        <span className={styles.hubRoundLabel} style={{ color: cat.color || 'var(--primary)' }}>Round {currentRound}</span>
+                      <div className={styles.centralHub} style={{ borderColor: `${catColor}88`, '--glow-color': catColor }}>
+                        <div className={styles.centralPulse} style={{ '--glow-color': catColor }} />
+                        <div className={styles.centralPulse2} style={{ '--glow-color': catColor }} />
+                        <span className={styles.hubRoundLabel} style={{ color: catColor }}>Round {currentRound}</span>
                         <h2 className={styles.hubCategoryName}>{cat.name}</h2>
                         <span className={styles.hubProgress}>
                           {completedQIds.filter(id => catQuestions.some(q => q.id === id)).length} / {catQuestions.length} Resolved
@@ -752,43 +761,52 @@ export default function PresenterScreen() {
                       </div>
 
                       {/* Orbiting Questions */}
-                      {catQuestions.map((q, idx) => {
-                        const isCompleted = completedQIds.includes(q.id);
-                        
-                        // Calculate positions around the circle (radius = 280px)
-                        const radius = 280; 
-                        const angle = (idx * 2 * Math.PI) / catQuestions.length - Math.PI / 2;
-                        const x = Math.cos(angle) * radius;
-                        const y = Math.sin(angle) * radius;
+                      <div className={styles.orbitingCardsContainer}>
+                        {catQuestions.map((q, idx) => {
+                          const isCompleted = completedQIds.includes(q.id);
+                          
+                          // Perfect circle radius dynamically computed from viewport
+                          const r = orbitRadius;
+                          const angle = (idx * 2 * Math.PI) / catQuestions.length - Math.PI / 2;
+                          const cx = Math.cos(angle) * r;
+                          const cy = Math.sin(angle) * r;
 
-                        return (
-                          <div
-                            key={q.id}
-                            className={`${styles.orbitCard} ${
-                              isCompleted ? styles.orbitCardCompleted : styles.orbitCardActive
-                            }`}
-                            style={{
-                              position: 'absolute',
-                              left: `calc(50% + ${x}px)`,
-                              top: `calc(50% + ${y}px)`,
-                              transform: 'translate(-50%, -50%)',
-                              animationDelay: `${idx * 0.3}s`,
-                              borderColor: isCompleted ? 'var(--success)' : (cat.color || '#4f46e5'),
-                              boxShadow: isCompleted ? 'none' : `0 0 15px ${(cat.color || '#4f46e5')}22`
-                            }}
-                          >
-                            {isCompleted ? (
-                              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                            ) : (
-                              `Q${idx + 1}`
-                            )}
-                          </div>
-                        );
-                      })}
+                          return (
+                            <div
+                              key={q.id}
+                              className={styles.orbitCardWrapper}
+                              style={{
+                                '--cx': `${cx}px`,
+                                '--cy': `${cy}px`,
+                                '--bob-delay': `${idx * 0.7}s`,
+                              }}
+                            >
+                              <div
+                                className={`${styles.orbitCard} ${
+                                  isCompleted ? styles.orbitCardCompleted : styles.orbitCardActive
+                                }`}
+                                style={{
+                                  '--glow-color': catColor,
+                                  borderColor: isCompleted ? '#10b981' : `${catColor}88`,
+                                  boxShadow: isCompleted
+                                    ? '0 8px 24px rgba(16, 185, 129, 0.35)'
+                                    : `0 8px 30px rgba(0,0,0,0.4), 0 0 20px ${catColor}33`
+                                }}
+                              >
+                                {isCompleted ? (
+                                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                ) : (
+                                  `Q${idx + 1}`
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </section>
           )}
         </>
